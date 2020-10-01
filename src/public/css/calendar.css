@@ -1,0 +1,124 @@
+a.cld {
+    text-decoration: none;
+}
+
+body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    font-size: small;
+    height: 100vh;
+    margin: 0;
+}
+
+h3.cld {
+    margin-bottom: 30px;
+}
+
+td.cld {
+    height: 100px;
+    width: 120px;
+    text-align: right;
+}
+
+th.cld {
+    height: 50px;
+    width: 120px;
+    text-align: center;
+}
+
+th.cld:nth-of-type(1),
+td.cld:nth-of-type(1) {
+    color: red;
+}
+
+th.cld:nth-of-type(7),
+td.cld:nth-of-type(7) {
+    color: blue;
+}
+
+.cld.arrow {
+    font-size: 24px;
+}
+
+.cld-content {
+    text-align: center;
+}
+
+.cld.title {
+    font-size: 24px;
+}
+
+.cld.this-month {
+    font-size: 24px;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.has-item{
+    margin-top: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgb(200, 240, 255);
+    text-align:center;
+
+    color: black;
+    font-weight: bold;
+}
+
+.holiday {
+    background: rgb(255, 240, 255);
+    /* color: red; */
+}
+
+.links>a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+.month {
+    width: 120px;
+    display: inline-block;
+}
+
+.position-ref {
+    position: relative;
+}
+
+
+
+.title {
+    font-size: 84px;
+}
+
+.today {
+    background: rgba(28, 169, 97, 0.1);
+    text-align: right;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+
