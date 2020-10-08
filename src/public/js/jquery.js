@@ -41,12 +41,20 @@ $(function () {
         // $('#new').detach();
     });
 
-    // 新規ボタン
-    $("#btNew").click(function () {
+
+    // 新規：収支のみ
+    $("#newNomal").click(function () {
         $("#glayLayer").show();
-        $("#modal").show();
-        $("#mForm").append('<input type="submit" name="_post" value="new" id="mbtNew">');
+        $("#nomalModal").show();
     });
+
+    // 新規：簿記風
+    $("#newAccount").click(function () {
+        $("#glayLayer").show();
+        $("#accountModal").show();
+    });
+
+
 
     // 編集ボタン
     $(".btEdit").click(function () {
@@ -90,7 +98,8 @@ $(function () {
     // モーダル背景
     $("#glayLayer").click(function () {
         $(this).hide()
-        $("#modal").hide();
+        $("#nomalModal").hide();
+        $("#accountModal").hide();
         $("#mbtNew").remove();
         $("#mbtEdit").remove();
         $("#mId").remove();

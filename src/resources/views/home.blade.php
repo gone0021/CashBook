@@ -26,20 +26,20 @@
 
     <div>
         <div class="my-2">● 新規作成</div>
-        <a href="" class="btn btn-sticky mr-2 ml-2" id="btNewAccounting">
+        <div class="btn btn-sticky mr-2 ml-2" id="newAccount">
             簿記風
-        </a>
+        </div>
 
-        <a href="" class="btn btn-sticky" dir="btNnewNomal">
+        <div class="btn btn-sticky" id="newNomal">
             支出のみ
-        </a>
+        </div>
     </div>
 
     <p>
         <div>● 収支一覧</div>
 
         <div class="my-2 ml-2">
-            <a href="" class="btn btn-sticky mb-2" id="btNewAccounting">
+            <a href="{{ route('items/index')}}" class="btn btn-sticky mb-2" id="btNewAccounting">
                 家計簿一覧
             </a>
         </div>
@@ -67,5 +67,10 @@
     </p>
 
 
+    {{-- @include('name') --}}
+    @component ('components.nomal_modal')
+    @endcomponent
+    @component ('components.account_modal')
+    @endcomponent
 
-    @endsection
+@endsection

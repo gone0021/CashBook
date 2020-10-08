@@ -60,9 +60,9 @@
                         </li>
                     </ul>
                     @endif
-
                     @else
                     {{-- else guest --}}
+
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-3 mr-auto">
 
@@ -129,11 +129,6 @@
             @show
         </main>
 
-        {{-- modal --}}
-        <div id="modal">
-            @section('modal')
-            @show
-        </div>
     </div>
 </body>
 
