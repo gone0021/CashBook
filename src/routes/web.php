@@ -16,7 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
 
 // --- 自作
 Route::post('register_check', 'Auth\RegisterController@registerCheck');
@@ -28,52 +29,60 @@ Route::get('reset_pass', 'AssistController@resetPass');
 Route::post('reset_pass', 'AssistController@passAction');
 Route::get('pass_done', 'DoneController@forgetPass');
 
-Route::middleware('auth')->prefix('users')->name('users/')->group(function () {
+// home
+Route::middleware('auth')->prefix('home')->name('home')->group(function () {
+    Route::get('', 'HomeController@index')->name('');
+});
+
+// modal
+Route::middleware('auth')->prefix('modal')->name('modal')->group(function () {
+    Route::get('kubun', 'AjaxController@getKubun')->name('nomal');
+});
+
+
+// users
+Route::middleware('auth')->prefix('users')->name('users')->group(function () {
     // edit account
-    Route::get('account', 'UserController@account')->name('account'); //
+    Route::get('account', 'UserController@account')->name('/account'); //
 
     // Route::resource('', 'UserController');
 
     // --- show
-    Route::get('show', 'UserController@show')->name('show');
+    Route::get('show', 'UserController@show')->name('/show');
 
     // u edit
-    Route::get('edit', 'UserController@edit')->name('edit'); //
-    Route::post('edit_check', 'UserController@editCheck')->name('edit_check');
-    Route::post('update', 'UserController@update')->name('update');
+    Route::get('edit', 'UserController@edit')->name('/edit'); //
+    Route::post('edit_check', 'UserController@editCheck')->name('/edit_check');
+    Route::post('update', 'UserController@update')->name('/update');
 
     // e password
-    Route::get('password', 'UserController@password')->name('password'); //
-    Route::post('password_check', 'UserController@passwordUpdate')->name('password_check');
+    Route::get('password', 'UserController@password')->name('/password'); //
+    Route::post('password_check', 'UserController@passwordUpdate')->name('/password_check');
 
     // e delete
-    Route::get('delete', 'UserController@delete')->name('delete'); //
-    Route::get('fort', 'UserController@fort')->name('fort'); //
+    Route::get('delete', 'UserController@delete')->name('/delete'); //
+    Route::get('fort', 'UserController@fort')->name('/fort'); //
     // deleteした時に名前を"xxx_id_deleted"へupdateする機能を追加する
-    Route::post('destroy', 'UserController@destroy')->name('destroy');
-
+    Route::post('destroy', 'UserController@destroy')->name('/destroy');
 });
 
-Route::middleware('auth')->prefix('items')->name('items/')->group(function () {
-    // --- show
-    Route::get('show', 'ItemController@show');
+// items
+Route::middleware('auth')->prefix('items')->name('items')->group(function () {
+    Route::get('index', 'ItemController@index')->name('/index');
+
+    Route::post('store', 'ItemController@store')->name('/store');
+
+
     // u edit
     Route::get('edit', 'ItemController@edit'); //
     Route::post('edit', 'ItemController@editCheck');
     Route::post('update', 'ItemController@ItemUpdate');
-
-    // edit account
-    Route::get('account', 'ItemController@account')->name('account'); //
-    // e password
-    Route::get('password', 'ItemController@password'); //
-    Route::post('password', 'ItemController@passwordUpdate');
 
     // e delete
     Route::get('delete', 'ItemController@delete'); //
     Route::get('fort', 'ItemController@fort'); //
     // deleteした時に名前を"xxx_id_deleted"へupdateする機能を追加する
     Route::post('delete', 'ItemController@deleteAction');
-
 });
 
 

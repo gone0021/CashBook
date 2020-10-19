@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kubun extends Model
 {
+    protected $table = 'kubun';
     protected $guarded = array('id');
     use SoftDeletes;
-    protected $table = 'kubun';
 
     /**
      * categoryとのリレーション
@@ -18,7 +18,7 @@ class Kubun extends Model
      */
     public function item()
     {
-        return $this->belongsTo('App\Models\Item');
+        return $this->hasOne('App\Models\Item');
     }
 
     /**

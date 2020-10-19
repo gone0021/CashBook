@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
+use App\Models\Kubun;
 
 class Item extends Model
 {
@@ -30,10 +32,11 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
+        // return $this->hasOne('App\Models\Category');
     }
 
     /**
-     * categoryとのリレーション
+     * kubunとのリレーション
      *
      * @return void
      */
@@ -43,31 +46,24 @@ class Item extends Model
     }
 
     /**
-     * 月でレコードを取得
-     * グループ別：タイプ別
-     */
-    public static function getItemByDate($user_id, $date)
-    {
-        $ret = Item::where('user_id', $user_id)
-            ->where('date', $date)
-            ->whereNull('is_deleted');
-        return $ret;
-    }
-
-
-    /**
      * ユーザーidと対象月のレコードを取得
      */
     public static function getItem($user_id, $date)
     {
+        return Item::where('user_id', $user_id)->where('date', 'like', "$date%");
+    }
 
-        $ret = Item::where('user_id', $user_id)->where('date', 'like', "$date%");
 
-        return $ret;
+    /**
+     * 最後のbook_noを取得
+     */
+    public static function getBookNo()
+    {
+        return Item::max('book_no');
     }
 
     /**
-     * ユーザーidと対象月のレコードを取得
+     * 資産科目の取得（貸方）
      */
     public static function getCreditCashAsset($user_id, $date)
     {
@@ -78,14 +74,14 @@ class Item extends Model
                     ->orWhere('category_id', 2)
                     ->orWhere('category_id', 3);
             })
-            ->where('account_type', 1)
+            // ->where('account_type', 1)
             ->where('debit_credit', 2);
 
         return $ret;
     }
 
     /**
-     * ユーザーidと対象月のレコードを取得
+     * 資産科目の取得（借方）
      */
     public static function getDevitCashAsset($user_id, $date)
     {
@@ -95,9 +91,20 @@ class Item extends Model
                     ->orWhere('category_id', 2)
                     ->orWhere('category_id', 3);
             })
-            ->where('account_type', 1)
+            // ->where('account_type', 1)
             ->where('debit_credit', 1);
 
         return $ret;
+    }
+
+
+    /**
+     * 該当user_idのフィールド数を取得
+     *
+     * @return string
+     */
+    public function getCountByUserId()
+    {
+        //
     }
 }

@@ -4,18 +4,18 @@
 <div class="card-header">Home</div>
 
 <div class="card-body">
-    <p>
+    <div class="mb-3">
         <a href="{{ route('users/account') }}">
             アカウント設定
         </a>
-    </p>
+    </div>
 
     @if (Auth::user()->is_admin == '1')
-    <p>
+    <div class="mb-3">
         <a href="{{ route('admin') }}">
             管理者画面
         </a>
-    </p>
+    </div>
     @endif
 
     <p>
@@ -24,20 +24,25 @@
         </a>
     </p>
 
-    <div>
+    <div class="mb-3">
         <div class="my-2">● 新規作成</div>
-        <div class="btn btn-sticky mr-2 ml-2" id="newAccount">
+        <div class="btn btn-sticky mx-2 mb-3" id="newAccount">
             簿記風
         </div>
 
-        <div class="btn btn-sticky" id="newNomal">
-            支出のみ
+        <div class="ml-2">
+            <div class="btn btn-sticky mr-2" id="newExpense">
+                支出のみ
+            </div>
+
+            <div class="btn btn-sticky" id="newIncome">
+                収入のみ
+            </div>
         </div>
     </div>
 
-    <p>
+    <div class="mb-3">
         <div>● 収支一覧</div>
-
         <div class="my-2 ml-2">
             <a href="{{ route('items/index')}}" class="btn btn-sticky mb-2" id="btNewAccounting">
                 家計簿一覧
@@ -49,9 +54,9 @@
                 月別
             </a>
         </div>
-    </p>
+    </div>
 
-    <p>
+    <div class="">
         <form action="{{ url('users/new') }}" method="GET" class="mt-1 mb-3">
             <label for="new" class="">● カテゴリ別</label>
             <br>
@@ -68,9 +73,21 @@
 
 
     {{-- @include('name') --}}
-    @component ('components.nomal_modal')
-    @endcomponent
+    <div class='glayLayer'></div>
+    {{-- @include('components.expense_modal') --}}
     @component ('components.account_modal')
+    @slot('categoryAll',$categoryAll)
     @endcomponent
 
-@endsection
+    @component ('components.expense_modal')
+    @slot('categoryAccet',$categoryAccet)
+    @slot('categoryCost',$categoryCost)
+    @endcomponent
+
+    @component ('components.income_modal')
+    @slot('categoryAccet',$categoryAccet)
+    @slot('categoryprofit',$categoryprofit)
+    @endcomponent
+
+
+    @endsection

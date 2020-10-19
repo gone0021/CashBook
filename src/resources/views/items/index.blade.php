@@ -1,14 +1,11 @@
 @extends('layouts.cardapp')
 @section('card')
 <div class="card-header">
-    {{ __(' Cash Book')}} ：
-    {{-- <span class="h5">
-
-        {{ $dispyearMonth }}
-    </span> --}}
+    {{ __(' Cash Book')}}
 </div>
 
 <div class="card-body">
+    {{-- 年月の選択 --}}
     <form action="" method="get" class="yearMonth mb-3 mr-4">
         <select name="year" id="year" class="form-control">
             @for ($i=2000; $i<=$thisYear; $i++)
@@ -34,9 +31,11 @@
         <input type="submit" name="" id="" value="表示" class="btn btn-light">
     </form>
 
+    {{-- 支出計 --}}
     <span class="totalPrice font-weight-bold">支出合計：{{ number_format($cashTotal) }}</span>
 
     <table class="table" id="tb-item">
+        {{-- 表示タイトル --}}
         <thead>
             <tr>
                 <th>
@@ -75,6 +74,7 @@
             </tr>
         </thead>
 
+        {{-- 表示内容 --}}
         <tbody>
             @foreach ($items as $item)
             <tr>
@@ -93,10 +93,10 @@
                     {{ $item->category_id }}：
                     {{ $item->category->category_name }}
                     <br>
-                    @if ($item->category->kubun)
-                    / {{ $item->kubun_id }}：
-                    {{ $item->kubun->kubun_name }}
-                    @endif
+                        @if ($item->kubun)
+                        / {{ $item->kubun_id }}：
+                        {{ $item->kubun->kubun_name }}
+                        @endif
                     @else
                     @endif
                 </td>
@@ -107,10 +107,10 @@
                     {{ $item->category_id }}：
                     {{ $item->category->category_name }}
                     <br>
-                    @if ($item->category->kubun)
-                    / {{ $item->kubun_id }}：
-                    {{ $item->kubun->kubun_name }}
-                    @endif
+                        @if ($item->kubun)
+                        / {{ $item->kubun_id }}：
+                        {{ $item->kubun->kubun_name }}
+                        @endif
                     @else
                     @endif
                 </td>

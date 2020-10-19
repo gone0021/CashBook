@@ -13,8 +13,9 @@
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
-    <script src="{{ asset('js/jquery.js') }}"></script>
+    {{-- <script src="{{ asset('js/main.js') }}"></script> --}}
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/ajax.js') }}"></script>
     {{-- jQuery --}}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -24,7 +25,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/parts.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 
 </head>

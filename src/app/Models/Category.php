@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    protected $table = 'category';
     protected $guarded = array('id');
     use SoftDeletes;
 
-  protected $table = 'category';
     /**
      * itemsとのリレーション
      *
@@ -18,7 +18,7 @@ class Category extends Model
      */
     public function item()
     {
-        return $this->belongsTo('App\Models\Item');
+        return $this->hasOne('App\Models\Item');
     }
 
     /**

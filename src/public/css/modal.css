@@ -1,0 +1,224 @@
+/*** modal layer ***/
+.glayLayer {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+}
+
+/*** expense modal ***/
+#expenseModal,
+#incomeModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -240px;
+    margin-left: -300px;
+    background-color: #e6ecf0;
+    height: 480px;
+    width: 600px;
+    padding: 40px 0px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#expenseModal select,
+#incomeModal select {
+    width: 180px;
+}
+
+div.expenseModalAsset,
+div.expenseModalCost,
+div.incomeModalAsset,
+div.incomeModalCost {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 日付 */
+div.expenseModalDate,
+div.incomeModalDate {
+    margin-bottom: 20px;
+}
+
+div.expenseModalinputDate,
+div.incomeModalinputDate {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 資産選択 */
+div.expenseModalAssetCategory,
+div.incomeModalAssetCategory {
+    display: inline-block;
+    margin-right: 20px;
+}
+div.expenseModalAssetKubun,
+div.incomeModalAssetKubun {
+    display: inline-block;
+}
+
+div.expenseModalAssetCategory select,
+div.expenseModalAssetKubun select,
+div.incomeModalAssetCategory select,
+div.incomeModalAssetKubun select {
+    display: inline-block;
+}
+
+/* 費用選択 */
+div.expenseModalCostCategory,
+div.incomeModalCostCategory {
+    display: inline-block;
+    margin-right: 20px;
+}
+div.expenseModalCostKubun,
+div.incomeModalCostKubun {
+    display: inline-block;
+}
+
+div.expenseModalCostCategory select,
+div.expenseModalCostKubun select,
+div.incomeModalCostCategory select,
+div.incomeModalCostKubun select {
+    display: inline-block;
+}
+
+/* 金額入力欄 */
+div.expenseModalPrice,
+div.incomeModalPrice {
+    margin-bottom: 20px;
+}
+
+div.expenseModalinputPrice,
+div.incomeModalinputPrice {
+    display: inline-block;
+    text-align: center;
+}
+
+/* コメント */
+div.incomeModalLast {
+    display: inline-block;
+    text-align: center;
+}
+
+div.expenseModalComment,
+div.incomeModalCommentSubmit {
+    display: flex;
+    align-items: flex-start;
+}
+
+div.incomeModalLast input {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+div.expenseModalinputComment,
+div.incomeModalinputComment {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+
+/* submit */
+div.expenseModalSubmit,
+div.incomeModalSubmit {
+    display: inline-block;
+}
+
+/*** account modal ***/
+#accountModal {
+    display: none;
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -240px;
+    margin-left: -360px;
+
+    background-color: #e6ecf0;
+    height: 480px;
+    width: 720px;
+    padding: 50px 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#accountModal select {
+    width: 180px;
+}
+.accountModalTabale {
+    margin-bottom: 10px;
+}
+
+/* 追加Button */
+p.addDebit {
+    display: inline-block;
+}
+p.addCredit {
+    display: inline-block;
+}
+
+/* テーブルサイズ */
+#accountModal td {
+    border: 1px solid black;
+    width: 680px;
+}
+
+/* 借方レイアウト */
+.accountModalDebit {
+    text-align: left;
+}
+
+.accountModalDebitCategory {
+    margin: 5px 0 0 20px;
+}
+.accountModalDebitCategory select {
+    display: inline-block;
+}
+.accountModalDebitKubun {
+    margin: 5px 0 0 20px;
+}
+.accountModalDebitKubun select {
+    display: inline-block;
+}
+
+.accountModalDebitPrice {
+    margin: 5px 0 5px 20px;
+}
+.accountModalDebitPrice div {
+    display: inline-block;
+    width: 200px;
+}
+
+/* 貸方レイアウト */
+.accountModalCredit {
+    text-align: left;
+}
+
+.accountModalCreditCategory {
+    margin: 5px 0 0 20px;
+}
+.accountModalCreditCategory select {
+    display: inline-block;
+}
+.accountModalCreditKubun {
+    margin: 5px 0 0 20px;
+}
+.accountModalCreditKubun select {
+    display: inline-block;
+}
+
+.accountModalCreditPrice {
+    margin: 5px 0 5px 20px;
+}
+.accountModalCreditPrice div {
+    display: inline-block;
+    width: 200px;
+}
