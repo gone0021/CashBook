@@ -1,10 +1,10 @@
 <div id="expenseModal">
     <form action="{{ route('items/store') }}" method="post">
         @csrf
-        <div class="expenseModalDate mr-4">
+        <div class="expenseModalDate">
             <label for="expenseModalDate" class="">日付：</label>
             <div class="expenseModalinputDate">
-                <input type="date" name="date" id="expenseModalDate" class="form-control" value="" required>
+                <input type="date" name="date" id="expenseModalDate" class="form-control" value="{{ $today }}" required>
             </div>
         </div>
 
@@ -57,10 +57,12 @@
             <div class="expenseModalCommentSubmit">
                 <label for="expenseModalComment" class="expenseModalCommentLabel">コメント：</label>
                 <div class="expenseModalinputComment">
-                    <textarea name="comment" id="expenseModalComment" class="form-control" cols="30"
+                    <textarea name="comment" id="expenseModalComment" class="form-control" cols="36"
                         rows="5"> {{ old('comment') }}</textarea>
                 </div>
-                <input type="submit" name="" id="" value="new" class="btn btn-info">
+                <div class="expenseModalSubmit">
+                    <input type="submit" name="" id="" value="new" class="btn btn-info">
+                </div>
             </div>
         </div>
 

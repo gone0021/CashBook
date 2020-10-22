@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* === ソートボタンを表示するエリア ============== */
+.sortBtnArea {
+    line-height: 1;
+}
+/* === ソートボタン ============================== */
+.sortBtn {
+    display: inline-block;
+    width: 8px;
+    height: 6px;
+    background: #eee;
+    border: 1px solid #777;
+    margin: 1px 3px;
+    padding: 3px;
+    cursor: pointer;
+}
+/* === ソートボタン（カーソルオーバー時）========= */
+.sortBtn:hover {
+    background: #ffd700;
+}
+/* === ソートボタン内の三角の色（SVG）============ */
+.sortBtn path {
+    fill: #777;
+}

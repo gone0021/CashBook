@@ -39,89 +39,117 @@
         <thead>
             <tr>
                 <th>
-                    <span class="mr-2">{{ __('No.') }}</span>
+                    <span class="bookNo">{{ __('No.') }}</span>
                 </th>
 
                 <th>
-                    <span class="mr-2">{{ __('Date')}}</span>
-                    <a href="" class="sort_date_a">↑</a>
-                    <a href="" class="sort_date_d">↓</a>
+                    <span class="date">{{ __('Date')}}</span>
                 </th>
 
                 <th>
-                    <span>{{ __('Debit') }}</span>
-                    <a href="" class="sort_title_a">↑</a>
-                    <a href="" class="sort_title_d">↓</a>
+                    <span class="debit">{{ __('Debit') }}</span>
                 </th>
 
                 <th>
-                    <span class="mr-2">{{ __('Credit')}}</span>
-                    <a href="" class="sort_date_a">↑</a>
-                    <a href="" class="sort_date_d">↓</a>
+                    <span class="credit">{{ __('Credit')}}</span>
                 </th>
 
                 <th>
-                    <span class="mr-2">{{ __('Price')}}</span>
-                    <a href="" class="sort_date_a">↑</a>
-                    <a href="" class="sort_date_d">↓</a>
+                    <span class="price">{{ __('Price')}}</span>
                 </th>
 
                 <th>
-                    <span>
-                        {{ __('Edit')}}
-                    </span>
+                    <span class="ecit">{{ __('Edit')}}</span>
                 </th>
             </tr>
         </thead>
 
         {{-- 表示内容 --}}
         <tbody>
-            @foreach ($items as $item)
+            @foreach ($itemGroup as $k => $count)
             <tr>
-                <td id="bookNo" class="align-middle">
-                    {{ $item->book_no }}
+                <td class="bookNo" class=" ">
+                    {{ $count->book_no }}
                 </td>
 
                 {{-- 日付 --}}
-                <td id="date" class="align-middle">
-                    {{ date('m月d日', strtotime($item->date)) }}
+                <td class="date" class="align-middle">
+                    {{ date('m月d日', strtotime($count->date)) }}
                 </td>
 
                 {{-- 借方 --}}
-                <td id="debit" class="align-middle">
+                <td class="debit" class="align-middle">
+                @php
+                    $d_flg = 0;
+                @endphp
+                    @foreach ($items as $item)
                     @if ($item->debit_credit == 1)
-                    {{ $item->category_id }}：
-                    {{ $item->category->category_name }}
-                    <br>
-                        @if ($item->kubun)
-                        / {{ $item->kubun_id }}：
-                        {{ $item->kubun->kubun_name }}
+                        @if ($item->book_no == $count->book_no)
+                            {{-- categoryの数をチェック --}}
+                            @foreach ($countDebit as $cd)
+                                {{-- cateogryが複数ある場合 --}}
+                                @if ($cd == $item->book_no)
+                                    -：諸口
+                                    @php
+                                        $d_flg = 1;
+                                        break;
+                                    @endphp
+                                @endif
+                            @endforeach
+                            {{-- cateogryが複数ある場合は上記処理で終了 --}}
+                            @if ($d_flg == 1)
+                            @break
+                            {{-- cateogryが一つの場合 --}}
+                            @else
+                            {{ $item->category_id }}：
+                            {{ $item->category->category_name }}
+                            @endif
                         @endif
-                    @else
                     @endif
+                    @endforeach
                 </td>
 
                 {{-- 貸方 --}}
-                <td id="credit" class="align-middle">
+                <td class="credit" class="align-middle">
+                    @php
+                    $c_flg = 0;
+                @endphp
+                    @foreach ($items as $item)
                     @if ($item->debit_credit == 2)
-                    {{ $item->category_id }}：
-                    {{ $item->category->category_name }}
-                    <br>
-                        @if ($item->kubun)
-                        / {{ $item->kubun_id }}：
-                        {{ $item->kubun->kubun_name }}
+                        @if ($item->book_no == $count->book_no)
+                            {{-- categoryの数をチェック --}}
+                            @foreach ($countCredit as $cc)
+                                {{-- cateogryが複数ある場合 --}}
+                                @if ($cc == $item->book_no)
+                                    -：諸口
+                                    @php
+                                        $c_flg = 1;
+                                        break;
+                                    @endphp
+                                @endif
+                            @endforeach
+                            {{-- cateogryが複数ある場合は上記処理で終了 --}}
+                            @if ($c_flg == 1)
+                            @break
+                            {{-- cateogryが一つの場合 --}}
+                            @else
+                            {{ $item->category_id }}：
+                            {{ $item->category->category_name }}
+                            @endif
                         @endif
-                    @else
                     @endif
+                    @endforeach
                 </td>
 
                 {{-- 価格 --}}
-                <td id="name" class="align-middle">
-                    {{ number_format($item->price) }}
+                <td class="price" class="align-middle">
+                    {{ number_format($count->price) }}
                 </td>
 
                 {{-- 状態 --}}
-                <td id="price" class="align-middle">
+                <td class="edit" class="align-middle">
+                <a href="" class="btn btn-info">{{ __('Detail') }}</a>
+                <a href="" class="btn btn-info">{{ __('Edit') }}</a>
 
 
                 </td>

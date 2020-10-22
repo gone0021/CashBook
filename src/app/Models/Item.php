@@ -101,10 +101,23 @@ class Item extends Model
     /**
      * 該当user_idのフィールド数を取得
      *
-     * @return string
+     * @return array
      */
-    public function getCountByUserId()
+    public static function countDebitCreditByBookNo($user_id, $date, $debit_credit)
     {
-        //
+        $ret = array();
+        $val = self::getItem($user_id, $date)->get();
+
+        $flg = 0;
+        foreach ($val as $v) {
+            $no = (int)$v->book_no;
+
+            $count = $v->where('book_no', $no)->where('debit_credit', $debit_credit)->count();
+            if ($count > 2 && $flg != $no) {
+                $ret[] = $v->book_no;
+                $flg = $no;
+                return $ret;
+            }
+        }
     }
 }

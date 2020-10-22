@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\Kubun;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,9 @@ class HomeController extends Controller
     {
         $nextNo = Item::getBookNo() + 1;
         dump($nextNo);
+        $carbon = new Carbon('now');
+        $today = $carbon->format('Y-m-d');
+
 
         // modal用
         $categoryAccet = Category::where('account_type',1)->get();
@@ -38,6 +42,7 @@ class HomeController extends Controller
         $kubun = Kubun::all();
 
         $param = [
+            'today' => $today,
             'categoryAll' => $categoryAll,
             'categoryAccet' => $categoryAccet,
             'categoryCost' => $categoryCost,

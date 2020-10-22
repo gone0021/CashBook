@@ -91,4 +91,26 @@ class ItemUtil
         //
     }
 
+    /**
+     * 該当book_noのdecit_credit数をカウント
+     *
+     * @return array
+     */
+    public static function countDebitCreditByBookNo($user_id, $date, $debit_credit)
+    {
+        $val = Item::getItem($user_id, $date)->get();
+        $flg = 0;
+        $ret = array();
+
+        foreach ($val as $v) {
+            $no = (int)$v->book_no;
+
+            $count = $v->where('book_no', $no)->where('debit_credit', $debit_credit)->count();
+            if ($count > 1 && $flg !== $no) {
+                $ret[] = $no;
+                $flg = $no;
+            }
+        }
+        return $ret;
+    }
 }

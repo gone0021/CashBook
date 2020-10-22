@@ -80,11 +80,13 @@
     @endcomponent
 
     @component ('components.expense_modal')
+    @slot('today',$today)
     @slot('categoryAccet',$categoryAccet)
     @slot('categoryCost',$categoryCost)
     @endcomponent
 
     @component ('components.income_modal')
+    @slot('today',$today)
     @slot('categoryAccet',$categoryAccet)
     @slot('categoryprofit',$categoryprofit)
     @endcomponent

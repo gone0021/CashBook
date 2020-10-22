@@ -12,6 +12,7 @@ use App\Util\ItemUtil;
 use App\Models\Category;
 use App\Models\Kubun;
 use Symfony\Component\Console\Input\Input;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ItemController extends Controller
 {
@@ -21,7 +22,7 @@ class ItemController extends Controller
 
         // インスタンス
         $carbon = new Carbon('now');
-        // $itemUtil = new ItemUtil;
+        $itemUtil = new ItemUtil;
 
         // 変数の設定
         $getYear = sprintf('%04d', $req->year);
@@ -37,12 +38,14 @@ class ItemController extends Controller
         $getItem = Item::getItem($user_id, $yearMmonth);
         $items = $getItem->get();
 
-        // $test = $getItem->toSql();
-        // dump($test);
+        // book_noの個数を表示するため数のカウントに使用
+        $itemGroup = $getItem->groupBy('book_no')->get();
 
-
-        // $count = Item::where('user_id',$user_id)->groupBy('book_no')->get();
-
+        // 該当するbook_noのdebit_creditを数える
+        $countDebit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 1);
+        $countCredit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 2);
+        // dump($countDebit);
+        // dump($countCredit);
 
         // 金額の計算
         $credits = Item::getCreditCashAsset($user_id, $yearMmonth)->get();
@@ -54,7 +57,9 @@ class ItemController extends Controller
 
         $param = [
             'cashTotal' => $cashTotal,
-            // 'count' => $count,
+            'countDebit' => $countDebit,
+            'countCredit' => $countCredit,
+            'itemGroup' => $itemGroup,
             'getMonth' => $getMonth,
             'getYear' => $getYear,
             'items' => $items,

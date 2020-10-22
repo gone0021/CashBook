@@ -44,7 +44,7 @@ div.incomeModalCost {
 /* 日付 */
 div.expenseModalDate,
 div.incomeModalDate {
-    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 div.expenseModalinputDate,
@@ -59,6 +59,8 @@ div.expenseModalAssetCategory,
 div.incomeModalAssetCategory {
     display: inline-block;
     margin-right: 20px;
+    font-weight: bold;
+    font-size: medium;
 }
 div.expenseModalAssetKubun,
 div.incomeModalAssetKubun {
@@ -102,34 +104,40 @@ div.incomeModalinputPrice {
     text-align: center;
 }
 
-/* コメント */
+/* コメント＋submitボタン 外枠 */
+div.expenseModalLast,
 div.incomeModalLast {
     display: inline-block;
     text-align: center;
 }
 
-div.expenseModalComment,
+/* コメント＋submitボタン 内枠 */
+div.expenseModalCommentSubmit,
 div.incomeModalCommentSubmit {
     display: flex;
-    align-items: flex-start;
+    text-align: center;
 }
 
-div.incomeModalLast input {
-    display: inline-block;
-    vertical-align: bottom;
+/* コメントラベル */
+label.expenseModalCommentLabel,
+label.incomeModalCommentLabel {
+    display: flex;
+    align-items : flex-start;
+    margin: 24px 5px 0 0;
 }
 
+/* コメント */
 div.expenseModalinputComment,
 div.incomeModalinputComment {
     display: inline-block;
-    margin-right: 20px;
 }
 
-
-/* submit */
+/* submitボタン */
 div.expenseModalSubmit,
 div.incomeModalSubmit {
-    display: inline-block;
+    display: flex;
+    align-items: flex-end;
+    margin: 0 0 10px 10px;
 }
 
 /*** account modal ***/
