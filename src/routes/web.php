@@ -34,9 +34,9 @@ Route::middleware('auth')->prefix('home')->name('home')->group(function () {
     Route::get('', 'HomeController@index')->name('');
 });
 
-// modal
-Route::middleware('auth')->prefix('modal')->name('modal')->group(function () {
-    Route::get('kubun', 'AjaxController@getKubun')->name('nomal');
+// 共通ajax
+Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
+    Route::get('kubun', 'AjaxController@getKubun');
 });
 
 
@@ -71,6 +71,9 @@ Route::middleware('auth')->prefix('items')->name('items')->group(function () {
     Route::get('index', 'ItemController@index')->name('/index');
 
     Route::post('store', 'ItemController@store')->name('/store');
+
+    Route::get('show', 'ItemController@showAjax')->name('/show');
+    Route::get('edit', 'ItemController@edit')->name('/edit');
 
 
     // u edit

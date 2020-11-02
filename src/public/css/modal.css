@@ -144,25 +144,46 @@ div.incomeModalSubmit {
 #accountModal {
     display: none;
     position: fixed;
+    overflow: scroll;
 
     top: 50%;
     left: 50%;
-    margin-top: -240px;
+    margin-top: -220px;
     margin-left: -360px;
-
     background-color: #e6ecf0;
-    height: 480px;
+    height: 440px;
     width: 720px;
-    padding: 50px 20px;
+    padding: 30px 20px 0 20px;
     border-radius: 10px;
     text-align: center;
 }
 
+/* selcetのサイズ */
 #accountModal select {
     width: 180px;
 }
+
+/* 日付・ボタンの枠 */
+div.accountModalDate {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* 日付 */
+.accountModalinputDate {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* 追加・削除ボタン */
+.addBtn {
+    display: inline-block;
+}
+
+/* テーブルとnewボタンの間の幅 */
 .accountModalTabale {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 /* 追加Button */
@@ -179,9 +200,32 @@ p.addCredit {
     width: 680px;
 }
 
+/* タイトルレイアウト */
+.accountTitle {
+    text-align: center;
+}
+/* totalPrice */
+.totalPrice {
+    text-align: center;
+}
+
+/* 合計金額 */
+.debitTotalPrice
+.creditTotalPrice
+ {
+    margin: 5px 0 5px 20px;
+}
+.debitTotalPriceInput
+.creditTotalPriceInput
+{
+    display: inline-block;
+    width: 200px;
+}
+
 /* 借方レイアウト */
 .accountModalDebit {
-    text-align: left;
+    /* text-align: left; */
+    text-align: center;
 }
 
 .accountModalDebitCategory {
@@ -200,14 +244,15 @@ p.addCredit {
 .accountModalDebitPrice {
     margin: 5px 0 5px 20px;
 }
-.accountModalDebitPrice div {
+.accountModalDebitPriceInput {
     display: inline-block;
     width: 200px;
 }
 
 /* 貸方レイアウト */
 .accountModalCredit {
-    text-align: left;
+    /* text-align: left; */
+    text-align: center;
 }
 
 .accountModalCreditCategory {
@@ -226,7 +271,144 @@ p.addCredit {
 .accountModalCreditPrice {
     margin: 5px 0 5px 20px;
 }
-.accountModalCreditPrice div {
+.accountModalCreditPriceinput {
+    display: inline-block;
+    width: 200px;
+}
+
+
+/*** detail modal ***/
+#detailModal {
+    display: none;
+    position: fixed;
+    overflow: scroll;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -220px;
+    margin-left: -360px;
+    background-color: #e6ecf0;
+    height: 440px;
+    width: 720px;
+    padding: 30px 20px 0 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* selcetのサイズ */
+#detailModal select {
+    width: 180px;
+}
+
+/* 日付・ボタンの枠 */
+div.detailModalDate {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* 日付 */
+.detailModalinputDate {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* 追加・削除ボタン */
+.addBtn {
+    display: inline-block;
+}
+
+/* テーブルとnewボタンの間の幅 */
+.detailModalTabale {
+    margin-bottom: 20px;
+}
+
+/* 追加Button */
+p.addDebit {
+    display: inline-block;
+}
+p.addCredit {
+    display: inline-block;
+}
+
+/* テーブルサイズ */
+#detailModal td {
+    border: 1px solid black;
+    width: 680px;
+}
+
+/* タイトルレイアウト */
+.detailTitle {
+    text-align: center;
+}
+/* totalPrice */
+.totalPrice {
+    text-align: center;
+}
+
+/* 合計金額 */
+.debitTotalPrice
+.creditTotalPrice
+ {
+    margin: 5px 0 5px 20px;
+}
+.debitTotalPriceInput
+.creditTotalPriceInput
+{
+    display: inline-block;
+    width: 200px;
+}
+
+/* 借方レイアウト */
+.detailModalDebit {
+    /* text-align: left; */
+    text-align: center;
+}
+
+.detailModalDebitCategory {
+    margin: 5px 0 0 20px;
+}
+.detailModalDebitCategory select {
+    display: inline-block;
+}
+.detailModalDebitKubun {
+    margin: 5px 0 0 20px;
+}
+.detailModalDebitKubun select {
+    display: inline-block;
+}
+
+.detailModalDebitPrice {
+    margin: 5px 0 5px 20px;
+}
+.detailModalDebitPriceInput {
+    display: inline-block;
+    width: 200px;
+}
+
+/* 貸方レイアウト */
+.detailModalCredit {
+    /* text-align: left; */
+    text-align: center;
+}
+
+.detailModalCreditCategory {
+    margin: 5px 0 0 20px;
+}
+.detailModalCreditCategory select {
+    display: inline-block;
+}
+.detailModalCreditKubun {
+    margin: 5px 0 0 20px;
+}
+.detailModalCreditKubun select {
+    display: inline-block;
+}
+
+.detailModalCreditPrice {
+    margin: 5px 0 5px 20px;
+}
+.detailModalCreditPriceinput {
     display: inline-block;
     width: 200px;
 }

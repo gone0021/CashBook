@@ -101,14 +101,24 @@ class ItemController extends Controller
         return back();
     }
 
-    public function show($id)
+    public function showAjax(Request $req)
     {
-        //
+        $user_id = Auth::id();
+
+        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price'];
+
+        $items = Item::select($select)->join('category as c','items.category_id','c.id')->leftjoin('kubun as k','items.kubun_id','k.id')->where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
+        // return view('/items/detail', ['items'=>$items]);
+        return $items;
+
     }
 
-    public function edit($id)
+    public function edit(Request $req)
     {
-        //
+        $user_id = Auth::id();
+
+        $items = Item::where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
+        return view('/items/detail', ['items'=>$items]);
     }
 
     public function update(Request $req, $id)

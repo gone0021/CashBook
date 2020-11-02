@@ -44,7 +44,7 @@
     <div class="mb-3">
         <div>● 収支一覧</div>
         <div class="my-2 ml-2">
-            <a href="{{ route('items/index')}}" class="btn btn-sticky mb-2" id="btNewAccounting">
+            <a href="{{ route('items/index') }}" class="btn btn-sticky mb-2" id="btNewAccounting">
                 家計簿一覧
             </a>
         </div>
@@ -76,6 +76,7 @@
     <div class='glayLayer'></div>
     {{-- @include('components.expense_modal') --}}
     @component ('components.account_modal')
+    @slot('today',$today)
     @slot('categoryAll',$categoryAll)
     @endcomponent
 

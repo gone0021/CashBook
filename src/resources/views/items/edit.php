@@ -6,7 +6,7 @@
 
 <div class="card-body">
     {{-- 年月の選択 --}}
-    <form action="{{ route('items/index') }}" method="get" class="yearMonth mb-3 mr-4">
+    <form action="" method="get" class="yearMonth mb-3 mr-4">
         <select name="year" id="year" class="form-control">
             @for ($i=2000; $i<=$thisYear; $i++)
                 @if ($getYear == $i)
@@ -134,8 +134,8 @@
                             {{-- cateogryが一つの場合 --}}
                             @else
                             {{ $item->category_id }}：
-                              {{ $item->category->category_name }}
-                          @endif
+                            {{ $item->category->category_name }}
+                            @endif
                         @endif
                     @endif
                     @endforeach
@@ -146,14 +146,14 @@
                     {{ number_format($count->price) }}
                 </td>
 
-                {{-- 詳細 --}}
+                {{-- 状態 --}}
                 <td class="edit" class="align-middle">
-                    <button type="button" name="edit" value="{{$count->book_no}}" class="btn btn-info itemDetail">{{ __('Detail') }}</button>
-                {{-- <form action="{{ route('items/show') }}">
-                        <input type="hidden" name="book_no" value="{{$count->book_no}}">
-                        <input type="submit" name="" id="" class="btn btn-info itemDetail" value="{{ __('Detail') }}">
-                    </form> --}}
+                <a href="" class="btn btn-info">{{ __('Detail') }}</a>
+                <a href="" class="btn btn-info">{{ __('Edit') }}</a>
+
+
                 </td>
+
             </tr>
             @endforeach
         </tbody>
@@ -173,9 +173,4 @@
 
 </div>
 
-<div class='glayLayer'></div>
-@component ('components.detail_modal')
-@slot('items',$items)
-
-@endcomponent
 @endsection

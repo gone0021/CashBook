@@ -11,6 +11,8 @@ use App\Models\Kubun;
 
 class Item extends Model
 {
+    protected $table = 'items';
+
     protected $guarded = array('id');
     use SoftDeletes;
 

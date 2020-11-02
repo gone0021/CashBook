@@ -1,21 +1,42 @@
 <div id="accountModal">
-    <div class="addBtn">
-        <div class="addDebit btn">
-            <p>借方追加</p>
-        </div>
-        <div class="addCredit btn">
-            <p>貸方追加</p>
-        </div>
-    </div>
-
     <form action="{{ route('items/store') }}" method="post">
         @csrf
+        <div class="accountModalDate">
+            <label for="accountModalDate" class="">日付：</label>
+            <div class="accountModalinputDate">
+                <input type="date" name="date" id="accountModalDate" class="form-control" value="{{ $today }}" required>
+            </div>
+            <div class="addBtn">
+                <div class="addDebit btn">借方＋</div>
+                <div class="delDebit btn">借方－</div>
+                <div class="addCredit btn">貸方＋</div>
+                <div class="delCredit btn">貸方－</div>
+            </div>
+        </div>
+
         <table class="accountModalTabale">
-            <tr>
+
+            <tr class="accountTitle">
                 <th>借方</th>
                 <th>貸方</th>
             </tr>
-            <tr>
+
+            <tr class="totalPrice">
+                <td class="debitTotalPrice">
+                    <label for="debitTotalPrice">借方合計：</label>
+                    <div class="debitTotalPriceInput">
+                        <input type="text" name="" id="debitTotalPrice" class="form-control" value="" disabled>
+                    </div>
+                </td>
+                <td class="creditTotalPrice">
+                    <label for="creditTotalPrice" class="">貸方合計：</label>
+                    <div class="creditTotalPriceInput">
+                        <input type="text" name="" id="creditTotalPrice" class="form-control" value="" disabled>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="accounTop ">
                 {{-- 借方 --}}
                 <td class="accountModalDebit">
                     <div class="accountModalDebitCategory">
@@ -35,8 +56,8 @@
                     </div>
 
                     <div class="accountModalDebitPrice">
-                        <label for="accountModalDebitPrice" class="">金額　：</label>
-                        <div>
+                        <label for="accountModalDebitPrice" class="">金額：</label>
+                        <div class="accountModalDebitPriceInput">
                             <input type="text" name="price[]" id="accountModalDebitPrice" class="form-control" value=""
                                 required>
                         </div>
@@ -63,43 +84,13 @@
                     </div>
 
                     <div class="accountModalCreditPrice">
-                        <label for="accountModalCreditPrice" class="">金額　：</label>
-                        <div>
+                        <label for="accountModalCreditPrice" class="">金額：</label>
+                        <div class="accountModalCreditPriceinput">
                             <input type="text" name="price[]" id="accountModalCreditPrice" class="form-control" value=""
                                 required>
                         </div>
                     </div>
                 </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="accountModalDebitCategory">
-                        <label for="accountModalDebitCategory">大区分：</label>
-                        <select name="tag" id="accountModalDebitCategory" class="form-control">
-                            <option value="1">現金</option>
-                            <option value="2">普通預金</option>
-                            <option value="3">クレジットカード</option>
-                        </select>
-                    </div>
-
-                    <div class="accountModalDebitKubun">
-                        <label for="accountModalDebitKubun">小区分：</label>
-                        <select name="tag" id="accountModalDebitKubun" class="form-control">
-                            <option value="">aaa</option>
-                            <option value="">bbb</option>
-                        </select>
-                    </div>
-
-                    <div class="accountModalDebitPrice">
-                        <label for="accountModalDebitPrice" class="mr-2">金額：</label>
-                        <div>
-                            <input type="text" name="price" id="accountModalDebitPrice" class="form-control" value=""
-                                required>
-                        </div>
-                    </div>
-                </td>
-                <td></td>
             </tr>
 
         </table>
