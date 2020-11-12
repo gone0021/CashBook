@@ -39,13 +39,11 @@ class ItemController extends Controller
         $items = $getItem->get();
 
         // book_noの個数を表示するため数のカウントに使用
-        $itemGroup = $getItem->groupBy('book_no')->get();
+        $bookNo = $getItem->groupBy('book_no')->paginate(7);
 
         // 該当するbook_noのdebit_creditを数える
         $countDebit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 1);
         $countCredit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 2);
-        // dump($countDebit);
-        // dump($countCredit);
 
         // 金額の計算
         $credits = Item::getCreditCashAsset($user_id, $yearMmonth)->get();
@@ -59,7 +57,7 @@ class ItemController extends Controller
             'cashTotal' => $cashTotal,
             'countDebit' => $countDebit,
             'countCredit' => $countCredit,
-            'itemGroup' => $itemGroup,
+            'bookNo' => $bookNo,
             'getMonth' => $getMonth,
             'getYear' => $getYear,
             'items' => $items,

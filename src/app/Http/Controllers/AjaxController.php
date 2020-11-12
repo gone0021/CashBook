@@ -10,6 +10,13 @@ use App\Models\Kubun;
 
 class AjaxController extends Controller
 {
+    public function getCategory(Request $req)
+    {
+        $kubun = Category::all();
+        return $kubun;
+
+    }
+
     public function getKubun(Request $req)
     {
         $kubun = Kubun::where('category_id', $req->id)->get();

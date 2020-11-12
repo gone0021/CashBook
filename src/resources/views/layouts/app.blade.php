@@ -14,8 +14,8 @@
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <script src="{{ asset('js/modal.js') }}"></script>
-    <script src="{{ asset('js/ajax.js') }}"></script>
+    <script src="{{ asset('js/home.js') }}"></script>
+    <script src="{{ asset('js/item.js') }}"></script>
     <script src="{{ asset('js/sort.js') }}"></script>
     {{-- jQuery --}}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

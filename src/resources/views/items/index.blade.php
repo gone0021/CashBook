@@ -66,7 +66,7 @@
 
         {{-- 表示内容 --}}
         <tbody>
-            @foreach ($itemGroup as $k => $count)
+            @foreach ($bookNo as $k => $count)
             <tr>
                 <td class="bookNo" class=" ">
                     {{ $count->book_no }}
@@ -161,8 +161,7 @@
 
 
     <div>
-        {{-- group_idでwhereをしているためappendsでクエリに表示する --}}
-        {{-- {{ $items->appends(['group_id' => $gid])->links() }} --}}
+        {{ $bookNo->appends(['year'=>$getYear, 'month'=>$getMonth])->links() }}
     </div>
 
     <div class="col-md-10">

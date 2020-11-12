@@ -12,7 +12,7 @@
 
     @if (Auth::user()->is_admin == '1')
     <div class="mb-3">
-        <a href="{{ route('admin') }}">
+        <a href="{{ route('admin/index') }}">
             管理者画面
         </a>
     </div>

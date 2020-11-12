@@ -12,18 +12,38 @@
         {{-- 表示タイトル --}}
         <thead>
             <tr>
-                <th colspan="2" class="text-center">
+                <th class="text-center">
                     <span class="debit">{{ __('Debit') }}</span>
                 </th>
 
-                <th colspan="2" class="text-center">
+                <th class="text-center">
                     <span class="credit">{{ __('Credit')}}</span>
                 </th>
             </tr>
         </thead>
 
         {{-- 表示内容 --}}
+        {{-- <tbody class="detailModal">
+        </tbody> --}}
+
         <tbody class="detailModal">
+            <tr class="totalPrice">
+                <td class="debitTotalPrice" id="">
+                <label for="debitTotalPrice">{{ __('Debit Total') }}：</label>
+                    <div class="debitTotalPriceInput" id="">
+                        <input type="text" name="" id="debitTotalPrice" class="form-control" value="" disabled>
+                    </div>
+                </td>
+                <td class="creditTotalPrice" id="">
+                    <label for="creditTotalPrice" class="">{{ __('Credit Total') }}：</label>
+                    <div class="creditTotalPriceInput" id="">
+                        <input type="text" name="" id="creditTotalPrice" class="form-control" value="" disabled>
+                    </div>
+                </td>
+            </tr>
+
+            {{-- ここからjquery --}}
+
         </tbody>
     </table>
 

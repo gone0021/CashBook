@@ -36,6 +36,7 @@ Route::middleware('auth')->prefix('home')->name('home')->group(function () {
 
 // 共通ajax
 Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
+    Route::get('category', 'AjaxController@getCategory');
     Route::get('kubun', 'AjaxController@getKubun');
 });
 
@@ -47,24 +48,29 @@ Route::middleware('auth')->prefix('users')->name('users')->group(function () {
 
     // Route::resource('', 'UserController');
 
-    // --- show
+    // show
     Route::get('show', 'UserController@show')->name('/show');
 
-    // u edit
+    // edit
     Route::get('edit', 'UserController@edit')->name('/edit'); //
     Route::post('edit_check', 'UserController@editCheck')->name('/edit_check');
     Route::post('update', 'UserController@update')->name('/update');
 
-    // e password
+    // password
     Route::get('password', 'UserController@password')->name('/password'); //
     Route::post('password_check', 'UserController@passwordUpdate')->name('/password_check');
 
-    // e delete
+    // delete
     Route::get('delete', 'UserController@delete')->name('/delete'); //
     Route::get('fort', 'UserController@fort')->name('/fort'); //
     // deleteした時に名前を"xxx_id_deleted"へupdateする機能を追加する
     Route::post('destroy', 'UserController@destroy')->name('/destroy');
 });
+
+Route::middleware('auth')->prefix('admin')->name('admin')->group(function () {
+    Route::get('index', 'AdminController@index')->name('/index');
+});
+
 
 // items
 Route::middleware('auth')->prefix('items')->name('items')->group(function () {
@@ -72,16 +78,16 @@ Route::middleware('auth')->prefix('items')->name('items')->group(function () {
 
     Route::post('store', 'ItemController@store')->name('/store');
 
-    Route::get('show', 'ItemController@showAjax')->name('/show');
+    Route::get('show/a', 'ItemController@showAjax')->name('/show/a');
     Route::get('edit', 'ItemController@edit')->name('/edit');
 
 
-    // u edit
+    // edit
     Route::get('edit', 'ItemController@edit'); //
     Route::post('edit', 'ItemController@editCheck');
     Route::post('update', 'ItemController@ItemUpdate');
 
-    // e delete
+    // delete
     Route::get('delete', 'ItemController@delete'); //
     Route::get('fort', 'ItemController@fort'); //
     // deleteした時に名前を"xxx_id_deleted"へupdateする機能を追加する

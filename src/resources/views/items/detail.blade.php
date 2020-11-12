@@ -36,7 +36,8 @@
                         {{ $item->category->category_name }}
                             @if ($item->kubun)
                             <br>{{ $item->kubun->kubun_name }}
-                            @else <br>小区分なし                         @endif
+                            @else <br>小区分なし
+                            @endif
                         @endif
                     </p>
                 </td>
@@ -56,7 +57,8 @@
                         {{ $item->category->category_name }}
                             @if ($item->kubun)
                             <br>{{ $item->kubun->kubun_name }}
-                            @else <br>小区分なし                         @endif
+                            @else <br>小区分なし
+                            @endif
                         @endif
                     </p>
                 </td>
