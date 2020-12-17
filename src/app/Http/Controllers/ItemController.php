@@ -9,11 +9,6 @@ use App\Models\Item;
 use Carbon\Carbon;
 use App\Util\ItemUtil;
 
-use App\Models\Category;
-use App\Models\Kubun;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\VarDumper\VarDumper;
-
 class ItemController extends Controller
 {
     public function index(Request $req)
@@ -38,13 +33,19 @@ class ItemController extends Controller
         $getItem = Item::getItem($user_id, $yearMmonth);
         $items = $getItem->get();
 
-        // book_noの個数を表示するため数のカウントに使用
-        $itemGroup = $getItem->groupBy('book_no')->get();
+        // 表示用：book_noの個数で表示するため数のカウントに使用
+        $groupByItems= $getItem->groupBy('book_no')->paginate(7);
+
+        foreach ($groupByItems as $k=>$v){
+            $totalPrice = Item::getTotalPriceByBookno($user_id, $v->book_no);
+            $v->price = $totalPrice;
+        }
+
 
         // 該当するbook_noのdebit_creditを数える
         $countDebit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 1);
         $countCredit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 2);
-        // dump($countDebit);
+        // dump($countCredit);
         // dump($countCredit);
 
         // 金額の計算
@@ -59,7 +60,7 @@ class ItemController extends Controller
             'cashTotal' => $cashTotal,
             'countDebit' => $countDebit,
             'countCredit' => $countCredit,
-            'itemGroup' => $itemGroup,
+            'groupByItems' => $groupByItems,
             'getMonth' => $getMonth,
             'getYear' => $getYear,
             'items' => $items,
@@ -77,27 +78,40 @@ class ItemController extends Controller
     {
         $user_id = Auth::id();
 
+        $val = $req->all();
+        unset($val['_token']);
+
         unset($req['_token']);
         $nextNo = Item::getBookNo() + 1;
 
-        // for ($i=0; $i<count($req->debit_credit); $i++) {
-        foreach ($req->Input('debit_credit') as $k => $v) {
+        // dump($req->request);
+        // dd($val);
+
+        foreach ($req->debit_credit as $k => $v) {
             $dbItem = new Item();
 
             $dbItem->user_id = $user_id;
             $dbItem->book_no = $nextNo;
-            $dbItem->debit_credit = $req->debit_credit[$k];
+            $dbItem->debit_credit = $v;
             $dbItem->date = $req->date;
             $dbItem->category_id = $req->category_id[$k];
-            if ($req->kubun_id[$k] == 'null') {
+
+            if ($req->kubun_id[$k] == '小区分なし') {
                 $dbItem->kubun_id = null;
             } else {
                 $dbItem->kubun_id = $req->kubun_id[$k];
             }
-            $dbItem->price = $req->price;
-            $dbItem->comment = $req->comment;
+
+            if ($req->inputAccount == 'new') {
+                    $dbItem->price = $req->price[$k];
+                    $dbItem->comment = $req->comment;
+            } else {
+                    $dbItem->price = $req->price;
+                    $dbItem->comment = $req->comment;
+            }
             $dbItem->save();
         }
+
         return back();
     }
 
@@ -105,10 +119,10 @@ class ItemController extends Controller
     {
         $user_id = Auth::id();
 
-        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price'];
+        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price','items.comment'];
 
         $items = Item::select($select)->join('category as c','items.category_id','c.id')->leftjoin('kubun as k','items.kubun_id','k.id')->where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
-        // return view('/items/detail', ['items'=>$items]);
+
         return $items;
 
     }
@@ -121,12 +135,41 @@ class ItemController extends Controller
         return view('/items/detail', ['items'=>$items]);
     }
 
-    public function update(Request $req, $id)
+    public function update(Request $req)
     {
-        //
+        if($req->mode == 'Update') {
+            $val = $req->all();
+            unset($val['_token']);
+
+            dump($val);
+
+            foreach($req->id as $k=>$v) {
+                // $dbItem = new Item();
+                $dbItem = Item::find($v);
+
+                $dbItem->date = $val['date'];
+                $dbItem->category_id = $val['category_id'][$k];
+                if ($req->kubun_id == 'null') {
+                    $dbItem->kubun_id = null;
+                } else {
+                    $dbItem->kubun_id = $val['kubun_id'][$k];
+                }
+                $dbItem->price = $val['price'][$k];
+                $dbItem->comment = $val['comment'];
+
+                $dbItem->update();
+            }
+
+            return back();
+        } elseif ($req->mode == 'Delete') {
+            foreach($req->id as $v) {
+                Item::find($v)->delete();
+            }
+            return back();
+        }
     }
 
-    public function destroy($id)
+    public function destroy(Request $req)
     {
         //
     }

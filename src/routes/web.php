@@ -37,7 +37,12 @@ Route::middleware('auth')->prefix('home')->name('home')->group(function () {
 // 共通ajax
 Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
     Route::get('category', 'AjaxController@getCategory');
+    Route::get('category_by_account', 'AjaxController@getCategoryByAccountType');
+    Route::get('category_income', 'AjaxController@getCategoryIncome');
+    Route::get('category_expense', 'AjaxController@getCategoryExpense');
     Route::get('kubun', 'AjaxController@getKubun');
+    Route::get('kubun_list', 'AjaxController@getKubunByCategoryId');
+    Route::get('kubun_get', 'AjaxController@getKubunByCategoryIdGet');
 });
 
 
@@ -67,31 +72,28 @@ Route::middleware('auth')->prefix('users')->name('users')->group(function () {
     Route::post('destroy', 'UserController@destroy')->name('/destroy');
 });
 
+// admin
 Route::middleware('auth')->prefix('admin')->name('admin')->group(function () {
     Route::get('index', 'AdminController@index')->name('/index');
+    Route::get('create', 'AdminController@create')->name('/create');
+    Route::get('store', 'AdminController@store')->name('/store');
+    Route::get('show', 'AdminController@show')->name('/show');
 });
 
+// calendar
+Route::middleware('auth')->prefix('calendar')->name('calendar')->group(function () {
+    Route::get('index', 'CalendarController@index')->name('/index');
+});
 
 // items
 Route::middleware('auth')->prefix('items')->name('items')->group(function () {
     Route::get('index', 'ItemController@index')->name('/index');
-
     Route::post('store', 'ItemController@store')->name('/store');
-
     Route::get('show/a', 'ItemController@showAjax')->name('/show/a');
     Route::get('edit', 'ItemController@edit')->name('/edit');
+    Route::post('update', 'ItemController@update')->name('/update');
 
-
-    // edit
-    Route::get('edit', 'ItemController@edit'); //
-    Route::post('edit', 'ItemController@editCheck');
-    Route::post('update', 'ItemController@ItemUpdate');
-
-    // delete
-    Route::get('delete', 'ItemController@delete'); //
-    Route::get('fort', 'ItemController@fort'); //
-    // deleteした時に名前を"xxx_id_deleted"へupdateする機能を追加する
-    Route::post('delete', 'ItemController@deleteAction');
+    // Route::get('destroy', 'ItemController@destroy'); //
 });
 
 

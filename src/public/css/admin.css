@@ -1,0 +1,22 @@
+/* layout */
+
+.category div {
+    display: inline-block;
+}
+
+.create form input[type="text"] {
+    width: 200px;
+}
+
+.category select {
+    width: 100px;
+}
+
+
+div.selectCategory {
+    display: none;
+}
+
+.selectCategory select {
+    width: 200px;
+}

@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * Utility
+         */
+        App\Providers\CalendarServiceProvider::class,
+
     ],
 
     /*
@@ -227,6 +232,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // add org
+        'Calendar' => App\Facades\Calendar::class,
 
     ],
 

@@ -16,6 +16,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('js/home.js') }}"></script>
     <script src="{{ asset('js/item.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     <script src="{{ asset('js/sort.js') }}"></script>
     {{-- jQuery --}}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -28,7 +29,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/parts.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sort.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/modal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/items.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 

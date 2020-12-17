@@ -32,11 +32,10 @@ class HomeController extends Controller
         $carbon = new Carbon('now');
         $today = $carbon->format('Y-m-d');
 
-
         // modal用
-        $categoryAccet = Category::where('account_type',1)->get();
-        $categoryCost = Category::where('account_type',2)->get();
-        $categoryprofit = Category::where('account_type',3)->get();
+        $categoryAccet = Category::where('account_type', 0)->get();
+        $categoryCost = Category::where('account_type', 1)->get();
+        $categoryprofit = Category::where('account_type', 2)->get();
 
         $categoryAll = Category::all();
         $kubun = Kubun::all();
@@ -51,6 +50,4 @@ class HomeController extends Controller
         ];
         return view('home', $param);
     }
-
-
 }

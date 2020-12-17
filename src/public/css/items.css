@@ -1,0 +1,286 @@
+/* ------------------------ */
+/*  layer */
+/* ------------------------ */
+.glayLayer {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+}
+
+/* ------------------------ */
+/* detail nomal  */
+/* ------------------------ */
+#detailNomal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -240px;
+    margin-left: -300px;
+    background-color: #e6ecf0;
+    height: 480px;
+    width: 600px;
+    padding: 40px 0px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#detailNomal select {
+    width: 180px;
+}
+
+div.detailNomalDiv0,
+div.detailNomalDiv1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 日付 */
+div.detailNomalDate {
+    margin-top: 10px;
+}
+
+div.detailNomalinputDate {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 資産選択 */
+div.detailNomalCategory0 {
+    display: inline-block;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: medium;
+}
+div.detailNomalKubun0 {
+    display: inline-block;
+}
+
+div.detailNomalCategory0 select,
+div.detailNomalKubun0 select {
+    display: inline-block;
+}
+
+/* 費用選択 */
+div.detailNomalCategory1 {
+    display: inline-block;
+    margin-right: 20px;
+}
+div.detailNomalKubun1 {
+    display: inline-block;
+}
+
+div.detailNomalCategory1 select,
+div.detailNomalKubun1 select {
+    display: inline-block;
+}
+
+/* 金額入力欄 */
+div.detailNomalPrice {
+    margin-bottom: 20px;
+}
+
+div.detailNomalinputPrice {
+    display: inline-block;
+    text-align: center;
+}
+
+/* コメント＋submitボタン 外枠 */
+div.detailNomalLast {
+    display: inline-block;
+    text-align: center;
+}
+
+/* コメント＋submitボタン 内枠 */
+div.detailNomalCommentSubmit {
+    display: flex;
+    text-align: center;
+}
+
+/* コメントラベル */
+label.detailNomalCommentLabel {
+    display: flex;
+    align-items : flex-start;
+    margin: 24px 5px 0 0;
+}
+
+/* コメント */
+div.detailNomalinputComment {
+    display: inline-block;
+}
+
+/* submitボタン */
+div.detailNomalSubmit {
+    display: flex;
+    align-items: flex-end;
+    margin: 0 0 10px 10px;
+}
+
+/* ------------------------ */
+/* detail account  */
+/* ------------------------ */
+#detailAccount {
+    display: none;
+    position: fixed;
+    overflow: scroll;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -220px;
+    margin-top: -320px;
+    margin-left: -360px;
+    background-color: #e6ecf0;
+    height: 440px;
+    height: 640px;
+    width: 720px;
+    padding: 30px 20px 0 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* selcetのサイズ */
+#detailAccount select {
+    width: 180px;
+}
+
+/* 日付・ボタンの枠 */
+div.detailAccountDate {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* 日付 */
+.detailAccountinputDate {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* 追加・削除ボタン */
+.addBtn {
+    display: inline-block;
+}
+
+/* テーブルとnewボタンの間の幅 */
+.detailAccountTabale {
+    margin-bottom: 20px;
+}
+
+
+/* テーブルサイズ */
+#detailAccountTable td {
+    border: 1px solid black;
+    width: 680px;
+}
+
+/* タイトルレイアウト */
+.detailAccountTitle {
+    text-align: center;
+}
+/* totalPrice */
+.totalPrice {
+    text-align: center;
+}
+
+/* 合計金額 */
+.debitTotalPrice
+.creditTotalPrice
+ {
+    margin: 5px 0 5px 20px;
+}
+.debitTotalPriceInput
+.creditTotalPriceInput
+{
+    display: inline-block;
+    width: 200px;
+}
+
+/* 借方レイアウト */
+.detailAccountDebit {
+    /* text-align: left; */
+    text-align: center;
+}
+
+.detailAccountDebitCategory {
+    margin: 5px 0 0 20px;
+}
+.detailAccountDebitCategory select {
+    display: inline-block;
+}
+.detailAccountDebitKubun {
+    margin: 5px 0 0 20px;
+}
+.detailAccountDebitKubun select {
+    display: inline-block;
+}
+
+.detailAccountDebitPrice {
+    margin: 5px 0 5px 20px;
+}
+.detailAccountDebitPriceInput {
+    display: inline-block;
+    width: 200px;
+}
+
+/* 貸方レイアウト */
+.detailAccountCredit {
+    /* text-align: left; */
+    text-align: center;
+}
+
+.detailAccountCreditCategory {
+    margin: 5px 0 0 20px;
+}
+.detailAccountCreditCategory select {
+    display: inline-block;
+}
+.detailAccountCreditKubun {
+    margin: 5px 0 0 20px;
+}
+.detailAccountCreditKubun select {
+    display: inline-block;
+}
+
+.detailAccountCreditPrice {
+    margin: 5px 0 5px 20px;
+}
+.detailAccountCreditPriceinput {
+    display: inline-block;
+    width: 200px;
+}
+
+
+/* ------------------------ */
+/* detail account comment */
+/* ------------------------ */
+#detailAccountCommentTable td {
+    border: 1px solid black;
+    border-top: none;
+    width: 680px;
+}
+
+/* コメント 外枠 */
+div.detailAccountComment {
+    display: inline-block;
+    text-align: center;
+}
+
+/* コメント 内枠 */
+div.detailAccountCommentSubmit {
+    display: flex;
+    text-align: center;
+}
+
+/* コメントラベル */
+label.detailAccountCommentLabel {
+    display: flex;
+    align-items : flex-start;
+    margin: 24px 5px 0 0;
+}

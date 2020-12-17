@@ -19,7 +19,7 @@
     @endif
 
     <p>
-        <a href="{{ url('calendar') }}">
+        <a href="{{ url('calendar/index') }}">
             カレンダー表示
         </a>
     </p>
@@ -75,18 +75,18 @@
     {{-- @include('name') --}}
     <div class='glayLayer'></div>
     {{-- @include('components.expense_modal') --}}
-    @component ('components.account_modal')
+    @component ('components.input_account')
     @slot('today',$today)
     @slot('categoryAll',$categoryAll)
     @endcomponent
 
-    @component ('components.expense_modal')
+    @component ('components.input_expense')
     @slot('today',$today)
     @slot('categoryAccet',$categoryAccet)
     @slot('categoryCost',$categoryCost)
     @endcomponent
 
-    @component ('components.income_modal')
+    @component ('components.input_income')
     @slot('today',$today)
     @slot('categoryAccet',$categoryAccet)
     @slot('categoryprofit',$categoryprofit)

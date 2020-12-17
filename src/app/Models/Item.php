@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Kubun;
+use Facade\FlareClient\Http\Exceptions\BadResponse;
 
 class Item extends Model
 {
@@ -18,7 +19,6 @@ class Item extends Model
 
     /**
      * usersとのリレーション
-     *
      * @return void
      */
     public function user()
@@ -28,7 +28,6 @@ class Item extends Model
 
     /**
      * categoryとのリレーション
-     *
      * @return void
      */
     public function category()
@@ -39,7 +38,6 @@ class Item extends Model
 
     /**
      * kubunとのリレーション
-     *
      * @return void
      */
     public function kubun()
@@ -57,7 +55,26 @@ class Item extends Model
 
 
     /**
+     * book_noごとの合計金額を取得
+     * 借方で計算してるけど、どっちでもいい
+     * @param int $user_id
+     * @param int $book_no
+     * @return int
+     */
+    public static function getTotalPriceByBookno($user_id, $book_no)
+    {
+        $items = Item::where('user_id', $user_id)->where('book_no',$book_no)->where('debit_credit',1)->get();
+
+        $ret = 0;
+        foreach ($items as $v) {
+            $ret += $v->price;
+        }
+        return $ret;
+    }
+
+    /**
      * 最後のbook_noを取得
+     * @return int
      */
     public static function getBookNo()
     {
@@ -76,7 +93,6 @@ class Item extends Model
                     ->orWhere('category_id', 2)
                     ->orWhere('category_id', 3);
             })
-            // ->where('account_type', 1)
             ->where('debit_credit', 2);
 
         return $ret;
@@ -93,7 +109,6 @@ class Item extends Model
                     ->orWhere('category_id', 2)
                     ->orWhere('category_id', 3);
             })
-            // ->where('account_type', 1)
             ->where('debit_credit', 1);
 
         return $ret;
@@ -102,7 +117,6 @@ class Item extends Model
 
     /**
      * 該当user_idのフィールド数を取得
-     *
      * @return array
      */
     public static function countDebitCreditByBookNo($user_id, $date, $debit_credit)

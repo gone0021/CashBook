@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Util;
 
-use App\helpers;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
-use App\Models\Group;
-use App\Models\Item;
+
+use Carbon\Carbon;
 use DateTime;
-use Illuminate\Support\Facades\DB;
 use Yasumi\Yasumi;
+
+use App\Models\Item;
+use App\Models\Category;
+use App\Models\Kubun;
 
 class CalendarUtil
 {
@@ -105,7 +105,7 @@ class CalendarUtil
      * @return string
      */
     // 祝日名の取得
-    function getHolidayNmae(DateTime $year, String $date): string
+    public function getHolidayNmae(DateTime $year, String $date): string
     {
         $holidays = Yasumi::create('Japan', (int)$year->format('Y'), 'ja_JP');
         $results  = [];
@@ -158,7 +158,6 @@ class CalendarUtil
 
         return $results;
     }
-
 
     /**
      * items 該当日のアイテム数を取得（個人：タイプ別）
@@ -245,7 +244,7 @@ class CalendarUtil
      *
      * @return string
      */
-    public function getMonth()
+    public static function getMonth()
     {
         return Carbon::parse(self::getYm_firstday())->format('Y年n月');
     }
@@ -255,7 +254,7 @@ class CalendarUtil
      *
      * @return string
      */
-    public function getDisplayMonth()
+    public static function getDisplayMonth()
     {
         return Carbon::parse(self::getYm_firstday())->format('Y-m');
     }
@@ -265,7 +264,7 @@ class CalendarUtil
      *
      * @return string
      */
-    public function getThisMonth()
+    public static function getThisMonth()
     {
         return Carbon::now()->format('Y-m');
     }
@@ -275,7 +274,7 @@ class CalendarUtil
      *
      * @return string
      */
-    public function getPrev()
+    public static function getPrev()
     {
         return Carbon::parse(self::getYm_firstday())->subMonthsNoOverflow()->format('Y-m');
     }
@@ -285,7 +284,7 @@ class CalendarUtil
      *
      * @return string
      */
-    public function getNext()
+    public static function getNext()
     {
         return Carbon::parse(self::getYm_firstday())->addMonthNoOverflow()->format('Y-m');
     }

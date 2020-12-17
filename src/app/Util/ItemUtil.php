@@ -82,7 +82,7 @@ class ItemUtil
 
 
     /**
-     * 該当user_idのフィールド数を取得
+     * user_idのフィールド数を取得
      *
      * @return string
      */
@@ -92,7 +92,7 @@ class ItemUtil
     }
 
     /**
-     * 該当book_noのdecit_credit数をカウント
+     * book_noのdecit_credit数をカウント
      *
      * @return array
      */
@@ -103,12 +103,12 @@ class ItemUtil
         $ret = array();
 
         foreach ($val as $v) {
-            $no = (int)$v->book_no;
+            $num = (int)$v->book_no;
 
-            $count = $v->where('book_no', $no)->where('debit_credit', $debit_credit)->count();
-            if ($count > 1 && $flg !== $no) {
-                $ret[] = $no;
-                $flg = $no;
+            $count = $v->where('book_no', $num)->where('debit_credit', $debit_credit)->count();
+            if ($count > 1 && $flg !== $num) {
+                $ret[] = $num;
+                $flg = $num;
             }
         }
         return $ret;

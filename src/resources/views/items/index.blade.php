@@ -38,43 +38,26 @@
         {{-- 表示タイトル --}}
         <thead>
             <tr>
-                <th>
-                    <span class="bookNo">{{ __('No.') }}</span>
-                </th>
-
-                <th>
-                    <span class="date">{{ __('Date')}}</span>
-                </th>
-
-                <th>
-                    <span class="debit">{{ __('Debit') }}</span>
-                </th>
-
-                <th>
-                    <span class="credit">{{ __('Credit')}}</span>
-                </th>
-
-                <th>
-                    <span class="price">{{ __('Price')}}</span>
-                </th>
-
-                <th>
-                    <span class="ecit">{{ __('Edit')}}</span>
-                </th>
+                <th class="bookNo">{{ __('No.') }}</th>
+                <th class="date">{{ __('Date')}}</th>
+                <th class="debit">{{ __('Debit') }}</th>
+                <th class="credit">{{ __('Credit')}}</th>
+                <th class="price">{{ __('Price')}}</th>
+                <th class="ecit">{{ __('Edit')}}</th>
             </tr>
         </thead>
 
         {{-- 表示内容 --}}
         <tbody>
-            @foreach ($bookNo as $k => $count)
+            @foreach ($groupByItems as $k => $value)
             <tr>
                 <td class="bookNo" class=" ">
-                    {{ $count->book_no }}
+                    {{ $value->book_no }}
                 </td>
 
                 {{-- 日付 --}}
                 <td class="date" class="align-middle">
-                    {{ date('m月d日', strtotime($count->date)) }}
+                    {{ date('m月d日', strtotime($value->date)) }}
                 </td>
 
                 {{-- 借方 --}}
@@ -84,7 +67,7 @@
                 @endphp
                     @foreach ($items as $item)
                     @if ($item->debit_credit == 1)
-                        @if ($item->book_no == $count->book_no)
+                        @if ($item->book_no == $value->book_no)
                             {{-- categoryの数をチェック --}}
                             @foreach ($countDebit as $cd)
                                 {{-- cateogryが複数ある場合 --}}
@@ -116,7 +99,7 @@
                 @endphp
                     @foreach ($items as $item)
                     @if ($item->debit_credit == 2)
-                        @if ($item->book_no == $count->book_no)
+                        @if ($item->book_no == $value->book_no)
                             {{-- categoryの数をチェック --}}
                             @foreach ($countCredit as $cc)
                                 {{-- cateogryが複数ある場合 --}}
@@ -143,25 +126,26 @@
 
                 {{-- 価格 --}}
                 <td class="price" class="align-middle">
-                    {{ number_format($count->price) }}
+                    {{ number_format($value->price) }}
                 </td>
 
-                {{-- 詳細 --}}
+                {{-- 詳細ボタン --}}
                 <td class="edit" class="align-middle">
-                    <button type="button" name="edit" value="{{$count->book_no}}" class="btn btn-info itemDetail">{{ __('Detail') }}</button>
-                {{-- <form action="{{ route('items/show') }}">
-                        <input type="hidden" name="book_no" value="{{$count->book_no}}">
-                        <input type="submit" name="" id="" class="btn btn-info itemDetail" value="{{ __('Detail') }}">
-                    </form> --}}
+                    <button type="button" name="edit" value="{{$value->book_no}}" class="btn btn-info itemDetailaccount">{{ __('Detail') }}</button>
+
+                    @php
+                        if ($d_flg == 0 && $c_flg == 0) {
+                            echo ' <button type="button" name="edit" value="' . $value->book_no . '" class="btn btn-info itemDetailnomal"> Detail2 </button>';
+                        }
+                    @endphp
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-
     <div>
-        {{ $bookNo->appends(['year'=>$getYear, 'month'=>$getMonth])->links() }}
+        {{ $groupByItems->appends(['year'=>$getYear, 'month'=>$getMonth])->links() }}
     </div>
 
     <div class="col-md-10">
@@ -173,8 +157,12 @@
 </div>
 
 <div class='glayLayer'></div>
-@component ('components.detail_modal')
+@component ('components.detail_account')
 @slot('items',$items)
-
 @endcomponent
+
+@component ('components.detail_nomal')
+@slot('items',$items)
+@endcomponent
+
 @endsection

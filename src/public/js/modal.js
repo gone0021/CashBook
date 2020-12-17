@@ -131,17 +131,3 @@ $(function () {
         $('.detailModalBtn').fadeOut();
     });
 });
-
-
-$(function () {
-    // 削除アラート
-    $('.btDel').click(function (e) {
-        var message = [
-            '削除します'
-        ].join('\n')
-        if (!window.confirm(message)) {
-            e.preventDefault()
-        }
-    });
-
-});

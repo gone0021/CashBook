@@ -1,87 +1,217 @@
-// 詳細modal
-$(function () {
-    $(".btEditPrice").click(function () {
-        $(".detailModalDebitPrice input").prop('disabled', false)
-        $(".detailModalCreditPrice input").prop('disabled', false)
-    });
-});
+let ajaxDetailDebit = [];
+let ajaxDetailCredit = [];
+let ajaxDetail = [];
+let ajaxNomal = [];
 
 // モーダル背景
 $(function () {
     $(".glayLayer").click(function () {
         $(this).fadeOut()
-        $("#detailModal").fadeOut();
-        $('.detailModalDebitTr').fadeOut();
-        $('.detailModalCreditTr').fadeOut();
-        $('.detailModalBtn').fadeOut();
+        $("#detailAccount").fadeOut();
+        $("#detailNomal").fadeOut();
+        $('.detailAccountDebitTr').fadeOut();
+        $('.detailAccountCreditTr').fadeOut();
+        $('.detailAccountBtn').fadeOut();
+    })
 
-    });
-});
+    // ------------------------
+    // detail account
+    // ------------------------
+    $(".itemDetailaccount").click(function () {
+        console.log('--- detail show : account ---');
+        // 変数
+        countDebitTr = $('.detailAccountDebitTr').length;
+        countCreditTr = $('.detailAccountCreditTr').length;
 
+        // disableを設定
+        $("#detailAccountDate").prop('disabled', true);
+        $(".detailAccountDebitPrice input").prop('disabled', true);
+        $(".detailAccountCreditPrice input").prop('disabled', true);
 
+        $(`#detailAccountDebitCategory0`).prop('disabled', true);
+        $(`#detailAccountDebitKubun0`).prop('disabled', true);
 
-// 詳細ボタンのクリック
-$(function () {
-    $(".itemDetail").click(function () {
-        $("#detailModal").fadeIn();
-        $(".glayLayer").fadeIn();
-        $(".detailModalBtn").fadeIn();
+        $(`#detailAccountCreditCategory0`).prop('disabled', true);
+        $(`#detailAccountCreditKubun0`).prop('disabled', true);
 
-        // ここから仮：正常に動いてるけどfalse宣言に違和感
-        let detailTop = false;
-        if (!detailTop) {
-            $('.detailTop').remove(); // 値があったらTopを削除して作り直し
-            detailTop = `
-            <tr class="detailTop">
-                {{-- 借方 --}}
-                <td class="detailModalDebit" id="detailModalDebit0">
-                    <div class="detailModalDebitCategory">
-                        <label for="detailModalDebitCategory0">大区分：</label>
-                        <select name="category[]" id="detailModalDebitCategory0" class="form-control" disabled>
-                        </select>
-                    </div>
+        // 元の値を削除
+        $(`#detailAccountDebitCategory0`).children().remove();
+        $(`#detailAccountDebitKubun0`).children().remove();
+        $(`#detailAccountCreditCategory0`).children().remove();
+        $(`#detailAccountCreditKubun0`).children().remove();
 
-                    <div class="detailModalDebitKubun">
-                        <label for="detailModalDebitKubun0">小区分：</label>
-                        <select name="kubun[]" id="detailModalDebitKubun0" class="form-control" disabled>
-                        </select>
-                    </div>
-
-                    <div class="detailModalDebitPrice">
-                        <label for="detailModalDebitPrice0">金額：</label>
-                        <div class="detailModalDebitPriceInput">
-                            <input type="text" name="price[]" id="detailModalDebitPrice0" class="form-control" required disabled>
-                        </div>
-                    </div>
-                </td>
-
-                // {{-- 貸方 --}}
-                <td class="detailModalCredit">
-                    <div class="detailModalCreditCategory" id="detailModalCreditCategory">
-                        <label for="detailModalCreditCategory0">大区分：</label>
-                        <select name="category[]" id="detailModalCreditCategory0" class="form-control" disabled>
-                        </select>
-                    </div>
-
-                    <div class="detailModalCreditKubun">
-                        <label for="detailModalCreditKubun0">小区分：</label>
-                        <select name="kubun[]" id="detailModalCreditKubun0" class="form-control" disabled>
-                        </select>
-                    </div>
-
-                    <div class="detailModalCreditPrice">
-                        <label for="detailModalCreditPrice0">金額：</label>
-                        <div class="detailModalCreditPriceinput" id="detailModalCreditPriceinput0">
-                            <input type="text" name="price[]" id="detailModalCreditPrice0" class="form-control"  required disabled>
-                        </div>
-                    </div>
-                </td>
-            </tr>`;
-
-            $('.detailModal').append(detailTop);
+        if (countDebitTr > 0) {
+            $(`.detailAccountDebitTr`).remove();
+        }
+        if (countCreditTr > 0) {
+            $(`.detailAccountCreditTr`).remove();
         }
 
-        // ここまで仮
+        // 見た目
+        $("#detailAccount").fadeIn();
+        $(".glayLayer").fadeIn();
+        $(".detailAccountBtn").fadeIn();
+
+        // ボタンの変更
+        $('.btEdit').prop('disabled', false);
+        $('.btUpdate').prop('disabled', true);
+
+        $.ajax({
+            type: "get",
+            url: "/items/show/a",
+            data: {
+                book_no: $(this).val(),
+            }
+        }).done(function (ret) {
+            console.log(ret);
+
+            ajaxDetailDebit = [];
+            ajaxDetailCredit = [];
+            let d = 0, c = 0;
+            var html = '';
+            var countDebit = 1, countCredit = 1;
+
+            $('.detailAccountBookNo').text(ret[0].book_no);
+            $('#detailAccountDate').val(ret[0].date);
+            $('#detailAccountComment').text(ret[0].comment);
+
+            $.each(ret, function (k, v) {
+                if (v.debit_credit == 1) {
+                    ajaxDetailDebit[d] = v;
+                    d++;
+                } else if (v.debit_credit == 2) {
+                    ajaxDetailCredit[c] = v;
+                    c++;
+                }
+                // 貸借が1つずつの場合：valueに値を入れる
+                if (k < 2) {
+                    // 借方
+                    if (v.debit_credit == 1) {
+                        console.log('--- detail show : account debit_0 ---');
+                        element = 'Debit';
+                        detailHtml(element,v);
+                        // 貸方
+                    } else if (v.debit_credit == 2) {
+                        console.log('--- detail show : account credit_0 ---');
+                        element = 'Credit';
+                        detailHtml(element,v);
+                    }
+                    // 貸借のどちらかが複数ある場合：thmlごと追記
+                } else if (k > 1) {
+                    // 借方
+                    if (v.debit_credit == 1) {
+                        console.log(`--- detail show : account debit_${countDebit} ---`);
+                        html = debitHtml(countDebit, v);
+                        countDebit++;
+                        // 貸方
+                    } else if (v.debit_credit == 2) {
+                        console.log(`--- detail show : account credit_${countCredit} ---`);
+                        html = creditHtml(countCredit, v);
+                        countCredit++;
+                    }
+                    $('.detailAccount').append(html);
+                }
+            })
+        }).fail(function () {
+            alert('error...');
+        });
+    });
+
+    // ------------------------
+    // edit detail account
+    // ------------------------
+    $(".btEdit").click(function () {
+        // 変数の宣言
+        var countDebit = $('.detailAccountDebit').length;
+        console.log(countDebit);
+        var countCredit = $('.detailAccountCredit').length;
+        console.log(countCredit);
+        var element = '';
+
+        // ボタンの変更
+        $('.btEdit').prop('disabled', true);
+        $('.btUpdate').prop('disabled', false)
+
+        // disableを解除
+        $("#detailAccountDate").prop('disabled', false)
+        $(".detailAccountDebitPrice input").prop('disabled', false)
+        $(".detailAccountCreditPrice input").prop('disabled', false)
+        $(".detailAccountComment textarea").prop('disabled', false)
+
+        console.log('--- detail account edit ---');
+        // debit
+        $.each(ajaxDetailDebit, function (i, val) {
+            console.log('debit :: ' + i);
+            // category
+            element = `#detailAccountDebitCategory${i}`;
+            // 元の値を削除
+            $(element).children().remove();
+            // 値を取得
+            getCategoryByEdit(element, ajaxDetailDebit[i], 1);
+
+            // kubun
+            element = `#detailAccountDebitKubun${i}`;
+            // 元の値を削除
+            $(element).children().remove();
+            // 値を取得
+            getKubunByEdit(element, ajaxDetailDebit[i], 1);
+
+            // change
+            $(document).on("change", `#detailAccountDebitCategory${i}`, function () {
+                var data = $(this).val();
+                element = `#detailAccountDebitKubun${i}`;
+                $(element).children().remove();
+                getKubunListByChange(element, data);
+            });
+        })
+
+        // credit
+        $.each(ajaxDetailCredit, function (i, val) {
+            console.log('credit :: ' + i);
+            // category
+            element = `#detailAccountCreditCategory${i}`;
+            // 元の値を削除
+            $(element).children().remove();
+            // 値を取得
+            getCategoryByEdit(element, ajaxDetailCredit[i], 2);
+
+            // kubun
+            element = `#detailAccountCreditKubun${i}`;
+            // 元の値を削除
+            $(element).children().remove();
+            // 値を取得
+            getKubunByEdit(element, ajaxDetailCredit[i], 2);
+
+            // change
+            $(document).on("change", `#detailAccountCreditCategory${i}`, function () {
+                var element = `#detailAccountCreditKubun${i}`;
+                var data = $(this).val();
+                $(element).children().remove();
+                getKubunListByChange(element, data);
+            });
+        })
+    });
+
+    // ------------------------
+    // detail nomal
+    // ------------------------
+    $(".itemDetailnomal").click(function () {
+        console.log('--- detail show : nomal ---');
+        $(".glayLayer").fadeIn();
+        $("#detailNomal").fadeIn();
+
+        $.get("/ajax/category").done(function (data) {
+            $.each(data, function (k, v) {
+                $(`#detailNomalDiv1Category`).append($('<option>').text(v.category_name).attr('value', v.id));
+            })
+        }).fail(function () {
+            console.log('error get detail nomal');
+        });
+
+        $('#detailNomalCategory0').children().remove();
+        $('#detailNomalKubun0').children().remove();
+        $('#detailNomalCategory1').children().remove();
+        $('#detailNomalKubun1').children().remove();
 
         $.ajax({
             headers: {
@@ -93,111 +223,231 @@ $(function () {
                 book_no: $(this).val()
             }
         }).done(function (data) {
-            console.log(data);
-            $('.detailModalBookNo').text(data[0].book_no);
-            $('.detailModalDate').text(data[0].date);
+            $('#detailNomalBookNo').text(data[0].book_no);
+            $('#detailNomalDate').val(data[0].date);
+            $('#detailNomalPrice').val(data[0].price);
+            $('#detailNomalComment').val(data[0].comment);
 
-            for (var i in data) {
-                // 貸借が1つずつの場合：valueに値を入れる
-                if (i < 2) {
-                    if (data[i].debit_credit == 1) {
-                        console.log('index:' + i);
-                        // debit category
-                        $(`#detailModalDebitCategory0`).append($('<option>').text(data[i].category_name).attr('value', data[i].category_id));
-                        // debit kubun
-                        if (!data[i].kubun_id) {
-                            $(`#detailModalDebitKubun0`).append($('<option>').text("小区分なし").attr('value', 'null'));
-                        } else {
-                            $(`#detailModalDebitKubun0`).append($('<option>').text(data[i].kubun_name).attr('value', data[i].kubun_id))
-                        }
-                        // debit price
-                        $(`#detailModalDebitPrice0`).text(data[i].category_name).attr('value', data[i].price);
+            $.each(data, function (k, v) {
+                ajaxNomal = data;
+                // categoryy
+                $(`#detailNomalCategory${k}`).append($('<option>').text(v.category_name).attr('value', v.category_id));
+                // kubun
+                if (!v.kubun_id) {
+                    $(`#detailNomalKubun${k}`).append($('<option>').text("小区分なし").attr('value', 'null'));
+                } else {
+                    $(`#detailNomalKubun${k}`).append($('<option>').text(v.kubun_name).attr('value', v.kubun_id))
+                }
+            })
 
-                    } else if (data[i].debit_credit == 2) {
-                        console.log('index:' + i);
-                        // credit category
-                        $(`#detailModalCreditCategory0`).append($('<option>').text(data[i].category_name).attr('value', data[i].category_id));
-                        // credit kubun
-                        if (!data[i].kubun_id) {
-                            $(`#detailModalCreditKubun0`).append($('<option>').text("小区分なし").attr('value', 'null'));
-                        } else {
-                            $(`#detailModalCreditKubun0`).append($('<option>').text(data[i].kubun_name).attr('value', data[i].kubun_id))
-                        }
-                        // credit price
-                        $(`#detailModalCreditPrice0`).text(data[i].category_name).attr('value', data[i].price);
+        }).fail(function () {
+            alert('error ajax detail nomal');
+        });
+    });
+
+
+    /**
+     * categoryの取得（edit用）
+     * @param {string} element
+     * @param {array} global_var
+     * @param {number} debit_credit
+     */
+    function getCategoryByEdit(element, global_var, debit_credit, error = null) {
+        // --- category ---
+        $.get("/ajax/category").done(function (ret) {
+            // debit
+            $.each(ret, function (k, v) {
+                if (global_var.debit_credit == debit_credit) {
+                    // category
+                    if (v.id == global_var.category_id) {
+                        $(element).append($('<option>').text(v.category_name).attr({ 'value': v.id, 'selected': true }));
+                    } else {
+                        $(element).append($('<option>').text(v.category_name).attr('value', v.id));
                     }
-                    // 貸借のどちらかが複数ある場合：thmlごと追記
-                } else if (i > 1) {
-                    console.log('--- index:' + i + ' ---');
+                }
+                $(element).prop('disabled', false)
+            })
+        }).fail(function () {
+            alert('error!! get category' + error);
+        });
+    }
 
-                    if (data[i].debit_credit == 1) {
-                        let debitCount = 1;
-                        html = `
-                        <tr class="detailModalDebitTr">
+    /**
+     * category_idに属するkubunの取得（edit用）
+     * @param {string} element
+     * @param {array} global_var
+     * @param {number} debit_credit
+     */
+    function getKubunByEdit(element, global_var, debit_credit, error = null) {
+        $.ajax({
+            type: "get",
+            url: `/ajax/kubun_list`,
+            // async: true,
+            data: { category_id: global_var.category_id }
+        }).done(function (ret) {
+            $(element).prop('disabled', false);
+            if (global_var.debit_credit == debit_credit) {
 
-                        <td class="detailModalDebit" id="detailModalDebit{debitCount}">
-                        <div class="detailModalDebitCategory">
-                            <label for="detailModalDebitCategory${debitCount}">大区分：</label>
-                            <select name="category[]" id="detailModalDebitCategory${debitCount}" class="form-control" disabled>
-                            <option name="category[]" id="detailModalDebitCategory${debitCount}">${data[i].category_name}</optiuon>
-                            </select>
-                        </div>
-
-                        <div class="detailModalDebitKubun">
-                            <label for="detailModalDebitKubun${debitCount}">小区分：</label>
-                            <select name="kubun[]" id="detailModalDebitKubun${debitCount}" class="form-control" disabled>
-                            <option name="category[]" id="detailModalDebitCategory${debitCount}">${data[i].kubun_name}</optiuon>
-                            </select>
-                        </div>
-
-                        <div class="detailModalDebitPrice">
-                            <label for="detailModalDebitPrice${debitCount}">金額：</label>
-                            <div class="detailModalDebitPriceInput">
-                                <input type="text" name="price[]" id="detailModalDebitPrice${debitCount}" class="form-control" value="${data[i].price}" required disabled>
-                            </div>
-                        </div>
-                        <td></td>
-                        </tr>`
-                        debitCount++;
-                        ;
-                    } else if (data[i].debit_credit == 2) {
-                        let creditCount = 1;
-                        html = `
-                        <tr class="detailModalCreditTr">
-                        <td></td>
-                        <td class="detailModalCredit" id="detailModalCredit${creditCount}">
-                        <div class="detailModalCreditCategory">
-                            <label for="detailModalCreditCategory${creditCount}">大区分：</label>
-                            <select name="category[]" id="detailModalCreditCategory${creditCount}" class="form-control" disabled>
-                            <option name="category[]" id="detailModalCreditCategory${creditCount}">${data[i].category_name}</optiuon>
-                            </select>
-                        </div>
-
-                        <div class="detailModalCreditKubun">
-                            <label for="detailModalCreditKubun${creditCount}">小区分：</label>
-                            <select name="kubun[]" id="detailModalCreditKubun${creditCount}" class="form-control" disabled>
-                            <option name="category[]" id="detailModalCreditCategory${creditCount}">${data[i].kubun_name}</optiuon>
-                            </select>
-                        </div>
-
-                        <div class="detailModalCreditPrice">
-                            <label for="detailModalCreditPrice${creditCount}">金額：</label>
-                            <div class="detailModalCreditPriceinput">
-                                <input type="text" name="price[]" id="detailModalCreditPriceinput${creditCount}" class="form-control" value="${data[i].price}" required disabled>
-                            </div>
-                        </div>
-                        </tr>`
-                        creditCount++;
-                        ;
-                    }
-
-                    $('.detailModal').append(html);
+                if (global_var.category_id == 1) {
+                    $(element).append($('<option>').text("小区分なし").attr('value', ''));
+                } else {
+                    $.each(ret, function (k, v) {
+                        var selected = false;
+                        if (v.id == global_var.kubun_id) {
+                            selected = true;
+                        }
+                        $(element).append($(`<option>`).text(v.kubun_name).attr({ 'value': v.id, 'selected': selected }))
+                    })
                 }
             }
         }).fail(function () {
-            alert('error...');
+            alert('error!! get kubun' + error);
         });
-    });
-});
+    }
 
+    /**
+     * category_idに属するkubunの取得（change用）
+     * @param {string} element
+     * @param {number} data
+     */
+    function getKubunListByChange(element, data, error = null) {
+        $.ajax({
+            type: "get",
+            url: "/ajax/kubun_list",
+            data: { category_id: data }
+        }).done(function (ret) {
+            if (ret.length == 0) {
+                $(element).append($('<option>').text("小区分なし").attr('value', ''));
+            } else {
+                $.each(ret, function (k, v) {
+                    $(element).append($('<option>').text(v.kubun_name).attr('value', v.id));
+                })
+            }
+        }).fail(function () {
+            alert('error!! get kubun' + error);
+        });
+    }
+
+    /**
+     *
+     * @param {*} v
+     */
+    function detailHtml(element, v) {
+        detailId(element, v);
+        detailCategory(element, v);
+        detailKubun(element, v);
+        detailPrice(element, v);
+    }
+
+    function detailId(element, v) {
+       return $(`#detailAccount${element}Id0`).val(v.id);
+    }
+
+    function detailCategory(element, v){
+        return $(`#detailAccount${element}Category0`).append($('<option>').text(v.category_name).attr('value', v.category_id));
+    }
+
+    function detailKubun(element, v){
+        var ret = '';
+        if (!v.kubun_id) {
+           ret = $(`#detailAccount${element}Kubun0`).append($('<option>').text("小区分なし").attr('value', 'null'));
+        } else {
+           ret = $(`#detailAccount${element}Kubun0`).append($('<option>').text(v.kubun_name).attr('value', v.kubun_id))
+        }
+        return ret;
+    }
+
+    function detailPrice(element, v){
+       return $(`#detailAccount${element}Price0`).text(v.category_name).attr('value', v.price);
+    }
+
+    /**
+     * HTMLの生成
+     * @param {Number} countDebit
+     * @param {any} v
+     */
+    function debitHtml(countDebit, v) {
+
+        var ret = `
+        <tr class="detailAccountDebitTr">
+
+        <td class="detailAccountDebit" id="detailAccountDebit${countDebit}">
+
+        <input type="hidden" name="id[]" value="${v.id}" id="detailAccountDebitId${countDebit}">
+
+        <div class="detailAccountDebitCategory">
+            <label for="detailAccountDebitCategory${countDebit}">大区分：</label>
+
+            <select name="category_id[]" id="detailAccountDebitCategory${countDebit}" class="form-control" disabled>
+
+            <option value="${v.category_id}">${v.category_name}</optiuon>
+            </select>
+        </div>
+
+        <div class="detailAccountDebitKubun">
+            <label for="detailAccountDebitKubun${countDebit}">小区分：</label>
+
+            <select name="kubun_id[]" id="detailAccountDebitKubun${countDebit}" class="form-control" disabled>
+
+            <option value="${v.kubun_id}">${v.kubun_name}</optiuon>
+            </select>
+        </div>
+
+        <div class="detailAccountDebitPrice">
+            <label for="detailAccountDebitPrice${countDebit}">金額：</label>
+
+            <div class="detailAccountDebitPriceInput">
+                <input type="text" name="price[]" id="detailAccountDebitPrice${countDebit}" class="form-control" value="${v.price}" required disabled>
+            </div>
+        </div>
+        <td></td>
+        </tr>
+        `;
+        return ret;
+    }
+
+    /**
+     * HTMLの生成
+     * @param {Number} countCredit
+     * @param {any} v
+     */
+    function creditHtml(countCredit, v) {
+        var ret = `
+        <tr class="detailAccountCreditTr">
+            <td></td>
+            <td class="detailAccountCredit" id="detailAccountCredit${countCredit}">
+
+            <input type="hidden" name="id[]" value="${v.id}" id="detailAccountCreditId${countCredit}">
+
+            <div class="detailAccountCreditCategory">
+                <label for="detailAccountCreditCategory${countCredit}">大区分：</label>
+
+                <select name="category_id[]" id="detailAccountCreditCategory${countCredit}" class="form-control" disabled>
+
+                <option value="${v.category_id}">${v.category_name}</optiuon>
+                </select>
+            </div>
+
+            <div class="detailAccountCreditKubun">
+                <label for="detailAccountCreditKubun${countCredit}">小区分：</label>
+
+                <select name="kubun_id[]" id="detailAccountCreditKubun${countCredit}" class="form-control" disabled>
+
+                <option value="${v.kubun_id}">${v.kubun_name}</optiuon>
+                </select>
+            </div>
+
+            <div class="detailAccountCreditPrice">
+                <label for="detailAccountCreditPrice${countCredit}">金額：</label>
+
+                <div class="detailAccountCreditPriceinput">
+                    <input type="text" name="price[]" id="detailAccountCreditPriceinput${countCredit}" class="form-control" value="${v.price}" required disabled>
+                </div>
+            </div>
+        </tr>
+        `;
+        return ret;
+    }
+
+});
 
