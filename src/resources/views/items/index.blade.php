@@ -49,15 +49,15 @@
 
         {{-- 表示内容 --}}
         <tbody>
-            @foreach ($groupByItems as $k => $value)
+            @foreach ($groupByItems as $k => $val)
             <tr>
                 <td class="bookNo" class=" ">
-                    {{ $value->book_no }}
+                    {{ $val->book_no }}
                 </td>
 
                 {{-- 日付 --}}
                 <td class="date" class="align-middle">
-                    {{ date('m月d日', strtotime($value->date)) }}
+                    {{ date('m月d日', strtotime($val->date)) }}
                 </td>
 
                 {{-- 借方 --}}
@@ -67,7 +67,7 @@
                 @endphp
                     @foreach ($items as $item)
                     @if ($item->debit_credit == 1)
-                        @if ($item->book_no == $value->book_no)
+                        @if ($item->book_no == $val->book_no)
                             {{-- categoryの数をチェック --}}
                             @foreach ($countDebit as $cd)
                                 {{-- cateogryが複数ある場合 --}}
@@ -99,7 +99,7 @@
                 @endphp
                     @foreach ($items as $item)
                     @if ($item->debit_credit == 2)
-                        @if ($item->book_no == $value->book_no)
+                        @if ($item->book_no == $val->book_no)
                             {{-- categoryの数をチェック --}}
                             @foreach ($countCredit as $cc)
                                 {{-- cateogryが複数ある場合 --}}
@@ -126,16 +126,16 @@
 
                 {{-- 価格 --}}
                 <td class="price" class="align-middle">
-                    {{ number_format($value->price) }}
+                    {{ number_format($val->price) }}
                 </td>
 
                 {{-- 詳細ボタン --}}
                 <td class="edit" class="align-middle">
-                    <button type="button" name="edit" value="{{$value->book_no}}" class="btn btn-info itemDetailaccount">{{ __('Detail') }}</button>
+                    <button type="button" name="edit" value="{{$val->book_no}}" class="btn btn-info itemDetailaccount">{{ __('Detail') }}</button>
 
                     @php
                         if ($d_flg == 0 && $c_flg == 0) {
-                            echo ' <button type="button" name="edit" value="' . $value->book_no . '" class="btn btn-info itemDetailnomal"> Detail2 </button>';
+                            echo ' <button type="button" name="edit" value="' . $val->book_no . '" class="btn btn-info itemDetailnomal"> Detail2 </button>';
                         }
                     @endphp
                 </td>
