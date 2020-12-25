@@ -1,98 +1,238 @@
 //  checkboxの選択
 $(function () {
-    let status = false;
-    var count = 0;
+    let ajax_flg = false;
+    // ------------------------
+    // admin create
+    // ------------------------
     $('#createSelect1').click(function () {
         // selectboxの表示・非表示
-        $('.selectCategory').hide();
+        $('.createSelectCategory').hide();
         $('.createCategory').show();
         $('#createCategory').prop('disabled', false);
-        $('#selectCategory').prop('disabled', true);
-        $('#kubunName').prop('disabled', true);
-        //accountTypeのselectboxを編集
-        $('#accountType0').show();
-        $('#accountType').prop("selectedIndex", '');
-        // selectCategoryのselectboxを編集と通信の可否判定
-        status = false;
-        $('#selectCategory').children().remove();
+        $('#createSelectCategory').prop('disabled', true);
+        $('#createKubunName').prop('disabled', true);
+        // accountTypeのselectboxを編集
+        $('#option0').show().prop('selected', true);
+        // categoryのリセット
+        $('#createSelectCategory').children().remove();
+        // ajaxの可否判定
+        ajax_flg = false;
     });
 
     $('#createSelect2').click(function () {
         // selectboxの表示・非表示
-        $('.selectCategory').hide();
-        $('.createCategory').show();
-        $('#createCategory').prop('disabled', false);
-        $('#selectCategory').prop('disabled', true);
-        $('#kubunName').prop('disabled', false);
-        //accountTypeのselectboxを編集
-        $('#accountType0').show();
-        $('#accountType').prop("selectedIndex", '');
-        // selectCategoryのselectboxを編集と通信の可否判定
-        status = false;
-        $('#selectCategory').children().remove();
-    });
-
-    $('#createSelect3').click(function () {
-        // selectboxの表示・非表示
         $('.createCategory').hide()
-        $('.selectCategory').show().css('display', 'inline-block');
+        $('.createSelectCategory').show().css('display', 'inline-block');
         $('#createCategory').prop('disabled', true);
-        $('#selectCategory').prop('disabled', false);
-        $('#kubunName').prop('disabled', false);
-        //accountTypeのselectboxを編集
-        $('#accountType0').show();
-        $('#accountType').prop("selectedIndex", '');
-        // selectCategoryのselectboxを編集と通信の可否判定
-        status = true;
-        $('#selectCategory').children().remove();
-        $('#selectCategory').prepend('<option value="" id="selectCategory0" selected>選択してください</option>');
+        $('#createSelectCategory').prop('disabled', false);
+        $('#createKubunName').prop('disabled', false);
+        // accountTypeのselectboxを編集
+        $('#option0').show().prop('selected', true);
+        // categoryのリセット
+        $('#createSelectCategory').children().remove();
+        $('#createSelectCategory').prepend('<option value="" id="createSelectCategory" selected>選択してください</option>');
+        // ajaxの可否判定
+        ajax_flg = true;
     });
 
-    $(document).on('change', `#accountType`, function () {
-        if (status) {
-            console.log('--- ajax ---');
-            data = '';
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "get",
-                url: "/ajax/category_by_account",
-                cache: false, // check
-                data: {
-                    account_type: $(this).val()
-                },
-            }).done(function (data) {
-                console.log(data);
-                $('#selectCategory').children().remove();
-
-                $.each(data, function (k, v) {
-                    $('#selectCategory').append($('<option>').text(v.category_name).attr('value', v.id));
-                })
-
-            }).fail(function () {
-                alert('error!!!');
-            });
+    $(document).on('change', `#createAccountType`, function () {
+        if (ajax_flg) {
+            console.log('--- ajax category ---');
+            var element = '#createSelectCategory';
+            var val = $(this).val();
+            $(element).children().remove();
+            getCategory(element, val);
         }
     });
-});
 
+    // ------------------------
+    // admin edit
+    // ------------------------
+    $(document).on('change', `#editSelect1`, function () {
+        // 見た目とinputのname属性
+        $('.editCategoryName').show()
+        $('#editCategoryName').prop({"required":true, "disabled":false});
+        $('.editKubunName').hide();
+        $('#editKubunName').prop({"required":false, "disabled":true});
 
-// selectの選択
-$(function () {
-    $(document).on('change', `#accountType`, function () {
-        $('#accountType0').hide();
+        // updateとdeleteの編集
+        $('#editAccountUpdate').prop('disabled', false);
+        $('#editAccountDel').hide();
+        // selectboxの編集を許可
+        $('#option0').show().prop('selected', true);
+        $('#option1').show().prop('selected', true);
+        // categoryのリセット
+        $('#editSelectCategory').children().remove();
+        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        // kubunの非表示
+        $('.editSelectKubun').hide();
+        // 削除ボタンの編集
+        $('.btnDel').prop("disabled", true);
     });
 
-    $(document).on('change', `#accountType`, function () {
-        $('#accountType0').hide();
+    $(document).on('change', `#editSelect2`, function () {
+        // 見た目とinputのname属性
+        $('.editCategoryName').hide()
+        $('#editCategoryName').prop({"required":false, "disabled":true});
+        $('.editKubunName').show();
+        $('#editKubunName').prop({"required":true, "disabled":false});
+
+        // updateとdeleteの編集
+        $('#editAccountUpdate').prop('disabled', false);
+        $('#editAccountDel').hide();
+        // selectboxの編集を許可
+        $('#option0').show().prop('selected', true);
+        $('#option1').show().prop('selected', true);
+        $('#option2').show().prop('selected', true);
+        // categoryのリセット
+        $('#editSelectCategory').children().remove();
+        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        // kubunの表示/非表示
+        $('.editSelectKubun').show().css('display', 'inline-block').prop('required', true);
+        $('.editSelectKubun').children().prop('required', true);
+        // kubunのリセット
+        $('#editSelectKubun').children().remove();
+        $('#editSelectKubun').append($('<option>').text('選択してください').attr({ 'id': 'option2', 'value': '' }));
+        // 削除ボタンの編集
+        $('.btnDel').prop("disabled", true);
     });
 
-    $(document).on('change', `#selectCategory`, function () {
-        $('#accountType0').hide();
-        $('#selectCategory0').hide();
-
-        // (kari) mada
-
+    $('#editSelect3').click(function () {
+        // 見た目とinputのname属性
+        $('.editCategoryName').hide()
+        $('#editCategoryName').prop({"required":false, "disabled":true});
+        $('.editKubunName').hide()
+        $('#editKubunName').prop({"required":false, "disabled":true});
+        // updateとdeleteの編集
+        $('#editAccountUpdate').prop('disabled', true);
+        $('#editAccountDel').show();
+        // selectboxの編集を許可
+        $('#option0').show().prop('selected', true);
+        $('#option1').show().prop('selected', true);
+        // categoryのリセット
+        $('#editSelectCategory').children().remove();
+        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        // kubunの非表示
+        $('.editSelectKubun').hide();
+        // 削除ボタンの編集
+        $('.btnDel').prop("disabled", false);
     });
+
+    $('#editSelect4').click(function () {
+        // 見た目とinputのname属性
+        $('.editCategoryName').hide()
+        $('#editCategoryName').prop({"required":false, "disabled":true});
+        $('.editKubunName').hide()
+        $('#editKubunName').prop({"required":false, "disabled":true});;
+        // updateとdeleteの編集
+        $('#editAccountUpdate').prop('disabled', true);
+        $('#editAccountDel').show();
+        // selectboxの編集を許可
+        $('#option0').show().prop('selected', true);
+        $('#option1').show().prop('selected', true);
+        $('#option2').show().prop('selected', true);
+        // categoryのリセット
+        $('#editSelectCategory').children().remove();
+        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        // kubunの表示/非表示
+        $('.editSelectKubun').show().css('display', 'inline-block').prop('required', true);
+        $('.editSelectKubun').children().prop('required', true);
+        // kubunのリセット
+        $('#editSelectKubun').children().remove();
+        $('#editSelectKubun').append($('<option>').text('選択してください').attr({ 'id': 'option2', 'value': '' }));
+        // 削除ボタンの編集
+        $('.btnDel').prop("disabled", false);
+    });
+
+    $('#editAccountType').change(function () {
+        console.log('--- ajax category ---');
+        var element = '#editSelectCategory';
+        var val = $(this).val();
+        $(element).children().remove();
+        $(element).prepend($('<option>').text('選択してください').attr({ 'id': 'option1', 'value': '' }));
+
+        getCategory(element, val);
+    });
+
+    $('#editSelectCategory').change(function () {
+        console.log('--- ajax kubun ---');
+        var element = '#editSelectKubun';
+        var val = $(this).val();
+
+        $(element).children().remove();
+
+        getKubun(element, val);
+    });
+
+    // ------------------------
+    // selectの編集
+    // ------------------------
+    $('#editAccountType').change(function () {
+        $('#option0').hide();
+    });
+
+    $('#editSelectCategory').change(function () {
+        $('#option1').hide();
+        $('#option2').hide();
+    });
+
+
+    // ------------------------
+    // admin method
+    // ------------------------
+
+    /**
+     * categoryの取得
+     * @param {string} element
+     * @param {number} val
+     */
+    function getCategory(element, val, error = null) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "get",
+            url: "/ajax/category_by_account",
+            data: { account_type: val, },
+            dataType: 'json',
+        }).done(function (ret) {
+            console.log(ret);
+            $.each(ret, function (k, v) {
+                $(element).append($('<option>').text(v.category_name).attr('value', v.id));
+            })
+        }).fail(function () {
+            alert('error!! get category' + error);
+        });
+    }
+
+    /**
+     * category_idに属するkubunの取得
+     * @param {string} element
+     * @param {number} val
+     */
+    function getKubun(element, val, error = null) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "get",
+            url: `/ajax/kubun_by_category`,
+            data: { category_id: val, },
+            dataType: 'json',
+        }).done(function (ret) {
+            console.log(ret);
+            if (ret.length == 0) {
+                $(element).append($('<option>').text("小科目なし").attr('value', 0));
+                $(element).prop('required',false);
+            } else {
+                $.each(ret, function (k, v) {
+                    $(element).append($(`<option>`).text(v.kubun_name).attr({ 'value': v.id, }))
+                $(element).prop('required',true);
+
+                })
+            }
+        }).fail(function () {
+            alert('error!! get kubun' + error);
+        });
+    }
 });

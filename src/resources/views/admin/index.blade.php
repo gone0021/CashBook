@@ -11,7 +11,7 @@
     </p>
 
     <p>
-        <a href=" {{ route('admin/show') }} ">
+        <a href=" {{ route('admin/edit') }} ">
             科目の編集・削除
         </a>
     </p>

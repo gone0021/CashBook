@@ -16,14 +16,14 @@ class AdminController extends Controller
 
     public function show(Request $req)
     {
-        return view('/admin/show');
+        // return view('/admin/show');
     }
 
     public function create(Request $req)
     {
         $accountType = $this->accountType();
 
-        dump($accountType);
+        // dump($accountType);
         $param = [
             'accountType' => $accountType,
         ];
@@ -33,16 +33,82 @@ class AdminController extends Controller
 
     public function store(Request $req)
     {
-        //
+        if ($req->mode == 1) {
+            $val = $req->all();
+            unset($val['_token']);
+
+            $dbCategory = new Category();
+            $dbCategory->fill($val)->save();
+        } else {
+            $val = $req->all();
+            unset($val['account_type']);
+            unset($val['_token']);
+
+            $dbKubun = new Kubun();
+            $dbKubun->fill($val)->save();
+        }
+        // return back();
+        return redirect('/admin/create');
     }
 
     public function edit(Request $req)
     {
-        //
+        $accountType = $this->accountType();
+
+        // dump($accountType);
+        $param = [
+            'accountType' => $accountType,
+        ];
+
+        return view('/admin/edit', $param);
     }
 
-    public function update(Request $req, $id)
+    public function update(Request $req)
     {
+        if ($req->mode == 1 || $req->mode == 3) {  // category
+            echo 'category :: ';
+            $id = $req->category_id;
+
+            if ($req->submit == 'Update') {
+                echo 'update';
+                $dbCategory = Category::find($id);
+                $dbCategory->category_name = $req->category_name;
+                $dbCategory->update();
+            } elseif ($req->submit == 'Delete') {
+                echo 'delete';
+                Category::find($id)->delete();
+            }
+        } elseif ($req->mode == 2 || $req->mode == 4) {  // kubun
+            echo 'kubun :: ';
+            $id = $req->kubun_id;
+            $val = $req->all();
+            unset($val['_token']);
+            unset($val['submit']);
+            unset($val['mode']);
+            unset($val['kubun_id']);
+            unset($val['account_type']);
+            if ($req->submit == 'Update') {
+                echo 'update';
+                // dd($val);
+                if ($id == 0) {
+                    $dbKubun = new Kubun();
+                    $dbKubun->fill($val)->save();
+                } else {
+                    Kubun::find($id)->fill($val)->update();
+                }
+            } elseif ($req->submit == 'Delete') {
+                echo 'delete';
+                if ($id == 0) {
+                    return redirect('/admin/edit');
+                } else {
+                    Kubun::find($id)->delete();
+                }
+
+            }
+        }
+        return redirect('/admin/edit');
+
+        dd($val);
         //
     }
 

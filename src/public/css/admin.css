@@ -1,22 +1,56 @@
-/* layout */
+/* ------------------------ */
+/* 共通 */
+/* ------------------------ */
+form input[type="text"] {
+    width: 200px;
+}
 
-.category div {
+/* ------------------------ */
+/* admin edit */
+/* ------------------------ */
+.crateCategory div {
     display: inline-block;
 }
 
-.create form input[type="text"] {
-    width: 200px;
-}
-
-.category select {
+.crateCategory select {
     width: 100px;
 }
 
-
-div.selectCategory {
+div.createSelectCategory {
     display: none;
 }
 
-.selectCategory select {
+.createSelectCategory select {
     width: 200px;
+}
+
+
+/* ------------------------ */
+/* admiin edit */
+/* ------------------------ */
+.editDiv div {
+    display: inline-block;
+}
+
+div .editSelectKubun {
+    display: none;
+}
+
+.editDiv select {
+    width: 100px;
+}
+
+.editSelectCategory select,
+.editSelectKubun select
+{
+    width: 200px;
+}
+
+.editKubunName {
+    display: none;
+}
+
+#editAccountDel {
+    display: none;
+    width: 300px;
 }
