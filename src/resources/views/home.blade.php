@@ -48,12 +48,6 @@
                 家計簿一覧
             </a>
         </div>
-
-        <div class="ml-2">
-            <a href="" class="btn btn-sticky" id="btNewAccounting">
-                月別
-            </a>
-        </div>
     </div>
 
     <div class="">

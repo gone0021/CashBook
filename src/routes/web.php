@@ -34,15 +34,14 @@ Route::middleware('auth')->prefix('home')->name('home')->group(function () {
     Route::get('', 'HomeController@index')->name('');
 });
 
-// 共通ajax
+// ajax
 Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
     Route::get('category', 'AjaxController@getCategory');
     Route::get('category_by_account', 'AjaxController@getCategoryByAccountType');
     Route::get('category_income', 'AjaxController@getCategoryIncome');
     Route::get('category_expense', 'AjaxController@getCategoryExpense');
     Route::get('kubun', 'AjaxController@getKubun');
-    Route::get('kubun_list', 'AjaxController@getKubunByCategoryId');
-    Route::get('kubun_get', 'AjaxController@getKubunByCategoryIdGet');
+    Route::get('kubun_by_category', 'AjaxController@getKubunByCategoryIdGet');
 });
 
 
@@ -50,8 +49,6 @@ Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
 Route::middleware('auth')->prefix('users')->name('users')->group(function () {
     // edit account
     Route::get('account', 'UserController@account')->name('/account'); //
-
-    // Route::resource('', 'UserController');
 
     // show
     Route::get('show', 'UserController@show')->name('/show');
@@ -76,8 +73,9 @@ Route::middleware('auth')->prefix('users')->name('users')->group(function () {
 Route::middleware('auth')->prefix('admin')->name('admin')->group(function () {
     Route::get('index', 'AdminController@index')->name('/index');
     Route::get('create', 'AdminController@create')->name('/create');
-    Route::get('store', 'AdminController@store')->name('/store');
-    Route::get('show', 'AdminController@show')->name('/show');
+    Route::post('store', 'AdminController@store')->name('/store');
+    Route::get('edit', 'AdminController@edit')->name('/edit');
+    Route::post('update', 'AdminController@update')->name('/update');
 });
 
 // calendar

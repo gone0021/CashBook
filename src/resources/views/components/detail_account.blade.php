@@ -117,10 +117,8 @@
 
         <div class="detailAccountBtn col-md-10">
             <button class="btn btn-info btEdit mr-3">{{ __('Edit') }}</button>
-            <input type="submit" name="mode" class="btn btn-info btUpdate mr-3" value="{{ __('Update') }}" disabled>
-            {{-- <button class="btn btn-info btUpdate mr-3">{{ __('Update') }}</button> --}}
-            <input type="submit" name="mode" class="btn btn-outline-danger btDel mr-3" value="{{ __('Delete') }}">
-            {{-- <button class="btn btn-info btDel mr-3">{{ __('Delete') }}</button> --}}
+            <input type="submit" name="submit" class="btn btn-info btnUpdate mr-3" value="{{ __('Update') }}" disabled>
+            <input type="submit" name="submit" class="btn btn-outline-danger btnDel mr-3" value="{{ __('Delete') }}">
         </div>
     </form>
 </div>

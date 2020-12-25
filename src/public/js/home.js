@@ -245,14 +245,15 @@ $(function () {
     function getKubunList(element, data, error = null) {
         $.ajax({
             type: "get",
-            url: "/ajax/kubun_list",
+            url: "/ajax/kubun_by_category",
             data: {
                 category_id: data,
             }
         }).done(function (ret) {
             if (ret.length == 0) {
                 console.log('if');
-                $(element).append($('<option>').text("小区分なし"));
+                // $(element).append($('<option>').text("小区分なし"));
+                $(element).append($('<option>').text("小区分なし").attr('value', 0));
             } else {
                 console.log('else');
                 $.each(ret, function (k, v) {

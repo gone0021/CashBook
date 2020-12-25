@@ -53,8 +53,8 @@ $(function () {
         $(".detailAccountBtn").fadeIn();
 
         // ボタンの変更
-        $('.btEdit').prop('disabled', false);
-        $('.btUpdate').prop('disabled', true);
+        $('.btnEdit').prop('disabled', false);
+        $('.btnUpdate').prop('disabled', true);
 
         $.ajax({
             type: "get",
@@ -120,7 +120,7 @@ $(function () {
     // ------------------------
     // edit detail account
     // ------------------------
-    $(".btEdit").click(function () {
+    $(".btnEdit").click(function () {
         // 変数の宣言
         var countDebit = $('.detailAccountDebit').length;
         console.log(countDebit);
@@ -129,8 +129,8 @@ $(function () {
         var element = '';
 
         // ボタンの変更
-        $('.btEdit').prop('disabled', true);
-        $('.btUpdate').prop('disabled', false)
+        $('.btnEdit').prop('disabled', true);
+        $('.btnUpdate').prop('disabled', false)
 
         // disableを解除
         $("#detailAccountDate").prop('disabled', false)
@@ -234,7 +234,7 @@ $(function () {
                 $(`#detailNomalCategory${k}`).append($('<option>').text(v.category_name).attr('value', v.category_id));
                 // kubun
                 if (!v.kubun_id) {
-                    $(`#detailNomalKubun${k}`).append($('<option>').text("小区分なし").attr('value', 'null'));
+                    $(`#detailNomalKubun${k}`).append($('<option>').text("小区分なし").attr('value', 0));
                 } else {
                     $(`#detailNomalKubun${k}`).append($('<option>').text(v.kubun_name).attr('value', v.kubun_id))
                 }
@@ -281,7 +281,7 @@ $(function () {
     function getKubunByEdit(element, global_var, debit_credit, error = null) {
         $.ajax({
             type: "get",
-            url: `/ajax/kubun_list`,
+            url: `/ajax/kubun_by_category`,
             // async: true,
             data: { category_id: global_var.category_id }
         }).done(function (ret) {
@@ -289,7 +289,7 @@ $(function () {
             if (global_var.debit_credit == debit_credit) {
 
                 if (global_var.category_id == 1) {
-                    $(element).append($('<option>').text("小区分なし").attr('value', ''));
+                    $(element).append($('<option>').text("小区分なし").attr('value', 0));
                 } else {
                     $.each(ret, function (k, v) {
                         var selected = false;
@@ -313,11 +313,11 @@ $(function () {
     function getKubunListByChange(element, data, error = null) {
         $.ajax({
             type: "get",
-            url: "/ajax/kubun_list",
+            url: "/ajax/kubun_by_category",
             data: { category_id: data }
         }).done(function (ret) {
             if (ret.length == 0) {
-                $(element).append($('<option>').text("小区分なし").attr('value', ''));
+                $(element).append($('<option>').text("小区分なし").attr('value', 0));
             } else {
                 $.each(ret, function (k, v) {
                     $(element).append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -350,7 +350,7 @@ $(function () {
     function detailKubun(element, v){
         var ret = '';
         if (!v.kubun_id) {
-           ret = $(`#detailAccount${element}Kubun0`).append($('<option>').text("小区分なし").attr('value', 'null'));
+           ret = $(`#detailAccount${element}Kubun0`).append($('<option>').text("小区分なし").attr('value', 0));
         } else {
            ret = $(`#detailAccount${element}Kubun0`).append($('<option>').text(v.kubun_name).attr('value', v.kubun_id))
         }

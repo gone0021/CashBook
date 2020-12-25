@@ -41,7 +41,6 @@ class ItemController extends Controller
             $v->price = $totalPrice;
         }
 
-
         // 該当するbook_noのdebit_creditを数える
         $countDebit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 1);
         $countCredit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 2);
@@ -96,7 +95,7 @@ class ItemController extends Controller
             $dbItem->date = $req->date;
             $dbItem->category_id = $req->category_id[$k];
 
-            if ($req->kubun_id[$k] == '小区分なし') {
+            if ($req->kubun_id[$k] == 0) {
                 $dbItem->kubun_id = null;
             } else {
                 $dbItem->kubun_id = $req->kubun_id[$k];
@@ -137,7 +136,7 @@ class ItemController extends Controller
 
     public function update(Request $req)
     {
-        if($req->mode == 'Update') {
+        if($req->submit == 'Update') {
             $val = $req->all();
             unset($val['_token']);
 
@@ -149,7 +148,7 @@ class ItemController extends Controller
 
                 $dbItem->date = $val['date'];
                 $dbItem->category_id = $val['category_id'][$k];
-                if ($req->kubun_id == 'null') {
+                if ($req->kubun_id == 0) {
                     $dbItem->kubun_id = null;
                 } else {
                     $dbItem->kubun_id = $val['kubun_id'][$k];
@@ -161,7 +160,7 @@ class ItemController extends Controller
             }
 
             return back();
-        } elseif ($req->mode == 'Delete') {
+        } elseif ($req->submit == 'Delete') {
             foreach($req->id as $v) {
                 Item::find($v)->delete();
             }
