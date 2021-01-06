@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $nextNo = Item::getBookNo() + 1;
+        $nextNo = Item::max('book_no') + 1;
         // dump($nextNo);
         $carbon = new Carbon('now');
         $today = $carbon->format('Y-m-d');

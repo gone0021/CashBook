@@ -50,22 +50,6 @@
         </div>
     </div>
 
-    <div class="">
-        <form action="{{ url('users/new') }}" method="GET" class="mt-1 mb-3">
-            <label for="new" class="">● カテゴリ別</label>
-            <br>
-            <select name="new" id="new" class="mr-3 ml-3">
-                {{-- categoryテーブルをforeachで読み込む --}}
-                <option value="0">支出</option>
-                </option>
-                <option value="1">収入</option>
-            </select>
-
-            <input type="submit" name="" id="" value="new" class="btn btn-info">
-        </form>
-    </p>
-
-
     {{-- @include('name') --}}
     <div class='glayLayer'></div>
     {{-- @include('components.expense_modal') --}}

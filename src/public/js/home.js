@@ -4,8 +4,10 @@ let modal_flag = false;
 let w = $(window).width();
 let h = $(window).height();
 
+let debitSum;
+let creditSum;
 
-// --- 簿記風 ---
+// --- 見た目 ---
 $(function () {
     $("#newAccount").click(function () {
         $(".glayLayer").fadeIn();
@@ -17,6 +19,14 @@ $(function () {
     /**
      * 簿記風の家計簿
      */
+    // --- 貸借の金額チェック ---
+    $('#inputAccountNew').click(function(){
+        if (debitSum != creditSum) {
+            alert('貸借が一致しません');
+            return false;
+        }
+    })
+
     // --- 借方 ---
     $(document).on("change", '#inputAccountDebitCategory0', function () {
         $('#selectFormatDebit0').remove();
@@ -27,8 +37,22 @@ $(function () {
         getKubunList(element, data);
     });
 
-    // 追加
+    // カウントの変数
     let countDebit = 1;
+
+    // 金額の取得
+    $(document).on("change", '.inputAccountDebitPriceInput', function () {
+        debitSum = 0;
+        for(var i=0; i<countDebit; i++){
+            debitSum += parseInt($(`#inputAccountDebitPrice${i}`).val());
+        }
+        console.log(debitSum);
+        if (debitSum > 0) {
+            $(`#inputDebitTotalPrice`).text(debitSum);
+        }
+    })
+
+    // 入力の追加・削除
     $(document).on("click", ".addDebit", function () {
         console.log('countDebit:' + countDebit);
         let inputAccountDebit = `
@@ -62,7 +86,6 @@ $(function () {
                 var element = `#inputAccountDebitCategory${i}`;
                 getCategoryAll(element);
             }
-
             // kubun
             (function (i) {
                 $(document).on("change", `#inputAccountDebitCategory${i}`, function () {
@@ -88,11 +111,6 @@ $(function () {
         $(`#addDebitTr${countDebit}`).remove();
     });
 
-    // デバッグ
-    $('.accountTitle').click(function () {
-        console.log('--- countDebit:' + countDebit + ' ---');
-    });
-
     // --- 貸方 ---
     $(document).on("change", '#inputAccountCreditCategory0', function () {
         $('#selectFormatCredit0').remove();
@@ -103,8 +121,23 @@ $(function () {
         getKubunList(element, data);
     });
 
-    // 追加
+    // カウントの変数
     let countCredit = 1;
+
+    // 金額の取得
+    $(document).on("change", '.inputAccountCreditPriceinput', function () {
+        creditSum = 0;
+        for(var i=0; i<countCredit; i++){
+            creditSum += parseInt($(`#inputAccountCreditPrice${i}`).val());
+        }
+        console.log(creditSum);
+        if (creditSum > 0) {
+            $(`#inputCreditTotalPrice`).text(creditSum);
+        }
+
+    })
+
+    // 入力の追加・削除
     $(document).on("click", ".addCredit", function () {
         console.log('countCredit' + countCredit);
         let inputAccountCredit = `

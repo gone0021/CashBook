@@ -1,4 +1,8 @@
 /* layout */
+.top {
+    display: inline-block;
+}
+
 form.yearMonth {
     display: inline-block;
 }
