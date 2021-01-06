@@ -1,48 +1,49 @@
 @extends('layouts.cardapp')
 @section('card')
 
-<form action="{{ url('calendar') }}" method="GET" class="float-left">
-    <div class="card-header">{{__('Calendar')}}
-        <input type="hidden" name="ym" value="{{$dispMonth}}">
+    <div class="card-header">
+        <form action="{{ url('calendar') }}" method="get" class="float-left ml-3 yearMonth">
+            <div class="top">
+                {{-- 年月の選択 --}}
+                <select name="year" id="year" class="form-control">
+                    @for ($i=2010; $i<=$thisYear; $i++)
+                        @if ($getYear==$i)
+                            <option value="{{ $getYear }}" selected>
+                        {{ $getYear }}</option>
+                        @else
+                        <option value="{{ $i }}">{{ $i }}</option>
+                        @endif
+                    @endfor
+                </select>
+                <span>年</span>
 
-        <span class="ml-5">グループ：</span>
-        <select name="group_id" class="">
-            <option value="0">個人</option>
+                <select name="month" id="month" class="form-control">
+                    @for ($i=1; $i<=12; $i++)
+                        @if ($getMonth==$i)
+                            <option value="{{ $getMonth }}" selected>{{ $getMonth }}</option>
+                        @else
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endif
+                    @endfor
+                </select>
+                <span class="mr-3">月</span>
+                <input type="submit" name="" id="" value="表示" class="btn btn-light mr-5">
 
-            {{-- @foreach ($groups as $v)
-            <option value="{{$v->id}}" @if ($group_id==$v->id) selected @endif>
-                {{ $v->group_name }}
-            </option>
-            @endforeach --}}
-        </select>
-
-        <span class="ml-4">投稿種別：</span>
-        <select name="item_type">
-            {{-- @for ($i = 0; $i < count($lists); $i++) <option value="{{ $i }}" @if ($item_type==$i) selected @endif>
-                {{ $lists[$i] }}
-                </option>
-            @endfor --}}
-        </select>
-
-        <input type="submit" value="表示" class="btn btn-light ml-3">
+                {{-- 支出計 --}}
+                <span class="totalPrice font-weight-bold mr-5">支出：{{ number_format($expense_sum) }}</span>
+                <span class="totalPrice font-weight-bold">支入：{{ number_format($income_sum) }}</span>
+            </div>
+        </form>
     </div>
-</form>
 
 <div class="card-body">
-    <div class="flex-center position-ref">
-        <div class="cld-content">
-            <form action="{{ url('calendar') }}" method="get" class="float-left ml-3 mb-3">
-                <input type="month" name="ym" value="{{ $dispMonth }}" class="mr-2 ">
-                <input type="submit" value="表示" class=" btn btn-light">
-            </form>
-
-            <div class="cld">
-                <a href="?ym={{ $prev }}&group_id={{ $group_id }}&item_type={{ $item_type }}" class="cld mr-2 arrow">&lt;</a>
-                <span class="cld mr-2 title">{{ $month }}</span>
-                <a href="?ym={{ $next }}&group_id={{ $group_id }}&item_type={{ $item_type }}" class="cld mr-4 arrow">&gt;</a>
-
-                <a href="?ym={{ $thisMonth }}&group_id={{ $group_id }}&item_type={{ $item_type }}"
-                    class="cld this-month"> &nbsp; 今月 </a>
+    <div class="flexCenter positionRef">
+        <div class="cldContent">
+            <div class="cld mb-2">
+                <a href="?year={{ $prevYear }}&month={{ $prevMonth }}" class="cld mr-2 arrow">&lt;</a>
+                <span class="cld mr-2 title">{{ $displayYm }}</span>
+                <a href="?year={{ $nextYear }}&month={{ $nextMonth }}" class="cld mr-4 arrow">&gt;</a>
+                <a href="{{ route('calendar/index') }}" class="cld thisMonth"> &nbsp; 今月 </a>
             </div>
 
             <table class="table table-bordered">
@@ -52,19 +53,18 @@
                     @endforeach
                 </tr>
 
-                {{-- @foreach ($weeks as $week)
-                {!! $week !!}
-                @endforeach --}}
+                @foreach ($weeks as $week)
+                    {!! $week !!}
+                    @endforeach
             </table>
-
         </div>
     </div>
-
-    <div class="col-md-10">
-        <a href="{{ route('home') }}" class="btn btn-light mr-3">
-            {{ __('Return') }}
-        </a>
-    </div>
-
 </div>
+
+<div class="col-md-10">
+    <a href="{{ route('home') }}" class="btn btn-light mb-3">
+        {{ __('Return') }}
+    </a>
+</div>
+
 @endsection
