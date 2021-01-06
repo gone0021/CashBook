@@ -11,7 +11,7 @@
         <div class="inputExpenseAsset">
             <input type="hidden" name="debit_credit[]" id="" value="2">
             <div class="inputExpenseAssetCategory">
-                <label for="inputExpenseAssetCategory">支払：</label>
+                <label for="inputExpenseAssetCategory">支出：</label>
                 <select name="category_id[]" id="inputExpenseAssetCategory" class="form-control">
                     <option value="" class="selectFormatExpenseAccet" required>選択してください</option>
                     @foreach ($categoryAccet as $k)

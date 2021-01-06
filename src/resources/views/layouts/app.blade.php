@@ -78,7 +78,10 @@
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item active mr-1">
-                            {{-- <a class="nav-link" href="{{ url('calendar') }}">カレンダー</a> --}}
+                            <a class="nav-link" href="{{ route('calendar/index') }}">カレンダー</a>
+                        </li>
+                        <li class="nav-item active mr-1">
+                            <a class="nav-link" href="{{ route('items/index') }}">家計簿</a>
                         </li>
                         <li class="nav-item dropdown mr-3">
                             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"

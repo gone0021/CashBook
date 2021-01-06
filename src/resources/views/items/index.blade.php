@@ -1,38 +1,60 @@
 @extends('layouts.cardapp')
 @section('card')
 <div class="card-header">
-    {{ __(' Cash Book')}}
+    <span class="mr-5">{{ __(' Cash Book')}}</span>
+    <span class="totalPrice font-weight-bold">支出合計：{{ number_format($totalPrice) }}</span>
+
 </div>
 
 <div class="card-body">
-    {{-- 年月の選択 --}}
-    <form action="{{ route('items/index') }}" method="get" class="yearMonth mb-3 mr-4">
-        <select name="year" id="year" class="form-control">
-            @for ($i=2000; $i<=$thisYear; $i++)
-                @if ($getYear == $i)
-                    <option value=" {{ $getYear }}" selected> {{ $getYear }}</option>
-                @else
-                    <option value=" {{ $i }}"> {{ $i }}</option>
-                @endif
-            @endfor
-        </select>
-        <span>年</span>
+    <div class="top">
+        @if (isset($_GET['calendar']))
+        {{-- カレンダーリンクから --}}
+        <p class="calendarLink font-weight-bold ml-3">
+            @if(isset($_GET['year']))
+                {{ $_GET['year'] }}
+            @endif
+            <span>年</span>
+            @if(isset($_GET['month']))
+            {{ $_GET['month'] }}
+            @endif
+            <span>月</span>
+            @if(isset($_GET['day']))
+            {{ $_GET['day'] }}
+            @endif
+            <span class="mr-5">日</span>
+        </p>
+        @else
+        {{-- 家計簿リンクから --}}
+        <form action="{{ route('items/index') }}" method="get" class="yearMonth mb-3 mr-4">
+            <select name="year" id="year" class="form-control">
+                @for ($i=2010; $i<=$thisYear; $i++)
+                    @if ($getYear == $i)
+                        <option value="{{ $getYear }}" selected>{{ $getYear }}</option>
+                    @else
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endif
+                @endfor
+            </select>
+            <span>年</span>
 
-        <select name="month" id="month" class="form-control">
-            @for ($i=1; $i<=12; $i++)
-                @if ($getMonth == $i)
-                <option value=" {{ $getMonth }}" selected> {{ $getMonth }}</option>
-                @else
-                <option value=" {{ $i }}"> {{ $i }}</option>
-                @endif
-            @endfor
-        </select>
-        <span>月</span>
-        <input type="submit" name="" id="" value="表示" class="btn btn-light">
-    </form>
+            <select name="month" id="month" class="form-control">
+                @for ($i=1; $i<=12; $i++)
+                    @if ($getMonth == $i)
+                    <option value="{{ $getMonth }}" selected>{{ $getMonth }}</option>
+                    @else
+                    <option value="{{ $i }}">{{ $i }}</option>
+                    @endif
+                @endfor
+            </select>
+            <span class="mr-3">月</span>
+            <input type="submit" name="" id="" value="表示" class="btn btn-light mr-3">
+        </form>
+        @endif
+    </div>
 
-    {{-- 支出計 --}}
-    <span class="totalPrice font-weight-bold">支出合計：{{ number_format($cashTotal) }}</span>
+    <span class="totalPrice font-weight-bold mr-5">支出：{{ number_format($expense_sum) }}</span>
+    <span class="totalPrice font-weight-bold">支入：{{ number_format($income_sum) }}</span>
 
     <table class="table" id="tb-item">
         {{-- 表示タイトル --}}
@@ -131,11 +153,11 @@
 
                 {{-- 詳細ボタン --}}
                 <td class="edit" class="align-middle">
-                    <button type="button" name="edit" value="{{$val->book_no}}" class="btn btn-info itemDetailaccount">{{ __('Detail') }}</button>
+                    <button type="button" name="edit" value="{{$val->book_no}}" class="btn btn-info itemDetailAccount">{{ __('Detail') }}</button>
 
                     @php
                         if ($d_flg == 0 && $c_flg == 0) {
-                            echo ' <button type="button" name="edit" value="' . $val->book_no . '" class="btn btn-info itemDetailnomal"> Detail2 </button>';
+                            echo ' <button type="button" name="edit" value="' . $val->book_no . '" class="btn btn-info itemDetailNomal"> Detail2 </button>';
                         }
                     @endphp
                 </td>
@@ -144,16 +166,28 @@
         </tbody>
     </table>
 
-    <div>
-        {{ $groupByItems->appends(['year'=>$getYear, 'month'=>$getMonth])->links() }}
-    </div>
+    @if (isset($_GET['calendar']))
+        <div>
+            {{ $groupByItems->appends(['year'=>$getYear, 'month'=>$getMonth, 'day'=>$_GET['day'], 'calendar'=>1 ])->links() }}
+        </div>
+    @else
+        <div>
+            {{ $groupByItems->appends(['year'=>$getYear, 'month'=>$getMonth])->links() }}
+        </div>
+    @endif
 
+    @if (isset($_GET['calendar']))
+        <div class="col-md-10">
+            <button id="" onClick="history.back()" class="btn btn-light">{{ __('Return')}}</button>
+      </div>
+
+    @else
     <div class="col-md-10">
         <a href="{{ route('home') }}" class="btn btn-light mr-3">
             {{ __('Return') }}
         </a>
     </div>
-
+    @endif
 </div>
 
 <div class='glayLayer'></div>

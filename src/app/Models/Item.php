@@ -46,24 +46,66 @@ class Item extends Model
     }
 
     /**
-     * ユーザーidと対象月のレコードを取得
+     * レコードの取得：sql
+     * @param array $val：検索値の配列
      */
-    public static function getItem($user_id, $date)
+    public static function getItem($val)
     {
-        return Item::where('user_id', $user_id)->where('date', 'like', "$date%");
+        $sql = Item::where('user_id', Auth::id());
+
+        if (isset($val['day'])) {
+            $date = $val['date'] . '-' . $val['day'];
+            $sql = $sql->where('date', $date);
+        } elseif (isset($val['date'])) {
+            $date = $val['date'];
+            $sql = $sql->where('date', 'LIKE', "$date%");
+        }
+
+        if (isset($val['debit_credit'])) {
+            $sql = $sql->where('debit_credit', $val['debit_credit']);
+        }
+
+        if (isset($val['book_no'])) {
+            $sql = $sql->where('debit_credit', $val['book_no']);
+        }
+
+        return $sql;
     }
 
+    /**
+     * レコードの取得：sql
+     * getItemをsql文で記述したもの
+     * @param array $val：検索値の配列
+     */
+    public static function getItemSql($val)
+    {
+        $user_id = Auth::id();
+        $sql = "SELECT * FROM items WHERE user_id = $user_id AND deleted_at is null";
+
+        $sql = Item::where('user_id', Auth::id());
+        if (isset(val['day'])) {
+            $val = val['date'] . '-' . val['day'];
+            $sql .= " AND date = val ";
+        } elseif (isset(val['date'])) {
+            $val = val['date'];
+            $sql .= " AND date LIKE val% ";
+        }
+
+        if (isset($val['debit_credit'])) {
+            $sql .= ' AND debit_credit ='.  $val['debit_credit'];
+        }
+        return $sql;
+    }
 
     /**
      * book_noごとの合計金額を取得
-     * 借方で計算してるけど、どっちでもいい
-     * @param int $user_id
+     * 借方で計算してるけどどっちでもいい
      * @param int $book_no
      * @return int
      */
-    public static function getTotalPriceByBookno($user_id, $book_no)
+    public static function getTotalPriceByBookno($book_no)
     {
-        $items = Item::where('user_id', $user_id)->where('book_no',$book_no)->where('debit_credit',1)->get();
+        $items = Item::where('user_id', Auth::id())->where('book_no', $book_no)->where('debit_credit', 1)->get();
 
         $ret = 0;
         foreach ($items as $v) {
@@ -73,67 +115,60 @@ class Item extends Model
     }
 
     /**
-     * 最後のbook_noを取得
+     * 日付ごとの合計金額を取得
+     * 借方で計算してるけどどっちでもいい
+     * @param int $book_no
      * @return int
      */
-    public static function getBookNo()
+    public static function getTotalPriceBydate($date)
     {
-        return Item::max('book_no');
-    }
+        $items = Item::where('user_id', Auth::id())->where('date', $date)->where('debit_credit', 1)->get();
 
-    /**
-     * 資産科目の取得（貸方）
-     */
-    public static function getCreditCashAsset($user_id, $date)
-    {
-
-        $ret = self::getItem($user_id, $date)
-            ->where(function ($query) {
-                $query->where('category_id', 1)
-                    ->orWhere('category_id', 2)
-                    ->orWhere('category_id', 3);
-            })
-            ->where('debit_credit', 2);
-
-        return $ret;
-    }
-
-    /**
-     * 資産科目の取得（借方）
-     */
-    public static function getDevitCashAsset($user_id, $date)
-    {
-        $ret = self::getItem($user_id, $date)
-            ->where(function ($query) {
-                $query->where('category_id', 1)
-                    ->orWhere('category_id', 2)
-                    ->orWhere('category_id', 3);
-            })
-            ->where('debit_credit', 1);
-
-        return $ret;
-    }
-
-
-    /**
-     * 該当user_idのフィールド数を取得
-     * @return array
-     */
-    public static function countDebitCreditByBookNo($user_id, $date, $debit_credit)
-    {
-        $ret = array();
-        $val = self::getItem($user_id, $date)->get();
-
-        $flg = 0;
-        foreach ($val as $v) {
-            $no = (int)$v->book_no;
-
-            $count = $v->where('book_no', $no)->where('debit_credit', $debit_credit)->count();
-            if ($count > 2 && $flg != $no) {
-                $ret[] = $v->book_no;
-                $flg = $no;
-                return $ret;
-            }
+        $ret = 0;
+        foreach ($items as $v) {
+            $ret += $v->price;
         }
+        return $ret;
+    }
+
+    /**
+     * 収益科目の取得
+     * @param array $val：検索値
+     *
+     */
+    public static function getIncome($val)
+    {
+        $category = Category::where('account_type', 2);
+        $category = $category->get();
+
+        foreach ($category as $v) {
+            $id[] = $v->id;
+        }
+        // $ids = implode(',',$id);
+
+        $ret = self::getItem($val)->whereIn('category_id', $id);
+
+        return $ret;
+    }
+
+    /**
+     * 費用科目の取得
+     * @param array $val：検索値
+     *
+     * @return
+     */
+    public static function getExpense($val)
+    {
+        $category = Category::where('account_type', 1);
+        $category = $category->get();
+
+        foreach ($category as $v) {
+            $id[] = $v->id;
+        }
+        // $ids = implode(',',$id);
+
+        $ret = self::getItem($val)->whereIn('category_id', $id);
+
+        return $ret;
     }
 }

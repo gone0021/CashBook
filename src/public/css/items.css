@@ -1,4 +1,14 @@
 /* ------------------------ */
+/*  共通 */
+/* ------------------------ */
+.calendarLink {
+    display: inline-block;
+    font-size: 18px;
+}
+
+/* 年月select、支出、収入の部分はlaypout.cssで共通にしている */
+
+/* ------------------------ */
 /*  layer */
 /* ------------------------ */
 .glayLayer {
@@ -21,10 +31,10 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -240px;
+    margin-top: -250px;
     margin-left: -300px;
     background-color: #e6ecf0;
-    height: 480px;
+    height: 500px;
     width: 600px;
     padding: 40px 0px;
     border-radius: 10px;
@@ -33,6 +43,10 @@
 
 #detailNomal select {
     width: 180px;
+}
+
+select#selectNomalDc {
+    width: 80px;
 }
 
 div.detailNomalDiv0,
@@ -93,7 +107,7 @@ div.detailNomalinputPrice {
 }
 
 /* コメント＋submitボタン 外枠 */
-div.detailNomalLast {
+div.detailNomalComment {
     display: inline-block;
     text-align: center;
 }

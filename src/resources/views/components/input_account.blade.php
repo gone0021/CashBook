@@ -24,17 +24,13 @@
 
             <tbody>
                 <tr class="totalPrice">
-                    <td class="debitTotalPrice" id="">
-                        <label for="debitTotalPrice">借方合計：</label>
-                        <div class="debitTotalPriceInput" id="">
-                            <input type="text" name="" id="debitTotalPrice" class="form-control" value="" disabled>
-                        </div>
+                    <td class="inputDebitTotalPrice" id="">
+                        <span>借方合計：</span>
+                        <span id="inputDebitTotalPrice"></span>
                     </td>
-                    <td class="creditTotalPrice" id="">
-                        <label for="creditTotalPrice" class="">貸方合計：</label>
-                        <div class="creditTotalPriceInput" id="">
-                            <input type="text" name="" id="creditTotalPrice" class="form-control" value="" disabled>
-                        </div>
+                    <td class="inputCreditTotalPrice" id="">
+                        <span>借方合計：</span>
+                        <span id="inputCreditTotalPrice"></span>
                     </td>
                 </tr>
 
@@ -116,7 +112,7 @@
 
         </table>
         <div class="inputAccountSubmit" id="">
-            <input type="submit" name="inputAccount" id="" value="new" class="btn btn-info">
+            <input type="submit" name="inputAccount" id="inputAccountNew" value="new" class="btn btn-info">
         </div>
     </form>
 </div>
