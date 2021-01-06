@@ -5,10 +5,7 @@ namespace App\Util;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
-use App\Models\Category;
-use App\Models\Kubun;
 
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -16,96 +13,92 @@ use Illuminate\Support\Facades\DB;
 class ItemUtil
 {
     /**
-     * valの合計を返す
+     * itemsの合計金額を返す
      *
      * @return int
      */
-    public static function getSum($val)
+    public static function calcSum($items)
     {
         $ret = 0;
-        foreach ($val as $k) {
+        foreach ($items as $k) {
             $ret += $k->price;
         }
         return $ret;
     }
 
     /**
-     * 引数の値の有無を確認して年月を取得
+     * 収益の合計を返す
+     * 貸借の検索値は不要
      *
-     * @return string
+     * @return int
      */
-    public static function getYearMonth($year, $month)
+    public static function calcSumIncme($val)
     {
-        $getMonth = sprintf('%02d', $month);
-
-        if ($year && $month) {
-            $ret = Carbon::now()->format("$year-$getMonth");
-        } elseif ($year) {
-            $ret = Carbon::now()->format("$year-m");
-        } elseif ($month) {
-            $ret = Carbon::now()->format("Y-$getMonth");
-        } else {
-            $ret = Carbon::now()->format("Y-m");
+        // 借方
+        $val['debit_credit'] = 1;
+        $debit = Item::getIncome($val)->get();
+        $debit_sum = 0;
+        foreach ($debit as $v) {
+            $debit_sum += $v->price;
         }
+
+        // 貸方
+        $val['debit_credit'] = 2;
+        $credit = Item::getIncome($val)->get();
+        $credit_sum = 0;
+        foreach ($credit as $v) {
+            $credit_sum += $v->price;
+        }
+
+        $ret = $credit_sum - $debit_sum;
         return $ret;
     }
 
     /**
-     * 引数の値の有無を確認して'Y'を返す
+     * 費用の合計を返す
+     * 貸借の検索値は不要
      *
-     * @return string
+     * @return int
      */
-    public static function getThisYear($year)
+    public static function calcSumExpence($val)
     {
-        if ($year != 0) {
-            $ret = $year;
-        } else {
-            $ret = Carbon::now()->format('Y');
+        // 借方
+        $val['debit_credit'] = 1;
+        $debit = Item::getExpense($val)->get();
+        $debit_sum = 0;
+        foreach ($debit as $v) {
+            $debit_sum += $v->price;
         }
+
+        // 貸方
+        $val['debit_credit'] = 2;
+        $credit = Item::getExpense($val)->get();
+        $credit_sum = 0;
+        foreach ($credit as $v) {
+            $credit_sum += $v->price;
+        }
+
+        $ret = $credit_sum - $debit_sum;
         return $ret;
     }
 
     /**
-     * 引数の値の有無を確認して'm'を返す
-     *
-     * @return string
-     */
-    public static function getThisMonth($month)
-    {
-        if ($month != 0) {
-            $ret = $month;
-        } else {
-            $ret = Carbon::now()->format('m');
-        }
-        return $ret;
-    }
-
-
-    /**
-     * user_idのフィールド数を取得
-     *
-     * @return string
-     */
-    public function getCountByUserId()
-    {
-        //
-    }
-
-    /**
-     * book_noのdecit_credit数をカウント
+     * book_noが複数ある場合に値を取得：decit_creditで確認している
+     * @param array $val：検索値
+     * @param int $debit_credit：1->借方、２->貸方
      *
      * @return array
      */
-    public static function countDebitCreditByBookNo($user_id, $date, $debit_credit)
+    public static function countDebitCreditByBookNo($val)
     {
-        $val = Item::getItem($user_id, $date)->get();
+        $imtes = Item::getItem($val)->get();
         $flg = 0;
         $ret = array();
 
-        foreach ($val as $v) {
-            $num = (int)$v->book_no;
+        foreach ($imtes as $v) {
+            $num = $v->book_no;
 
-            $count = $v->where('book_no', $num)->where('debit_credit', $debit_credit)->count();
+            $count = $v->where('book_no', $num)->where('debit_credit', $val['debit_credit'])->count();
             if ($count > 1 && $flg !== $num) {
                 $ret[] = $num;
                 $flg = $num;

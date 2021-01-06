@@ -5,65 +5,79 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Facades\Calendar;
 use App\Models\Item;
 use Carbon\Carbon;
 use App\Util\ItemUtil;
 
 class ItemController extends Controller
 {
+    public function __construct(ItemUtil $Util)
+    {
+        $this->Util = $Util;
+    }
+
     public function index(Request $req)
     {
-        $user_id = Auth::id();
-
+        // ------------------------
         // インスタンス
+        // ------------------------
         $carbon = new Carbon('now');
-        $itemUtil = new ItemUtil;
 
-        // 変数の設定
-        $getYear = sprintf('%04d', $req->year);
-        $getMonth = sprintf('%02d', $req->month);
-        $thisYear = $carbon->format('Y');
-
-        // getの有無で年と月を設定（表示用）
-        $getYear = ItemUtil::getThisYear($req->year);
-        $getMonth = ItemUtil::getThisMonth($req->month);
-
-        // getの有無で年月を設定（計算用）
-        $yearMmonth = ItemUtil::getyearMonth($req->year, $req->month);
-        $getItem = Item::getItem($user_id, $yearMmonth);
+        // ------------------------
+        // 貸借共通
+        // ------------------------
+        // 日付
+        $val['date'] = Calendar::getYm();
+        if (isset($_GET['day'])) {
+            $day = sprintf('%02d', $_GET['day']);
+            $val['day'] = $day;
+        }
+        // itemsテーブルの取得
+        $getItem = Item::getItem($val);
         $items = $getItem->get();
 
-        // 表示用：book_noの個数で表示するため数のカウントに使用
-        $groupByItems= $getItem->groupBy('book_no')->paginate(7);
-
-        foreach ($groupByItems as $k=>$v){
-            $totalPrice = Item::getTotalPriceByBookno($user_id, $v->book_no);
-            $v->price = $totalPrice;
+        // 表示用：book_noの個数で表示するための個数カウントに使用
+        $groupByItems = $getItem->groupBy('book_no')->paginate(7);
+        // priceの上書き
+        foreach ($groupByItems as $v){
+            $sum = Item::getTotalPriceByBookno($v->book_no);
+            $v->price = $sum;
         }
 
-        // 該当するbook_noのdebit_creditを数える
-        $countDebit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 1);
-        $countCredit = $itemUtil->countDebitCreditByBookNo($user_id, $yearMmonth, 2);
-        // dump($countCredit);
-        // dump($countCredit);
+        // 合計金額の計算
+        $income_sum = ItemUtil::calcSumIncme($val);
+        $expense_sum = ItemUtil::calcSumExpence($val);
+        $totalPrice = $income_sum - $expense_sum;
 
-        // 金額の計算
-        $credits = Item::getCreditCashAsset($user_id, $yearMmonth)->get();
-        $debits = Item::getDevitCashAsset($user_id, $yearMmonth)->get();
+        // ------------------------
+        // 借方
+        // ------------------------
+        $val['debit_credit'] = 1;
+        $countDebit = ItemUtil::countDebitCreditByBookNo($val);
 
-        $creditSum = ItemUtil::getSum($credits);
-        $debitSum = ItemUtil::getSum($debits);
-        $cashTotal = $debitSum + $creditSum;
+        // ------------------------
+        // 貸方
+        // ------------------------
+        $val['debit_credit'] = 2;
+        $countCredit = ItemUtil::countDebitCreditByBookNo($val);
+        // ------------------------
+        // その他
+        // ------------------------
+
 
         $param = [
-            'cashTotal' => $cashTotal,
             'countDebit' => $countDebit,
             'countCredit' => $countCredit,
             'groupByItems' => $groupByItems,
-            'getMonth' => $getMonth,
-            'getYear' => $getYear,
+            'getMonth' => Calendar::getMonth(),
+            'getYear' => Calendar::getYear(),
+            'thisYear' => $carbon->format('Y'),
             'items' => $items,
-            'thisYear' => $thisYear,
+            'expense_sum' => $expense_sum,
+            'income_sum' => $income_sum,
+            'totalPrice' => $income_sum + $expense_sum,
         ];
         return view('/items/index', $param);
     }
@@ -81,7 +95,7 @@ class ItemController extends Controller
         unset($val['_token']);
 
         unset($req['_token']);
-        $nextNo = Item::getBookNo() + 1;
+        $nextNo = Item::max('book_no') + 1;
 
         // dump($req->request);
         // dd($val);
@@ -118,12 +132,11 @@ class ItemController extends Controller
     {
         $user_id = Auth::id();
 
-        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price','items.comment'];
+        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price','items.comment','c.account_type',];
 
         $items = Item::select($select)->join('category as c','items.category_id','c.id')->leftjoin('kubun as k','items.kubun_id','k.id')->where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
 
         return $items;
-
     }
 
     public function edit(Request $req)
@@ -140,15 +153,16 @@ class ItemController extends Controller
             $val = $req->all();
             unset($val['_token']);
 
-            dump($val);
+            // dump($val);
 
             foreach($req->id as $k=>$v) {
                 // $dbItem = new Item();
                 $dbItem = Item::find($v);
 
                 $dbItem->date = $val['date'];
+                $dbItem->debit_credit = $val['debit_credit'][$k];
                 $dbItem->category_id = $val['category_id'][$k];
-                if ($req->kubun_id == 0) {
+                if ($req->kubun_id[$k]  == 0) {
                     $dbItem->kubun_id = null;
                 } else {
                     $dbItem->kubun_id = $val['kubun_id'][$k];
@@ -158,7 +172,6 @@ class ItemController extends Controller
 
                 $dbItem->update();
             }
-
             return back();
         } elseif ($req->submit == 'Delete') {
             foreach($req->id as $v) {

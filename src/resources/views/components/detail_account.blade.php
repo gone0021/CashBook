@@ -1,7 +1,6 @@
 <div id="detailAccount">
     <form action="{{ route('items/update') }}" method="POST">
         @csrf
-
         <div class="mb-3">
             {{-- <input type="text" name="" id="bookNo" value="" disabled> --}}
             <span>book No.</span>
@@ -30,17 +29,13 @@
             {{-- 表示内容 --}}
             <tbody class="detailAccount">
                 <tr class="totalPrice">
-                    <td class="debitTotalPrice" id="">
-                        <label for="debitTotalPrice">{{ __('Debit Total') }}：</label>
-                        <div class="debitTotalPriceInput" id="">
-                            <input type="text" name="" id="debitTotalPrice" class="form-control" value="" disabled>
-                        </div>
+                    <td class="detailDebitTotalPrice" id="">
+                        <span>借方合計：</span>
+                        <span id="detailDebitTotalPrice"></span>
                     </td>
-                    <td class="creditTotalPrice" id="">
-                        <label for="creditTotalPrice" class="">{{ __('Credit Total') }}：</label>
-                        <div class="creditTotalPriceInput" id="">
-                            <input type="text" name="" id="creditTotalPrice" class="form-control" value="" disabled>
-                        </div>
+                    <td class="detailCreditTotalPrice" id="">
+                        <span>借方合計：</span>
+                        <span id="detailCreditTotalPrice"></span>
                     </td>
                 </tr>
 
@@ -48,6 +43,8 @@
                     {{-- 借方 --}}
                     <td class="detailAccountDebit" id="detailAccountDebit0">
                         <input type="hidden" name="id[]" value="" id="detailAccountDebitId0">
+                        <input type="hidden" name="debit_credit[]" id="detailAccountDebitDc0" value="1">
+
                         <div class="detailAccountDebitCategory">
                             <label for="detailAccountDebitCategory0">大区分：</label>
                             <select name="category_id[]" id="detailAccountDebitCategory0" class="form-control" disabled>
@@ -63,7 +60,7 @@
                         <div class="detailAccountDebitPrice">
                             <label for="detailAccountDebitPrice0">金額：</label>
                             <div class="detailAccountDebitPriceInput">
-                                <input type="text" name="price[]" id="detailAccountDebitPrice0" class="form-control"
+                                <input type="text" name="price[]" id="detailAccountDebitPrice0" class="form-control" value=""
                                     required disabled>
                             </div>
                         </div>
@@ -72,6 +69,8 @@
                     {{-- 貸方 --}}
                     <td class="detailAccountCredit" id="detailAccountCredit0">
                         <input type="hidden" name="id[]" value="" id="detailAccountCreditId0">
+                        <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc0" value="2">
+
                         <div class="detailAccountCreditCategory" id="detailAccountCreditCategory">
                             <label for="detailAccountCreditCategory0">大区分：</label>
                             <select name="category_id[]" id="detailAccountCreditCategory0" class="form-control"
@@ -116,9 +115,9 @@
         </table>
 
         <div class="detailAccountBtn col-md-10">
-            <button class="btn btn-info btEdit mr-3">{{ __('Edit') }}</button>
-            <input type="submit" name="submit" class="btn btn-info btnUpdate mr-3" value="{{ __('Update') }}" disabled>
-            <input type="submit" name="submit" class="btn btn-outline-danger btnDel mr-3" value="{{ __('Delete') }}">
+            <button id="detailAccountEdit" class="btn btn-info btnEdit mr-3">{{ __('Edit') }}</button>
+            <input type="submit" name="submit" id="detailAccountUpdate" class="btn btn-info btnUpdate mr-3" value="{{ __('Update') }}" disabled>
+            <input type="submit" name="submit" id="detailAcountDel" class="btn btn-outline-danger btnDel mr-3" value="{{ __('Delete') }}">
         </div>
     </form>
 </div>
