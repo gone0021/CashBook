@@ -6,7 +6,7 @@
 
 <div class="card-body">
     {{-- <form method="POST" action="{{ route('register') }}"> --}}
-    <form method="POST" action="{{ url('users/update') }}">
+    <form method="POST" action="{{ route('users/update') }}">
         @csrf
 
         {{-- ユーザーネーム --}}
@@ -48,8 +48,8 @@
 
         <div class="form-group row mb-0">
             <div class="col-md-10 offset-md-2">
-                <button type="submit" class="btn btn-light mr-3">
-                    {{ __('Do') }}
+                <button type="submit" class="btn btn-info mr-3">
+                    {{ __('Done') }}
                 </button>
                 <a href="{{ url('users/edit') }}" class="btn btn-light">
                     {{ __('Return') }}

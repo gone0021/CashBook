@@ -53,7 +53,7 @@ class UserController extends Controller
     {
         $param = $req->all();
         unset($param['_token']);
-        return view('/users.check', $param);
+        return view('/users.edit_check', $param);
     }
 
     /**

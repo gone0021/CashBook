@@ -10,7 +10,7 @@
     </p>
     <div class="text-md-center lead">
         <div class="col-md-10">
-            <a href="{{ route('users/fort') }}" class="btn btn-light mr-3">
+            <a href="{{ route('users/fort') }}" class="btn btn-outline-danger mr-3">
                 {{ __('Delete') }}
             </a>
 

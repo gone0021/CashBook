@@ -23,7 +23,7 @@
     </table>
 
     <div class="col-md-10 offset-md-2">
-        <a href="{{ url('users/edit') }}" class="mr-3 btn btn-light">
+        <a href="{{ route('users/edit') }}" class="mr-3 btn btn-info">
             {{ __('Edit') }}
         </a>
         <a href="{{ route('users/account') }}" class="btn btn-light">

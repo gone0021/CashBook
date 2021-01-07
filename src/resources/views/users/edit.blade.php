@@ -48,7 +48,7 @@
             <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('Birthday') }}</label>
 
             <div class="col-md-6">
-                <input id="birthday" type="date" class="form-control @error('email') is-invalid @enderror" name="birthday" value="{{ Auth::user()->birthday }}" required autocomplete="birthday">
+                <input id="birthday" type="date" class="form-control @error('birthday') is-invalid @enderror" name="birthday" value="{{ Auth::user()->birthday }}" required autocomplete="birthday">
 
                 @error('birthday')
                 <span class="invalid-feedback" role="alert">
@@ -59,7 +59,7 @@
         </div>
 
         <div class="col-md-10 offset-md-2">
-            <input type="submit" value="{{ __('Do') }}" class="mr-3 btn btn-light">
+            <input type="submit" value="{{ __('Update') }}" class="mr-3 btn btn-info">
 
             <a href="{{ url('users/show') }}" class="btn btn-light">
                 {{ __('Return') }}
