@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Facades\Calendar;
 use App\Models\Item;
 use Carbon\Carbon;
@@ -49,7 +48,6 @@ class ItemController extends Controller
         // 合計金額の計算
         $income_sum = ItemUtil::calcSumIncme($val);
         $expense_sum = ItemUtil::calcSumExpence($val);
-        $totalPrice = $income_sum - $expense_sum;
 
         // ------------------------
         // 借方
@@ -62,11 +60,10 @@ class ItemController extends Controller
         // ------------------------
         $val['debit_credit'] = 2;
         $countCredit = ItemUtil::countDebitCreditByBookNo($val);
+
         // ------------------------
         // その他
         // ------------------------
-
-
         $param = [
             'countDebit' => $countDebit,
             'countCredit' => $countCredit,
@@ -93,18 +90,13 @@ class ItemController extends Controller
 
         $val = $req->all();
         unset($val['_token']);
-
-        unset($req['_token']);
-        $nextNo = Item::max('book_no') + 1;
-
-        // dump($req->request);
-        // dd($val);
+        $next_no = Item::max('book_no') + 1;
 
         foreach ($req->debit_credit as $k => $v) {
             $dbItem = new Item();
 
             $dbItem->user_id = $user_id;
-            $dbItem->book_no = $nextNo;
+            $dbItem->book_no = $next_no;
             $dbItem->debit_credit = $v;
             $dbItem->date = $req->date;
             $dbItem->category_id = $req->category_id[$k];
@@ -152,8 +144,6 @@ class ItemController extends Controller
         if($req->submit == 'Update') {
             $val = $req->all();
             unset($val['_token']);
-
-            // dump($val);
 
             foreach($req->id as $k=>$v) {
                 // $dbItem = new Item();

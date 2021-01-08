@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
-use App\Models\Kubun;
-use Facade\FlareClient\Http\Exceptions\BadResponse;
 
 class Item extends Model
 {
@@ -33,7 +31,6 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
-        // return $this->hasOne('App\Models\Category');
     }
 
     /**
@@ -92,7 +89,7 @@ class Item extends Model
         }
 
         if (isset($val['debit_credit'])) {
-            $sql .= ' AND debit_credit ='.  $val['debit_credit'];
+            $sql .= ' AND debit_credit =' .  $val['debit_credit'];
         }
         return $sql;
     }

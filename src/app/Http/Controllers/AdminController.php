@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AdminRequest;
 
 use App\Models\Category;
 use App\Models\Kubun;
+// use Dotenv\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -16,16 +19,13 @@ class AdminController extends Controller
 
     public function show(Request $req)
     {
-        // return view('/admin/show');
+        //
     }
 
     public function create(Request $req)
     {
-        $accountType = $this->accountType();
-
-        // dump($accountType);
         $param = [
-            'accountType' => $accountType,
+            'accountType' => $this->accountType(),
         ];
 
         return view('/admin/create', $param);
@@ -33,13 +33,13 @@ class AdminController extends Controller
 
     public function store(Request $req)
     {
-        if ($req->mode == 1) {
+        if ($req->mode == 1) {  // category
             $val = $req->all();
             unset($val['_token']);
 
             $dbCategory = new Category();
             $dbCategory->fill($val)->save();
-        } else {
+        } else {  // kubun
             $val = $req->all();
             unset($val['account_type']);
             unset($val['_token']);
@@ -66,7 +66,6 @@ class AdminController extends Controller
     public function update(Request $req)
     {
         if ($req->mode == 1 || $req->mode == 3) {  // category
-            echo 'category :: ';
             $id = $req->category_id;
 
             if ($req->submit == 'Update') {
@@ -79,7 +78,6 @@ class AdminController extends Controller
                 Category::find($id)->delete();
             }
         } elseif ($req->mode == 2 || $req->mode == 4) {  // kubun
-            echo 'kubun :: ';
             $id = $req->kubun_id;
             $val = $req->all();
             unset($val['_token']);

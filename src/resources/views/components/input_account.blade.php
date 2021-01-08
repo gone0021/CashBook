@@ -40,7 +40,7 @@
                         <input type="hidden" name="debit_credit[]" id="" value="1">
                         <div class="inputAccountDebitCategory">
                             <label for="inputAccountDebitCategory0">大区分：</label>
-                            <select name="category_id[]" id="inputAccountDebitCategory0" class="form-control">
+                            <select name="category_id[]" id="inputAccountDebitCategory0" class="form-control" required>
                                 <option value="" class="selectFormatDebit" id="selectFormatDebit0">選択してください</option>
                                 @foreach ($categoryAll as $k)
                                 <option value="{{$k->id}}">{{$k->category_name}}</option>
@@ -50,7 +50,7 @@
 
                         <div class="inputAccountDebitKubun">
                             <label for="inputAccountDebitKubun0">小区分：</label>
-                            <select name="kubun_id[]" id="inputAccountDebitKubun0" class="form-control">
+                            <select name="kubun_id[]" id="inputAccountDebitKubun0" class="form-control" required>
                             </select>
                         </div>
 
@@ -68,7 +68,7 @@
                         <input type="hidden" name="debit_credit[]" id="" value="2">
                         <div class="inputAccountCreditCategory" id="inputAccountCreditCategory0">
                             <label for="inputAccountCreditCategory0">大区分：</label>
-                            <select name="category_id[]" id="inputAccountCreditCategory0" class="form-control">
+                            <select name="category_id[]" id="inputAccountCreditCategory0" class="form-control" required>
                                 <option value="" class="selectFormatCredit" id="selectFormatCredit0">選択してください</option>
                                 @foreach ($categoryAll as $k)
                                 <option value="{{$k->id}}">{{$k->category_name}}</option>
@@ -78,7 +78,7 @@
 
                         <div class="inputAccountCreditKubun">
                             <label for="inputAccountCreditKubun0">小区分：</label>
-                            <select name="kubun_id[]" id="inputAccountCreditKubun0" class="form-control">
+                            <select name="kubun_id[]" id="inputAccountCreditKubun0" class="form-control" required>
                             </select>
                         </div>
 
@@ -86,7 +86,7 @@
                             <label for="inputAccountCreditPrice0">金額：</label>
                             <div class="inputAccountCreditPriceinput" id="inputAccountCreditPriceinput0">
                                 <input type="text" name="price[]" id="inputAccountCreditPrice0" class="form-control"
-                                    value="" required>
+                                    value="{{ old('price[]') }}" required>
                             </div>
                         </div>
                     </td>
@@ -102,7 +102,7 @@
                             <label for="inputAccountComment" class="inputAccountCommentLabel">コメント：</label>
                             <div class="inputAccountComment">
                                 <textarea name="comment" id="inputAccountComment" class="form-control" cols="36"
-                                    rows="3"></textarea>
+                                    rows="3">{{ old('comment') }}</textarea>
                             </div>
                         </div>
                     </div>

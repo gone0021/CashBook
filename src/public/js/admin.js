@@ -10,10 +10,14 @@ $(function () {
         $('.createCategory').show();
         $('#createCategory').prop('disabled', false);
         $('#createSelectCategory').prop('disabled', true);
+        // kubunの表示
+        $('.createKubunName').hide();
         $('#createKubunName').prop('disabled', true);
+        $('#createKubunName').prop('required', false);
         // accountTypeのselectboxを編集
         $('#option0').show().prop('selected', true);
         // categoryのリセット
+        $('#createSelectCategory').prop('required', false);
         $('#createSelectCategory').children().remove();
         // ajaxの可否判定
         ajax_flg = false;
@@ -25,16 +29,21 @@ $(function () {
         $('.createSelectCategory').show().css('display', 'inline-block');
         $('#createCategory').prop('disabled', true);
         $('#createSelectCategory').prop('disabled', false);
+        // kubunの表示非表示
+        $('.createKubunName').show();
         $('#createKubunName').prop('disabled', false);
+        $('#createKubunName').prop('required', true);
         // accountTypeのselectboxを編集
         $('#option0').show().prop('selected', true);
         // categoryのリセット
+        $('#createSelectCategory').prop('required', true);
         $('#createSelectCategory').children().remove();
-        $('#createSelectCategory').prepend('<option value="" id="createSelectCategory" selected>選択してください</option>');
+        $('#createSelectCategory').prepend('<option value="" id="createSelectCategory" selected>---</option>');
         // ajaxの可否判定
         ajax_flg = true;
     });
 
+    // account_typeからcategoryを取得
     $(document).on('change', `#createAccountType`, function () {
         if (ajax_flg) {
             console.log('--- ajax category ---');
@@ -63,7 +72,7 @@ $(function () {
         $('#option1').show().prop('selected', true);
         // categoryのリセット
         $('#editSelectCategory').children().remove();
-        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        $('#editSelectCategory').append($('<option>').text('---').attr('value', ''));
         // kubunの非表示
         $('.editSelectKubun').hide();
         // 削除ボタンの編集
@@ -86,13 +95,13 @@ $(function () {
         $('#option2').show().prop('selected', true);
         // categoryのリセット
         $('#editSelectCategory').children().remove();
-        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        $('#editSelectCategory').append($('<option>').text('---').attr('value', ''));
         // kubunの表示/非表示
         $('.editSelectKubun').show().css('display', 'inline-block').prop('required', true);
         $('.editSelectKubun').children().prop('required', true);
         // kubunのリセット
         $('#editSelectKubun').children().remove();
-        $('#editSelectKubun').append($('<option>').text('選択してください').attr({ 'id': 'option2', 'value': '' }));
+        $('#editSelectKubun').append($('<option>').text('---').attr({ 'id': 'option2', 'value': '' }));
         // 削除ボタンの編集
         $('.btnDel').prop("disabled", true);
     });
@@ -111,7 +120,7 @@ $(function () {
         $('#option1').show().prop('selected', true);
         // categoryのリセット
         $('#editSelectCategory').children().remove();
-        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        $('#editSelectCategory').append($('<option>').text('---').attr('value', ''));
         // kubunの非表示
         $('.editSelectKubun').hide();
         // 削除ボタンの編集
@@ -133,13 +142,13 @@ $(function () {
         $('#option2').show().prop('selected', true);
         // categoryのリセット
         $('#editSelectCategory').children().remove();
-        $('#editSelectCategory').append($('<option>').text('選択してください').attr('value', ''));
+        $('#editSelectCategory').append($('<option>').text('---').attr('value', ''));
         // kubunの表示/非表示
         $('.editSelectKubun').show().css('display', 'inline-block').prop('required', true);
         $('.editSelectKubun').children().prop('required', true);
         // kubunのリセット
         $('#editSelectKubun').children().remove();
-        $('#editSelectKubun').append($('<option>').text('選択してください').attr({ 'id': 'option2', 'value': '' }));
+        $('#editSelectKubun').append($('<option>').text('---').attr({ 'id': 'option2', 'value': '' }));
         // 削除ボタンの編集
         $('.btnDel').prop("disabled", false);
     });
@@ -149,7 +158,7 @@ $(function () {
         var element = '#editSelectCategory';
         var val = $(this).val();
         $(element).children().remove();
-        $(element).prepend($('<option>').text('選択してください').attr({ 'id': 'option1', 'value': '' }));
+        $(element).prepend($('<option>').text('---').attr({ 'id': 'option1', 'value': '' }));
 
         getCategory(element, val);
     });
