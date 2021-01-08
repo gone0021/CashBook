@@ -73,36 +73,31 @@
 
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-3 mr-auto">
-
                         <li class="nav-item active mr-1">
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="nav-item active mr-1">
-                            <a class="nav-link" href="{{ route('calendar/index') }}">カレンダー</a>
-                        </li>
-                        <li class="nav-item active mr-1">
-                            <a class="nav-link" href="{{ route('items/index') }}">家計簿</a>
-                        </li>
-                        <li class="nav-item dropdown mr-3">
-                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                投稿一覧
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{-- <a href="{{ url('users/item/list') }}" class="dropdown-item">個人</a> --}}
-                                <div class="dropdown-divider"></div>
-                                {{-- <a href="{{ url('users/item/group') }}" class="dropdown-item">グループ別</a> --}}
-                            </div>
-                        </li>
 
                         @if (Auth::user()->is_admin == '1')
-                        <li class="nav-item active">
-
-                            {{-- <a class="nav-link" href="{{ route('admin') }}">
-                            管理者画面
-                            </a> --}}
+                        <li class="nav-item dropdown mr-3">
+                            <span class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">管理者画面</span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin/index') }}">管理者画面</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('admin/create') }}">科目の追加</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('admin/edit') }}">科目の編集・削除</a>
+                            </div>
                         </li>
                         @endif
+
+                        <li class="nav-item dropdown mr-3">
+                            <span class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">投稿一覧</span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('calendar/index') }}">カレンダー</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('items/index') }}">家計簿</a>
+                            </div>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ml-5 ml-auto">
