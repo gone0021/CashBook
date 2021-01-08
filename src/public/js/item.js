@@ -249,7 +249,7 @@ $(function () {
             alert('貸借が一致しません');
             return false;
         } else {
-            alert('ok');
+            console.log('price check ok');
             return true;
         }
     })
@@ -303,7 +303,7 @@ $(function () {
             if (ret[0].account_type == 1 || ret[1].account_type == 1) {
                 $('.detailNomalCategory0 label').text('支出：');
             } else if (ret[0].account_type == 2 || ret[1].account_type == 2) {
-                $('.detailNomalCategory0 label').text('支出：');
+                $('.detailNomalCategory0 label').text('収入：');
             }
 
             // 値を各要素に入れる
