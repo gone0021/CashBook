@@ -3,8 +3,8 @@ let ajaxAccountCredit = [];
 let ajaxDetail = [];
 let ajaxNomal = [];
 
-let countDebit;
-let countCredit;
+let countDebitItem;
+let countCreditItem;
 
 // let debitSum;
 // let creditSum;
@@ -88,7 +88,7 @@ $(function () {
             ajaxAccountCredit = [];
             let d = 0, c = 0;
             var html = '';
-            var countDebit = 1, countCredit = 1;
+            var countDebitItem = 1, countCreditItem = 1;
 
             $('.detailAccountBookNo').text(ret[0].book_no);
             $('#detailAccountDate').val(ret[0].date);
@@ -130,15 +130,15 @@ $(function () {
                         // 合計金額の計算：出力はforを抜けてから
                         debitSum += parseInt(v.price);
                         // 値の取得
-                        html = debitHtml(countDebit, v);
-                        countDebit++;
+                        html = debitHtml(countDebitItem, v);
+                        countDebitItem++;
                         // 貸方
                     } else if (v.debit_credit == 2) {
                         // 合計金額の計算：出力はforを抜けてから
                         creditSum += parseInt(v.price);
                         // 値の取得
-                        html = creditHtml(countCredit, v);
-                        countCredit++;
+                        html = creditHtml(countCreditItem, v);
+                        countCreditItem++;
                     }
                     $('.detailAccount').append(html);
                 }
@@ -155,10 +155,10 @@ $(function () {
     // ------------------------
     $("#detailAccountEdit").click(function () {
         // 変数の宣言
-        countDebit = $('.detailAccountDebit').length;
-        console.log(countDebit);
-        countCredit = $('.detailAccountCredit').length;
-        console.log(countCredit);
+        countDebitItem = $('.detailAccountDebit').length;
+        console.log(countDebitItem);
+        countCreditItem = $('.detailAccountCredit').length;
+        console.log(countCreditItem);
         var element = '';
 
         // ボタンの変更
@@ -546,41 +546,41 @@ $(function () {
 
     /**
      * HTMLの生成
-     * @param {Number} countDebit
+     * @param {Number} countDebitItem
      * @param {any} v
      */
-    function debitHtml(countDebit, v) {
+    function debitHtml(countDebitItem, v) {
         var ret = `
         <tr class="detailAccountDebitTr">
 
-        <td class="detailAccountDebit" id="detailAccountDebit${countDebit}">
+        <td class="detailAccountDebit" id="detailAccountDebit${countDebitItem}">
 
-        <input type="hidden" name="id[]" value="${v.id}" id="detailAccountDebitId${countDebit}">
-        <input type="hidden" name="debit_credit[]" id="detailAccountDecitDc${countDebit}" value="${v.debit_credit}">
+        <input type="hidden" name="id[]" value="${v.id}" id="detailAccountDebitId${countDebitItem}">
+        <input type="hidden" name="debit_credit[]" id="detailAccountDecitDc${countDebitItem}" value="${v.debit_credit}">
 
         <div class="detailAccountDebitCategory">
-            <label for="detailAccountDebitCategory${countDebit}">大区分：</label>
+            <label for="detailAccountDebitCategory${countDebitItem}">大区分：</label>
 
-            <select name="category_id[]" id="detailAccountDebitCategory${countDebit}" class="form-control" disabled>
+            <select name="category_id[]" id="detailAccountDebitCategory${countDebitItem}" class="form-control" disabled>
 
             <option value="${v.category_id}">${v.category_name}</optiuon>
             </select>
         </div>
 
         <div class="detailAccountDebitKubun">
-            <label for="detailAccountDebitKubun${countDebit}">小区分：</label>
+            <label for="detailAccountDebitKubun${countDebitItem}">小区分：</label>
 
-            <select name="kubun_id[]" id="detailAccountDebitKubun${countDebit}" class="form-control" disabled>
+            <select name="kubun_id[]" id="detailAccountDebitKubun${countDebitItem}" class="form-control" disabled>
 
             <option value="${v.kubun_id}">${v.kubun_name}</optiuon>
             </select>
         </div>
 
         <div class="detailAccountDebitPrice">
-            <label for="detailAccountDebitPrice${countDebit}">金額：</label>
+            <label for="detailAccountDebitPrice${countDebitItem}">金額：</label>
 
             <div class="detailAccountDebitPriceInput">
-                <input type="text" name="price[]" id="detailAccountDebitPrice${countDebit}" class="form-control" value="${v.price}" required disabled>
+                <input type="text" name="price[]" id="detailAccountDebitPrice${countDebitItem}" class="form-control" value="${v.price}" required disabled>
             </div>
         </div>
         <td></td>
@@ -591,41 +591,41 @@ $(function () {
 
     /**
      * HTMLの生成
-     * @param {Number} countCredit
+     * @param {Number} countCreditItem
      * @param {any} v
      */
-    function creditHtml(countCredit, v) {
+    function creditHtml(countCreditItem, v) {
         var ret = `
         <tr class="detailAccountCreditTr">
             <td></td>
-            <td class="detailAccountCredit" id="detailAccountCredit${countCredit}">
+            <td class="detailAccountCredit" id="detailAccountCredit${countCreditItem}">
 
-            <input type="hidden" name="id[]" value="${v.id}" id="detailAccountCreditId${countCredit}">
+            <input type="hidden" name="id[]" value="${v.id}" id="detailAccountCreditId${countCreditItem}">
             <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc${countDebit}" value="${v.debit_credit}">
 
             <div class="detailAccountCreditCategory">
-                <label for="detailAccountCreditCategory${countCredit}">大区分：</label>
+                <label for="detailAccountCreditCategory${countCreditItem}">大区分：</label>
 
-                <select name="category_id[]" id="detailAccountCreditCategory${countCredit}" class="form-control" disabled>
+                <select name="category_id[]" id="detailAccountCreditCategory${countCreditItem}" class="form-control" disabled>
 
                 <option value="${v.category_id}">${v.category_name}</optiuon>
                 </select>
             </div>
 
             <div class="detailAccountCreditKubun">
-                <label for="detailAccountCreditKubun${countCredit}">小区分：</label>
+                <label for="detailAccountCreditKubun${countCreditItem}">小区分：</label>
 
-                <select name="kubun_id[]" id="detailAccountCreditKubun${countCredit}" class="form-control" disabled>
+                <select name="kubun_id[]" id="detailAccountCreditKubun${countCreditItem}" class="form-control" disabled>
 
                 <option value="${v.kubun_id}">${v.kubun_name}</optiuon>
                 </select>
             </div>
 
             <div class="detailAccountCreditPrice">
-                <label for="detailAccountCreditPrice${countCredit}">金額：</label>
+                <label for="detailAccountCreditPrice${countCreditItem}">金額：</label>
 
                 <div class="detailAccountCreditPriceinput">
-                    <input type="text" name="price[]" id="detailAccountCreditPriceinput${countCredit}" class="form-control" value="${v.price}" required disabled>
+                    <input type="text" name="price[]" id="detailAccountCreditPriceinput${countCreditItem}" class="form-control" value="${v.price}" required disabled>
                 </div>
             </div>
         </tr>
