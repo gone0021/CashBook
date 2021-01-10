@@ -1,33 +1,53 @@
-let new_flag = false;
-let modal_flag = false;
-
 let w = $(window).width();
 let h = $(window).height();
 
-let debitSum;
-let creditSum;
+let countDebitHome;
+let countCreditHome;
 
-// --- 見た目 ---
+let debitSumHome;
+let creditSumHome;
+
+let validateFlgDebit;
+let validateFlgCredit;
+
 $(function () {
+    // ------------------------
+    // 簿記風の家計簿
+    // ------------------------
+    // --- 見た目 ---
     $("#newAccount").click(function () {
         $(".glayLayer").fadeIn();
         $("#inputAccount").fadeIn();
     });
-});
 
-$(function () {
-    /**
-     * 簿記風の家計簿
-     */
-    // --- 貸借の金額チェック ---
-    $('#inputAccountNew').click(function(){
-        if (debitSum != creditSum) {
+    // --- 日付入力時のバリデーション ---
+    $('#inputAccountDate, #inputAccountNew').blur(function () {
+        var element = $(`#inputAccountDate`);
+        validateDate(element)
+    })
+
+
+    // --- Newボタン時のバリデーション ---
+    $('#inputAccountNew').click(function () {
+        var ret = 1;
+        // 日付
+        var element = $(`#inputAccountDate`);
+        if (validateDate(element) == 0) {
+            ret = 0;
+        }
+        // 貸借金額
+        if (debitSumHome != creditSumHome) {
             alert('貸借が一致しません');
+            ret = 0;
+        }
+        if (ret == 0) {
             return false;
         }
     })
 
-    // --- 借方 ---
+    // ------------------------
+    // 簿記風の家計簿：借方
+    // ------------------------
     $(document).on("change", '#inputAccountDebitCategory0', function () {
         $('#selectFormatDebit0').remove();
 
@@ -38,58 +58,74 @@ $(function () {
     });
 
     // カウントの変数
-    let countDebit = 1;
+    countDebitHome = 1;
 
     // 金額の取得
-    $(document).on("change", '.inputAccountDebitPriceInput', function () {
-        debitSum = 0;
-        for(var i=0; i<countDebit; i++){
-            debitSum += parseInt($(`#inputAccountDebitPrice${i}`).val());
+    $(document).on("blur", '.inputAccountDebitPriceInput', function () {
+        debitSumHome = 0;
+        for (var i = 0; i < countDebitHome; i++) {
+            // 金額の計算
+            debitSumHome += parseInt($(`#inputAccountDebitPrice${i}`).val());
         }
-        console.log(debitSum);
-        if (debitSum > 0) {
-            $(`#inputDebitTotalPrice`).text(debitSum);
+        console.log(debitSumHome);
+        if (debitSumHome > 0) {
+            $(`#inputDebitTotalPrice`).text(debitSumHome);
+        } else {
+            $(`#inputDebitTotalPrice`).text('---');
+        }
+    })
+
+    // 0番目の金額のバリデーション
+    $(document).on("blur", `#inputAccountDebitPrice0`, function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            validateFlgDebit = 1;
+            alert('半角数字のみ');
+            return false;
+        } else {
+            validateFlgDebit = 0;
         }
     })
 
     // 入力の追加・削除
     $(document).on("click", ".addDebit", function () {
-        console.log('countDebit:' + countDebit);
+        console.log('countDebit:' + countDebitHome);
         let inputAccountDebit = `
-            <tr id="addDebitTr${countDebit}"> <td class="inputAccountDebit">
+            <tr id="addDebitTr${countDebitHome}"> <td class="inputAccountDebit">
             <input type="hidden" name="debit_credit[]" id="" value="1">
             <div class="inputAccountDebitCategory">
-                <label for="inputAccountDebitCategory${countDebit}">大区分：</label>
-                <select name="category_id[]" id="inputAccountDebitCategory${countDebit}" class="form-control">
-                    <option value="" class="selectFormatDebit" id="selectFormatDebit${countDebit}">選択してください</option>
+                <label for="inputAccountDebitCategory${countDebitHome}">大区分：</label>
+                <select name="category_id[]" id="inputAccountDebitCategory${countDebitHome}" class="form-control">
+                    <option value="" class="selectFormatDebit" id="selectFormatDebit${countDebitHome}">選択してください</option>
                 </select>
             </div>
             <div class="inputAccountDebitKubun">
-                <label for="inputAccountDebitKubun${countDebit}">小区分：</label>
-                <select name="kubun_id[]" id="inputAccountDebitKubun${countDebit}" class="form-control"></select>
+                <label for="inputAccountDebitKubun${countDebitHome}">小区分：</label>
+                <select name="kubun_id[]" id="inputAccountDebitKubun${countDebitHome}" class="form-control"></select>
             </div>
             <div class="inputAccountDebitPrice">
-                <label for="inputAccountDebitPrice${countDebit}">金額：</label>
-                <div class="inputAccountDebitPriceInput" id="inputAccountDebitPriceInput${countDebit}">
-                    <input type="text" name="price[]" id="inputAccountDebitPrice${countDebit}" class="form-control" value=""
+                <label for="inputAccountDebitPrice${countDebitHome}">金額：</label>
+                <div class="inputAccountDebitPriceInput" id="inputAccountDebitPriceInput${countDebitHome}">
+                    <input type="text" name="price[]" id="inputAccountDebitPrice${countDebitHome}" class="form-control" value=""
                         required>
                 </div>
             </div>
             </td> <td></td></tr>
         `;
         $('#inputAccountTabale').append(inputAccountDebit);
-        countDebit++;
+        countDebitHome++;
 
-        for (var i = 1; i < countDebit; i++) {
+        for (var i = 1; i < countDebitHome; i++) {
             // category
-            if (countDebit > 1) {
+            if (countDebitHome > 1) {
                 var element = `#inputAccountDebitCategory${i}`;
                 getCategoryAll(element);
             }
-            // kubun
+
             (function (i) {
+                // kubun
                 $(document).on("change", `#inputAccountDebitCategory${i}`, function () {
-                    console.log('--- countDebit:' + countDebit + ' ---');
+                    console.log('--- countDebit:' + countDebitHome + ' ---');
 
                     $(`#selectFormatDebit${i}`).remove();
 
@@ -98,20 +134,40 @@ $(function () {
                     $(element).children().remove();
                     getKubunList(element, data);
                 });
+
+                // 金額のバリデーション
+                $(document).on("blur", `#inputAccountDebitPrice${i}`, function () {
+                    console.log('i : ' + i);
+                    console.log('count : ' + countDebitHome);
+                    // バリデーション
+                    var element = $(this);
+                    if (validatePrice(element) == 0) {
+                        console.log('vf : ' + validateFlgDebit);
+                        if (validateFlgDebit == 0) {
+                            validateFlgDebit = 1;
+                            alert('半角数字のみ');
+                            return false;
+                        }
+                    } else {
+                        validateFlgDebit = 0;
+                    }
+                })
             })(i);
         }
     });
 
     // 削除
     $(document).on("click", ".delDebit", function () {
-        if (countDebit > 1) {
-            countDebit--;
+        if (countDebitHome > 1) {
+            countDebitHome--;
         }
-        console.log('countDebit' + countDebit);
-        $(`#addDebitTr${countDebit}`).remove();
+        console.log('countDebit' + countDebitHome);
+        $(`#addDebitTr${countDebitHome}`).remove();
     });
 
-    // --- 貸方 ---
+    // ------------------------
+    // 簿記風の家計簿：貸方
+    // ------------------------
     $(document).on("change", '#inputAccountCreditCategory0', function () {
         $('#selectFormatCredit0').remove();
 
@@ -122,64 +178,77 @@ $(function () {
     });
 
     // カウントの変数
-    let countCredit = 1;
+    countCreditHome = 1;
 
     // 金額の取得
-    $(document).on("change", '.inputAccountCreditPriceinput', function () {
-        creditSum = 0;
-        for(var i=0; i<countCredit; i++){
-            creditSum += parseInt($(`#inputAccountCreditPrice${i}`).val());
+    $(document).on("blur", '.inputAccountCreditPriceinput', function () {
+        creditSumHome = 0;
+        for (var i = 0; i < countCreditHome; i++) {
+            // 金額の計算
+            creditSumHome += parseInt($(`#inputAccountCreditPrice${i}`).val());
         }
-        console.log(creditSum);
-        if (creditSum > 0) {
-            $(`#inputCreditTotalPrice`).text(creditSum);
+        if (creditSumHome > 0) {
+            $(`#inputCreditTotalPrice`).text(creditSumHome);
+        } else {
+            $(`#inputCreditTotalPrice`).text('---');
         }
+    })
 
+    // 0番目の金額のバリデーション
+    $(document).on("blur", `#inputAccountCreditPrice0`, function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            validateFlgCredit = 1;
+            alert('半角数字のみ');
+            return false;
+        } else {
+            validateFlgCredit = 0;
+        }
     })
 
     // 入力の追加・削除
     $(document).on("click", ".addCredit", function () {
-        console.log('countCredit' + countCredit);
+        console.log('countCredit' + countCreditHome);
         let inputAccountCredit = `
-            <tr id="addCreditTr${countCredit}"><td></td>
+            <tr id="addCreditTr${countCreditHome}"><td></td>
             <input type="hidden" name="debit_credit[]" id="" value="2">
-            <td class="inputAccountCredit" id="inputAccountCredit${countCredit}">
+            <td class="inputAccountCredit" id="inputAccountCredit${countCreditHome}">
             <div class="inputAccountCreditCategory">
-                <label for="inputAccountCreditCategory${countCredit}">大区分：</label>
-                <select name="category_id[]" id="inputAccountCreditCategory${countCredit}" class="form-control">
-                    <option value="" class="selectFormatCredit" id="selectFormatCredit${countCredit}">選択してください</option>
+                <label for="inputAccountCreditCategory${countCreditHome}">大区分：</label>
+                <select name="category_id[]" id="inputAccountCreditCategory${countCreditHome}" class="form-control">
+                    <option value="" class="selectFormatCredit" id="selectFormatCredit${countCreditHome}">選択してください</option>
                 </select>
             </div>
 
             <div class="inputAccountCreditKubun" >
-                <label for="inputAccountCreditKubun${countCredit}">小区分：</label>
-                <select name="kubun_id[]" id="inputAccountCreditKubun${countCredit}" class="form-control">
+                <label for="inputAccountCreditKubun${countCreditHome}">小区分：</label>
+                <select name="kubun_id[]" id="inputAccountCreditKubun${countCreditHome}" class="form-control">
                 </select>
             </div>
 
             <div class="inputAccountCreditPrice" >
-                <label for="inputAccountCreditPrice${countCredit}">金額：</label>
-                <div class="inputAccountCreditPriceinput" id="inputAccountCreditPriceinput${countCredit}">
-                    <input type="text" name="price[]" id="inputAccountCreditPrice${countCredit}" class="form-control" value=""
+                <label for="inputAccountCreditPrice${countCreditHome}">金額：</label>
+                <div class="inputAccountCreditPriceinput" id="inputAccountCreditPriceinput${countCreditHome}">
+                    <input type="text" name="price[]" id="inputAccountCreditPrice${countCreditHome}" class="form-control" value=""
                         required>
                 </div>
             </div>
             </td></tr>
         `;
         $('#inputAccountTabale').append(inputAccountCredit);
-        countCredit++;
+        countCreditHome++;
 
-        for (var i = 1; i < countCredit; i++) {
+        for (var i = 1; i < countCreditHome; i++) {
             // category
-            if (countCredit > 1) {
+            if (countCreditHome > 1) {
                 var element = `#inputAccountCreditCategory${i}`;
                 getCategoryAll(element);
             }
 
-            // kubun
             (function (i) {
+                // kubun
                 $(document).on("change", `#inputAccountCreditCategory${i}`, function () {
-                    console.log('--- countCredit:' + countCredit + ' ---');
+                    console.log('--- countCredit:' + countCreditHome + ' ---');
 
                     $(`#selectFormatCredit${i}`).remove();
 
@@ -188,28 +257,80 @@ $(function () {
                     $(element).children().remove();
                     getKubunList(element, data);
                 });
+
+                // 金額のバリデーション
+                $(document).on("blur", `#inputAccountCreditPrice${i}`, function () {
+                    console.log('i : ' + i);
+                    console.log('count : ' + countCreditHome);
+                    // バリデーション
+                    var element = $(this);
+                    if (validatePrice(element) == 0) {
+                        console.log('vf : ' + validateFlgCredit);
+                        if (validateFlgCredit == 0) {
+                            validateFlgCredit = 1;
+                            alert('半角数字のみ');
+                            return false;
+                        }
+                    } else {
+                        validateFlgCredit = 0;
+                    }
+                })
             })(i);
         }
     });
 
     // 削除
     $(document).on("click", ".delCredit", function () {
-        if (countCredit > 1) {
-            countCredit--;
+        if (countCreditHome > 1) {
+            countCreditHome--;
         }
-        console.log('countCredit' + countCredit);
-        $(`#addCreditTr${countCredit}`).remove();
+        console.log('countCredit' + countCreditHome);
+        $(`#addCreditTr${countCreditHome}`).remove();
     });
 
 
-    /**
-     * 1対1の家計簿
-     */
+    // ------------------------
+    // 1対1の家計簿
+    // ------------------------
     // --- 支出 ---
     $("#newExpense").click(function () {
         $(".glayLayer").fadeIn();
         $("#inputExpense").fadeIn();
     });
+
+    // 日付のバリデーション
+    $('#inputExpenseDate').blur(function () {
+        var element = $(this);
+        if (validateDate(element) == 0) {
+            return false;
+        }
+    })
+
+    // 金額のバリデーション
+    $("#inputExpensePrice").blur(function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            alert('半角数字のみ');
+            return false;
+        }
+    });
+
+    // newボタン時のバリデーション
+    $('#inputExpenseNew').click(function () {
+        var ret = 1;
+        var date = $('inputExpenseDate');
+        if (validatePrice(date) == 0) {
+            ret = 0;
+        }
+        var price = $('#inputExpensePrice');
+        if (validatePrice(price) == 0) {
+            ret = 0;
+        }
+        if (ret == 0) {
+            alert('半角数字のみ');
+            return false;
+        }
+    })
 
     $(document).on("change", '#inputExpenseAssetCategory', function () {
         $('.selectFormatExpenseAccet').remove();
@@ -229,11 +350,45 @@ $(function () {
         getKubunList(element, data);
     });
 
-    // --- 収入kubun ---
+    // --- 収入 ---
     $("#newIncome").click(function () {
         $(".glayLayer").fadeIn();
         $("#inputIncome").fadeIn();
     });
+
+    // 日付のバリデーション
+    $('#inputIncomeDate').blur(function () {
+        var element = $(this);
+        if (validateDate(element) == 0) {
+            return false;
+        }
+    })
+
+    // 金額のバリデーション
+    $("#inputIncomePrice").blur(function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            alert('半角数字のみ');
+            return false;
+        }
+    });
+
+    // newボタン時のバリデーション
+    $('#inputIncomeNew').click(function () {
+        var ret = 1;
+        var date = $('#inputIncomeDate');
+        if (validatePrice(date) == 0) {
+            ret = 0;
+        }
+        var price = $('#inputIncomePrice');
+        if (validatePrice(price) == 0) {
+            ret = 0;
+        }
+        if (ret == 0) {
+            alert('半角数字のみ');
+            return false;
+        }
+    })
 
     // asset
     $(document).on("change", '#inputIncomeAssetCategory', function () {
@@ -255,7 +410,28 @@ $(function () {
         getKubunList(element, data);
     });
 
+    // ------------------------
+    // 背景
+    // ------------------------
+    // モーダル背景
+    $('#inputAccount').click(function () {
+        validateFlgDebit = 0;
+        validateFlgCredit = 0;
+    })
+    // グレー背景
+    $(".glayLayer").click(function () {
+        $(this).fadeOut()
+        $("#inputExpense").fadeOut();
+        $("#inputIncome").fadeOut();
+        $("#inputAccount").fadeOut();
+        validateFlgDebit = 0;
+        validateFlgCredit = 0;
+    });
 
+
+    // ------------------------
+    // method
+    // ------------------------
     /**
      * categoryの一覧を取得
      * @param {string} element
@@ -285,7 +461,6 @@ $(function () {
         }).done(function (ret) {
             if (ret.length == 0) {
                 console.log('if');
-                // $(element).append($('<option>').text("小区分なし"));
                 $(element).append($('<option>').text("小区分なし").attr('value', 0));
             } else {
                 console.log('else');
@@ -297,15 +472,53 @@ $(function () {
             alert('error!! get kubun' + error);
         });
     }
-});
 
+    /**
+     * 日付のバリデーション
+     * @param {string} element
+     * @return {number} 0：否、1：正
+     */
+    function validateDate(element) {
+        var val = element.val();
+        console.log(val);
+        if (!val.match(/^\d{4}\-\d{2}\-\d{2}$/)) {
+            $(element).addClass('is-invalid');
+            alert('正しい日付を入力してください');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
 
-// モーダル背景
-$(function () {
-    $(".glayLayer").click(function () {
-        $(this).fadeOut()
-        $("#inputExpense").fadeOut();
-        $("#inputIncome").fadeOut();
-        $("#inputAccount").fadeOut();
-    });
+        var y = val.split("-")[0];
+        var m = val.split("-")[1] - 1;
+        var d = val.split("-")[2];
+        if (y < 2010) {
+            $(element).addClass('is-invalid');
+            alert('2010年以降で入力してください');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
+
+        return 1;
+    }
+
+    /**
+     * 日付のバリデーション
+     * @param {number} element
+     * @return {number} 0：否、1：正
+     */
+    function validatePrice(element) {
+        var val = element.val();
+        if (!val) {
+            element.addClass('is-invalid');
+        } else if (!val.match(/^[0-9]+$/)) {
+            element.addClass('is-invalid');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
+        return 1;
+    }
+
 });
