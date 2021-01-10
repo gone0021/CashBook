@@ -102,7 +102,7 @@
                             <label for="inputAccountComment" class="inputAccountCommentLabel">コメント：</label>
                             <div class="inputAccountComment">
                                 <textarea name="comment" id="inputAccountComment" class="form-control" cols="36"
-                                    rows="3">{{ old('comment') }}</textarea>
+                                    rows="3"></textarea>
                             </div>
                         </div>
                     </div>

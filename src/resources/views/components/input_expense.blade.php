@@ -58,10 +58,10 @@
                 <label for="inputExpenseComment" class="inputExpenseCommentLabel">コメント：</label>
                 <div class="inputExpenseinputComment">
                     <textarea name="comment" id="inputExpenseComment" class="form-control" cols="36"
-                        rows="5"> {{ old('comment') }}</textarea>
+                        rows="5"></textarea>
                 </div>
                 <div class="inputExpenseSubmit">
-                    <input type="submit" name="inputExpense" id="" value="new" class="btn btn-info">
+                    <input type="submit" name="inputExpense" id="inputExpenseNew" value="new" class="btn btn-info">
                 </div>
             </div>
         </div>

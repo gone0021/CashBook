@@ -46,7 +46,7 @@
             </div>
 
             <div class="col-md-10">
-                <input type="submit" name="" id="submit" class="btn btn-info mr-2" value="{{ __('Send') }}">
+                <input type="submit" name="" id="submit" class="btn btn-info mr-2" value="{{ __('New') }}">
                 <a href="{{ route('admin/index') }}" class="btn btn-light">
                     {{ __('Return') }}
                 </a>

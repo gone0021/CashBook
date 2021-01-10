@@ -17,7 +17,6 @@
                     @foreach ($categoryAccet as $k)
                     <option value="{{$k->id}}">{{$k->category_name}}</option>
                     @endforeach
-                    {{-- {{ $categoryAccet }} --}}
                 </select>
             </div>
 
@@ -59,10 +58,10 @@
                 <label for="inputIncomeComment" class="inputIncomeCommentLabel">コメント：</label>
                 <div class="inputIncomeinputComment">
                     <textarea name="comment" id="inputIncomeComment" class="form-control" cols="36"
-                        rows="5"> {{ old('comment') }}</textarea>
+                        rows="5"></textarea>
                 </div>
                 <div class="inputIncomeSubmit">
-                    <input type="submit" name="inputIncome" id="" value="new" class="btn btn-info">
+                    <input type="submit" name="inputIncome" id="inputIncomeNew" value="new" class="btn btn-info">
                 </div>
             </div>
         </div>
