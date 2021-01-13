@@ -32,7 +32,6 @@ class AdminController extends Controller
     public function store(Request $req)
     {
         if ($req->mode == 1) {  // category
-            // dd($req->accouny_type)
             $validator = Validator::make($req->all(), Category::$ruleCreate, Category::$msgCreate);
             if ($validator->fails()) {
                 $param = ['validateMsg' => 'createCategory'];
@@ -65,8 +64,6 @@ class AdminController extends Controller
     public function edit(Request $req)
     {
         $accountType = $this->accountType();
-
-        // dump($accountType);
         $param = [
             'accountType' => $accountType,
         ];
@@ -80,7 +77,6 @@ class AdminController extends Controller
             $id = $req->category_id;
 
             if ($req->submit == 'Update') {
-                // $this->validate($req, Category::$ruleEdit, Category::$msgEdit);
                 $validator = Validator::make($req->all(), Category::$ruleEdit, Category::$msgEdit);
 
                 if ($validator->fails()) {
