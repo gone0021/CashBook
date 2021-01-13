@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AdminRequest;
 
 use App\Models\Category;
 use App\Models\Kubun;
-// use Dotenv\Validator;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -34,18 +32,31 @@ class AdminController extends Controller
     public function store(Request $req)
     {
         if ($req->mode == 1) {  // category
-            $val = $req->all();
-            unset($val['_token']);
+            // dd($req->accouny_type)
+            $validator = Validator::make($req->all(), Category::$ruleCreate, Category::$msgCreate);
+            if ($validator->fails()) {
+                $param = ['validateMsg' => 'createCategory'];
+                return redirect('/admin/create')->withErrors($validator)->with($param)->withInput();
+            } else {
+                $val = $req->all();
+                unset($val['_token']);
 
-            $dbCategory = new Category();
-            $dbCategory->fill($val)->save();
+                $dbCategory = new Category();
+                $dbCategory->fill($val)->save();
+            }
         } else {  // kubun
-            $val = $req->all();
-            unset($val['account_type']);
-            unset($val['_token']);
+            $validator = Validator::make($req->all(), Kubun::$ruleCreate, Kubun::$msgCreate);
+            if ($validator->fails()) {
+                $param = ['validateMsg' => 'createKubun'];
+                return redirect('/admin/create')->withErrors($validator)->with($param)->withInput();
+            } else {
+                $val = $req->all();
+                unset($val['account_type']);
+                unset($val['_token']);
 
-            $dbKubun = new Kubun();
-            $dbKubun->fill($val)->save();
+                $dbKubun = new Kubun();
+                $dbKubun->fill($val)->save();
+            }
         }
         // return back();
         return redirect('/admin/create');
@@ -69,13 +80,25 @@ class AdminController extends Controller
             $id = $req->category_id;
 
             if ($req->submit == 'Update') {
-                echo 'update';
-                $dbCategory = Category::find($id);
-                $dbCategory->category_name = $req->category_name;
-                $dbCategory->update();
+                // $this->validate($req, Category::$ruleEdit, Category::$msgEdit);
+                $validator = Validator::make($req->all(), Category::$ruleEdit, Category::$msgEdit);
+
+                if ($validator->fails()) {
+                    $param = ['validateMsg' => 'editCategory'];
+                    return redirect('/admin/edit')->withErrors($validator)->with($param)->withInput();
+                } else {
+                    $dbCategory = Category::find($id);
+                    $dbCategory->category_name = $req->category_name;
+                    $dbCategory->update();
+                }
             } elseif ($req->submit == 'Delete') {
-                echo 'delete';
-                Category::find($id)->delete();
+                $validator = Validator::make($req->all(), Category::$ruleDel, Category::$msgDel);
+                if ($validator->fails()) {
+                    $param = ['validateMsg' => 'editCategoryDel'];
+                    return redirect('/admin/edit')->withErrors($validator)->with($param)->withInput();
+                } else {
+                    Category::find($id)->delete();
+                }
             }
         } elseif ($req->mode == 2 || $req->mode == 4) {  // kubun
             $id = $req->kubun_id;
@@ -86,22 +109,31 @@ class AdminController extends Controller
             unset($val['kubun_id']);
             unset($val['account_type']);
             if ($req->submit == 'Update') {
-                echo 'update';
-                // dd($val);
-                if ($id == 0) {
-                    $dbKubun = new Kubun();
-                    $dbKubun->fill($val)->save();
+                $validator = Validator::make($req->all(), Kubun::$ruleEdit, Kubun::$msgEdit);
+
+                if ($validator->fails()) {
+                    $param = ['validateMsg' => 'editKubun'];
+                    return redirect('/admin/edit')->withErrors($validator)->with($param)->withInput();
                 } else {
-                    Kubun::find($id)->fill($val)->update();
+                    if ($id == 0) {
+                        $dbKubun = new Kubun();
+                        $dbKubun->fill($val)->save();
+                    } else {
+                        Kubun::find($id)->fill($val)->update();
+                    }
                 }
             } elseif ($req->submit == 'Delete') {
-                echo 'delete';
-                if ($id == 0) {
-                    return redirect('/admin/edit');
+                $validator = Validator::make($req->all(), Kubun::$ruleDel, Kubun::$msgDel);
+                if ($validator->fails()) {
+                    $param = ['validateMsg' => 'editKubunDel'];
+                    return redirect('/admin/edit')->withErrors($validator)->with($param)->withInput();
                 } else {
-                    Kubun::find($id)->delete();
+                    if ($id == 0) {
+                        return redirect('/admin/edit');
+                    } else {
+                        Kubun::find($id)->delete();
+                    }
                 }
-
             }
         }
         return redirect('/admin/edit');

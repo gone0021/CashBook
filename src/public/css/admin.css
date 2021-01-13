@@ -24,6 +24,9 @@ div.createSelectCategory {
     width: 200px;
 }
 
+div.createKubunName {
+    display: none;
+}
 
 /* ------------------------ */
 /* admiin edit */
