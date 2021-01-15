@@ -168,4 +168,50 @@ class Item extends Model
 
         return $ret;
     }
+
+    /** バリデーションルール */
+    public static $ruleAccount = [
+        'date' => 'required|date|after:2020-01-01',
+        'category_id.*' => 'required|integer',
+        'kubun_id.*' => 'required|integer',
+        'price.*' => 'required|integer',
+        'comment' => 'nullable|max:20',
+    ];
+
+    /** バリデーションエラーメッセージ */
+    public static $msgAccount = [
+        'date.required' => '日付を入力してください',
+        'date.date' => '日付が不正です',
+        'date.after' => '2020年以降で入力してください',
+        'category_id.*.required' => '大区分を選択してください',
+        'category_id.*.integer' => '大区分が不正です',
+        'kubun_id.*.required' => '小区分を選択してください',
+        'kubun_id.*.integer' => '小区分が不正です',
+        'price.*.required' => '金額をを入力してください',
+        'price.*.integer' => '半角整数で入力してください',
+        'comment.max'=> '100文字内で入力してください',
+    ];
+
+    /** バリデーションルール */
+    public static $ruleNomal = [
+        'date' => 'required|date|after:2020-01-01',
+        'category_id.*' => 'required|integer',
+        'kubun_id.*' => 'required|integer',
+        'price' => 'required|integer',
+        'comment' => 'nullable|max:20',
+    ];
+
+    /** バリデーションエラーメッセージ */
+    public static $msgNomal = [
+        'date.required' => '日付を入力してください',
+        'date.date' => '日付が不正です',
+        'date.after' => '2020年以降で入力してください',
+        'category_id.*.required' => '大区分を選択してください',
+        'category_id.*.integer' => '大区分が不正です',
+        'kubun_id.*.required' => '小区分を選択してください',
+        'kubun_id.*.integer' => '小区分が不正です',
+        'price.required' => '金額をを入力してください',
+        'price.integer' => '半角整数で入力してください',
+        'comment.max'=> '100文字内で入力してください',
+    ];
 }

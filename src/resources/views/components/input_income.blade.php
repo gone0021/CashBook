@@ -9,6 +9,7 @@
         </div>
 
         <div class="inputIncomeAsset">
+            <input type="hidden" name="submit" value="inputIncome">
             <input type="hidden" name="debit_credit[]" id="" value="1">
             <div class="inputIncomeAssetCategory">
                 <label for="inputIncomeAssetCategory">収入：</label>
@@ -27,21 +28,21 @@
             </div>
         </div>
 
-        <div class="inputIncomeCost">
+        <div class="inputIncomePl">
             <input type="hidden" name="debit_credit[]" id="" value="2">
-            <div class="inputIncomeCostCategory">
-                <label for="inputIncomeCostCategory">内容：</label>
-                <select name="category_id[]" id="inputIncomeCostCategory" class="form-control" required>
-                    <option value="" class="selectFormatIncomeCost">選択してください</option>
-                    @foreach ($categoryprofit as $k)
+            <div class="inputIncomePlCategory">
+                <label for="inputIncomePlCategory">内容：</label>
+                <select name="category_id[]" id="inputIncomePlCategory" class="form-control" required>
+                    <option value="" class="selectFormatIncomePl">選択してください</option>
+                    @foreach ($categoryProfit as $k)
                     <option value="{{$k->id}}">{{$k->category_name}}</option>
                     @endforeach
                 </select>
             </div>
 
-            <div class="inputIncomeCostKubun">
-                <label for="inputIncomeCostKubun">小区分：</label>
-                <select name="kubun_id[]" id="inputIncomeCostKubun" class="form-control" required>
+            <div class="inputIncomePlKubun">
+                <label for="inputIncomePlKubun">小区分：</label>
+                <select name="kubun_id[]" id="inputIncomePlKubun" class="form-control" required>
                 </select>
             </div>
         </div>

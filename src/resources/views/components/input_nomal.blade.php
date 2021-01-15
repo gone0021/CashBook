@@ -9,12 +9,11 @@
         </div>
 
         <div class="inputNomalAsset">
-            <input type="hidden" name="submit" value="inputNomal">
             <input type="hidden" name="debit_credit[]" id="inputNomalDc0" value="">
             <div class="inputNomalAssetCategory">
                 <label for="inputNomalAssetCategory"></label>
-                <select name="category_id[]" id="inputNomalAssetCategory" class="form-control">
-                    <option value="" class="selectFormatNomalAccet" required>選択してください</option>
+                <select name="category_id[]" id="inputNomalAssetCategory" class="form-control" required>
+                    <option value="" id="selectFormatNomalAccet">選択してください</option>
                     @foreach ($categoryAccet as $k)
                     <option value="{{$k->id}}">{{$k->category_name}}</option>
                     @endforeach
@@ -29,11 +28,11 @@
         </div>
 
         <div class="inputNomalPlCategory">
-            <input type="hidden" name="debit_credit[]" id="inputNomalDc" value="">
+            <input type="hidden" name="debit_credit[]" id="inputNomalDc1" value="">
             <div class="inputNomalExpenseCategory">
                 <label for="inputNomalCategoryExpnese">内容：</label>
-                <select name="category_id[]" id="inputNomalCategoryExpnese" class="form-control" required>
-                    <option value="" class="selectFormatNomalPl">選択してください</option>
+                <select name="category_id[]" id="inputNomalCategoryExpnese" class="form-control" disabled>
+                    <option value="" id="selectNomalExpense">選択してください</option>
                     @foreach ($categoryCost as $k)
                     <option value="{{$k->id}}">{{$k->category_name}}</option>
                     @endforeach
@@ -42,8 +41,8 @@
 
             <div class="inputNomalIncomeCategory">
                 <label for="inputNomalCategoryIncome">内容：</label>
-                <select name="category_id[]" id="inputNomalCategoryIncome" class="form-control" required>
-                    <option value="" class="selectFormatIncomePl">選択してください</option>
+                <select name="category_id[]" id="inputNomalCategoryIncome" class="form-control" disabled>
+                    <option value="" id="selectNomalIncome">選択してください</option>
                     @foreach ($categoryProfit as $k)
                     <option value="{{$k->id}}">{{$k->category_name}}</option>
                     @endforeach
@@ -72,6 +71,7 @@
                         rows="5"></textarea>
                 </div>
                 <div class="inputNomalSubmit">
+                    <input type="hidden" name="submit" value="inputNomal">
                     <input type="submit" name="inputNomal" id="inputNomalNew" value="new" class="btn btn-info">
                 </div>
             </div>

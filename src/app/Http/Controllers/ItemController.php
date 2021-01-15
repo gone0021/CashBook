@@ -9,6 +9,7 @@ use App\Facades\Calendar;
 use App\Models\Item;
 use Carbon\Carbon;
 use App\Util\ItemUtil;
+use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
 {
@@ -40,7 +41,7 @@ class ItemController extends Controller
         // 表示用：book_noの個数で表示するための個数カウントに使用
         $groupByItems = $getItem->groupBy('book_no')->paginate(7);
         // priceの上書き
-        foreach ($groupByItems as $v){
+        foreach ($groupByItems as $v) {
             $sum = Item::getTotalPriceByBookno($v->book_no);
             $v->price = $sum;
         }
@@ -86,6 +87,20 @@ class ItemController extends Controller
 
     public function store(Request $req)
     {
+        // dd($req->all());
+        if ($req->submit == 'inputAccount') {
+            $validator = Validator::make($req->all(), Item::$ruleAccount, Item::$msgAccount);
+            if ($validator->fails()) {
+                $param = ['validateMsg' => 'inputAcocunt'];
+                return redirect('/home')->withErrors($validator)->with($param)->withInput();
+            }
+        } else if ($req->submit == 'inputNomal') {
+            $validator = Validator::make($req->all(), Item::$ruleNomal, Item::$msgNomal);
+            if ($validator->fails()) {
+                $param = ['validateMsg' => 'inputNomal'];
+                return redirect('/home')->withErrors($validator)->with($param)->withInput();
+            }
+        }
         $user_id = Auth::id();
 
         $val = $req->all();
@@ -108,11 +123,11 @@ class ItemController extends Controller
             }
 
             if ($req->inputAccount == 'new') {
-                    $dbItem->price = $req->price[$k];
-                    $dbItem->comment = $req->comment;
+                $dbItem->price = $req->price[$k];
+                $dbItem->comment = $req->comment;
             } else {
-                    $dbItem->price = $req->price;
-                    $dbItem->comment = $req->comment;
+                $dbItem->price = $req->price;
+                $dbItem->comment = $req->comment;
             }
             $dbItem->save();
         }
@@ -124,9 +139,9 @@ class ItemController extends Controller
     {
         $user_id = Auth::id();
 
-        $select = ['items.id','items.user_id','items.book_no','items.date','debit_credit','items.category_id','c.category_name','items.kubun_id','k.kubun_name','items.price','items.comment','c.account_type',];
+        $select = ['items.id', 'items.user_id', 'items.book_no', 'items.date', 'debit_credit', 'items.category_id', 'c.category_name', 'items.kubun_id', 'k.kubun_name', 'items.price', 'items.comment', 'c.account_type',];
 
-        $items = Item::select($select)->join('category as c','items.category_id','c.id')->leftjoin('kubun as k','items.kubun_id','k.id')->where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
+        $items = Item::select($select)->join('category as c', 'items.category_id', 'c.id')->leftjoin('kubun as k', 'items.kubun_id', 'k.id')->where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
 
         return $items;
     }
@@ -136,17 +151,28 @@ class ItemController extends Controller
         $user_id = Auth::id();
 
         $items = Item::where('user_id', $user_id)->where('book_no', (int)$req->book_no)->get();
-        return view('/items/detail', ['items'=>$items]);
+        return view('/items/detail', ['items' => $items]);
     }
 
     public function update(Request $req)
     {
-        if($req->submit == 'Update') {
+        // dd($req->all());
+        echo 'update';
+
+        if ($req->submit == 'Update') {
+            $validator = Validator::make($req->all(), Item::$ruleAccount, Item::$msgAccount);
+            if ($validator->fails()) {
+                $param = ['validateMsg' => 'detailValidate'];
+                return redirect('/items/index')->withErrors($validator)->with($param)->withInput();
+            }
+
             $val = $req->all();
             unset($val['_token']);
+            echo 'update';
 
-            foreach($req->id as $k=>$v) {
+            foreach ($req->id as $k => $v) {
                 // $dbItem = new Item();
+                echo 'update';
                 $dbItem = Item::find($v);
 
                 $dbItem->date = $val['date'];
@@ -161,10 +187,11 @@ class ItemController extends Controller
                 $dbItem->comment = $val['comment'];
 
                 $dbItem->update();
-            }
+        // dd($req->all());
+    }
             return back();
         } elseif ($req->submit == 'Delete') {
-            foreach($req->id as $v) {
+            foreach ($req->id as $v) {
                 Item::find($v)->delete();
             }
             return back();

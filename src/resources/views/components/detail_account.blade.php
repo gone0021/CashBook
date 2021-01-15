@@ -86,7 +86,7 @@
 
                         <div class="detailAccountCreditPrice">
                             <label for="detailAccountCreditPrice0">金額：</label>
-                            <div class="detailAccountCreditPriceinput" id="detailAccountCreditPriceinput0">
+                            <div class="detailAccountCreditPriceinput">
                                 <input type="text" name="price[]" id="detailAccountCreditPrice0" class="form-control"
                                     required disabled>
                             </div>

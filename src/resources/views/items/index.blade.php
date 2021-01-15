@@ -199,4 +199,7 @@
 @slot('items',$items)
 @endcomponent
 
+@component ('components.input_msg')
+@endcomponent
+
 @endsection

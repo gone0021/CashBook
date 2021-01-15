@@ -35,7 +35,7 @@ class HomeController extends Controller
         // modal用
         $categoryAccet = Category::where('account_type', 0)->get();
         $categoryCost = Category::where('account_type', 1)->get();
-        $categoryprofit = Category::where('account_type', 2)->get();
+        $categoryProfit = Category::where('account_type', 2)->get();
 
         $categoryAll = Category::all();
         $kubun = Kubun::all();
@@ -45,7 +45,7 @@ class HomeController extends Controller
             'categoryAll' => $categoryAll,
             'categoryAccet' => $categoryAccet,
             'categoryCost' => $categoryCost,
-            'categoryprofit' => $categoryprofit,
+            'categoryProfit' => $categoryProfit,
             'kubun' => $kubun,
         ];
         return view('home', $param);

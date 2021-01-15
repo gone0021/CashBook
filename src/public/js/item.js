@@ -6,11 +6,20 @@ let ajaxNomal = [];
 let countDebitItem;
 let countCreditItem;
 
-// let debitSum;
-// let creditSum;
+// let debitSumItem;
+// let creditSumItem;
 
-// モーダル背景
+let validateFlgDebitItem;
+let validateFlgCreditItem;
+
 $(function () {
+    // モーダル背景
+    $('#detailAccount').click(function () {
+        validateFlgDebitItem = 0;
+        validateFlgCreditItem = 0;
+    })
+    // グレー背景
+
     $(".glayLayer").click(function () {
         $(this).fadeOut()
         $("#detailAccount").fadeOut();
@@ -18,11 +27,54 @@ $(function () {
         $('.detailAccountDebitTr').fadeOut();
         $('.detailAccountCreditTr').fadeOut();
         $('.detailAccountBtn').fadeOut();
+        $("#inputMsg").fadeOut();
+        validateFlgDebitItem = 0;
+        validateFlgCreditItem = 0;
     })
+
+    // ------------------------
+    // バリデーションメッセージ
+    // ------------------------
+    let detailValidate = $('#inputMsg').hasClass('inputValidateMsg');
+    if (detailValidate) {
+        $(".glayLayer").fadeIn();
+        $('#inputMsg').fadeIn();
+    }
 
     // ------------------------
     // detail account ： Detailボタン
     // ------------------------
+    // --- 見た目 ---
+    $("#newAccount").click(function () {
+        $(".glayLayer").fadeIn();
+        $("#inputAccount").fadeIn();
+    });
+
+
+    // --- 日付入力時のバリデーション ---
+    $('#detailAccountDate').blur(function () {
+        var element = $(`#detailAccountDate`);
+        validateDate(element)
+    })
+
+    // --- Newボタン時のバリデーション ---
+    $('#detailAccountUpdate').click(function () {
+        var ret = 1;
+        // 日付
+        var element = $(`#detailAccountDate`);
+        if (validateDate(element) == 0) {
+            ret = 0;
+        }
+        // 貸借金額
+        if (debitSumItem != creditSumItem) {
+            alert('貸借が一致しません');
+            ret = 0;
+        }
+        if (ret == 0) {
+            return false;
+        }
+    })
+
     $(".itemDetailAccount").click(function () {
         console.log('--- detail show : account ---');
         // 変数
@@ -94,8 +146,8 @@ $(function () {
             $('#detailAccountDate').val(ret[0].date);
             $('#detailAccountComment').text(ret[0].comment);
 
-            debitSum = 0;
-            creditSum = 0;
+            debitSumItem = 0;
+            creditSumItem = 0;
             $.each(ret, function (k, v) {
                 // 貸借ごとにグローバル変数へ値を保存
                 if (v.debit_credit == 1) {
@@ -110,14 +162,14 @@ $(function () {
                     // 借方
                     if (v.debit_credit == 1) {
                         // 合計金額の計算：出力はforを抜けてから
-                        debitSum = parseInt(v.price);
+                        debitSumItem = parseInt(v.price);
                         // 値の取得
                         element = 'AccountDebit';
                         detailHtmlSet(element, 0, v);
                         // 貸方
                     } else if (v.debit_credit == 2) {
                         // 合計金額の計算：出力はforを抜けてから
-                        creditSum = parseInt(v.price);
+                        creditSumItem = parseInt(v.price);
                         // 値の取得
                         element = 'AccountCredit';
                         detailHtmlSet(element, 0, v);
@@ -128,22 +180,22 @@ $(function () {
                     // 借方
                     if (v.debit_credit == 1) {
                         // 合計金額の計算：出力はforを抜けてから
-                        debitSum += parseInt(v.price);
+                        debitSumItem += parseInt(v.price);
                         // 値の取得
                         html = debitHtml(countDebitItem, v);
                         countDebitItem++;
                         // 貸方
                     } else if (v.debit_credit == 2) {
                         // 合計金額の計算：出力はforを抜けてから
-                        creditSum += parseInt(v.price);
+                        creditSumItem += parseInt(v.price);
                         // 値の取得
                         html = creditHtml(countCreditItem, v);
                         countCreditItem++;
                     }
                     $('.detailAccount').append(html);
                 }
-                $('#detailDebitTotalPrice').text(debitSum);
-                $('#detailCreditTotalPrice').text(creditSum);
+                $('#detailDebitTotalPrice').text(debitSumItem);
+                $('#detailCreditTotalPrice').text(creditSumItem);
             })
         }).fail(function () {
             alert('error...');
@@ -190,8 +242,25 @@ $(function () {
                 var data = $(this).val();
                 element = `#detailAccountDebitKubun${i}`;
                 getKubunListByChange(element, data);
-            });
-        })
+            })
+
+            // 金額のバリデーション
+            $(document).on("blur", `#detailAccountDebitPrice${i}`, function () {
+                // バリデーション
+                console.log('valid credit');
+                var element = $(this);
+                if (validatePrice(element) == 0) {
+                    console.log('vf : ' + validateFlgDebitItem);
+                    if (validateFlgDebitItem == 0) {
+                        validateFlgDebitItem = 1;
+                        alert('半角数字のみ');
+                        return false;
+                    }
+                } else {
+                    validateFlgDebitItem = 0;
+                }
+            })
+        });
 
         // credit
         $.each(ajaxAccountCredit, function (i, val) {
@@ -213,6 +282,23 @@ $(function () {
                 // $(element).children().remove();
                 getKubunListByChange(element, data);
             });
+
+            // 金額のバリデーション
+            $(document).on("blur", `#detailAccountCreditPrice${i}`, function () {
+                // バリデーション
+                console.log('valid credit');
+                var element = $(this);
+                if (validatePrice(element) == 0) {
+                    console.log('vf : ' + validateFlgCreditItem);
+                    if (validateFlgCreditItem == 0) {
+                        validateFlgCreditItem = 1;
+                        alert('半角数字のみ');
+                        return false;
+                    }
+                } else {
+                    validateFlgCreditItem = 0;
+                }
+            })
         })
     });
 
@@ -220,37 +306,58 @@ $(function () {
     // edit detail account ： 金額チェック
     // ------------------------
     // 借方金額の取得
-    $(document).on("change", '.detailAccountDebitPrice', function () {
-        debitSum = 0;
-        console.log(countDebit);
+    $(document).on("blur", '.detailAccountDebitPrice', function () {
+        debitSumItem = 0;
+        console.log(countDebitItem);
 
-        for (var i = 0; i < countDebit; i++) {
-            debitSum += parseInt($(`#detailAccountDebitPrice${i}`).val());
+        for (var i = 0; i < countDebitItem; i++) {
+            debitSumItem += parseInt($(`#detailAccountDebitPrice${i}`).val());
         }
-        console.log(debitSum);
-        $(`#detailDebitTotalPrice`).text(debitSum);
+        console.log(debitSumItem);
+        if (debitSumItem > 0) {
+            $(`#detailDebitTotalPrice`).text(debitSumItem);
+        } else {
+            $(`#detailDebitTotalPrice`).text('---');
+        }
     })
 
     // 貸方金額の取得
-    $(document).on("change", '.detailAccountCreditPrice', function () {
-        creditSum = 0;
-        console.log(countCredit);
+    $(document).on("blur", '.detailAccountCreditPrice', function () {
+        creditSumItem = 0;
+        console.log(countCreditItem);
 
-        for (var i = 0; i < countCredit; i++) {
-            creditSum += parseInt($(`#detailAccountCreditPrice${i}`).val());
+        for (var i = 0; i < countCreditItem; i++) {
+            creditSumItem += parseInt($(`#detailAccountCreditPrice${i}`).val());
         }
-        console.log(creditSum);
-        $(`#detailCreditTotalPrice`).text(creditSum);
+        console.log(creditSumItem);
+        if (creditSumItem > 0) {
+            $(`#detailCreditTotalPrice`).text(creditSumItem);
+        } else {
+            $(`#detailCreditTotalPrice`).text('---');
+        }
     })
 
-    // 貸借の金額チェック
-    $('#detailAccountUpdate').click(function () {
-        if (debitSum != creditSum) {
-            alert('貸借が一致しません');
+    // 0番目の金額のバリデーション：借方
+    $(document).on("blur", `#detailAccountDebitPrice0`, function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            validateFlgDebitItem = 1;
+            alert('半角数字のみ');
             return false;
         } else {
-            console.log('price check ok');
-            return true;
+            validateFlgDebitItem = 0;
+        }
+    })
+
+    // 0番目の金額のバリデーション：借方
+    $(document).on("blur", `#detailAccountCreditPrice0`, function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            validateFlgCreditItem = 1;
+            alert('半角数字のみ');
+            return false;
+        } else {
+            validateFlgCreditItem = 0;
         }
     })
 
@@ -406,6 +513,40 @@ $(function () {
             $('#detailNomalDc1').val(1);
         }
     });
+
+    // 日付のバリデーション
+    $('#detailNomalDate').blur(function () {
+        var element = $(this);
+        if (validateDate(element) == 0) {
+            return false;
+        }
+    })
+
+    // 金額のバリデーション
+    $("#detailNomalPrice0").blur(function () {
+        var element = $(this);
+        if (validatePrice(element) == 0) {
+            alert('半角数字のみ');
+            return false;
+        }
+    });
+
+    // newボタン時のバリデーション
+    $('#detailNomalUpdate').click(function () {
+        var ret = 1;
+        var date = $('#detailNomalDate');
+        if (validateDate(date) == 0) {
+            ret = 0;
+        }
+        var price = $('#detailNomalPrice0');
+        if (validatePrice(price) == 0) {
+            alert('半角数字のみ');
+            ret = 0;
+        }
+        if (ret == 0) {
+            return false;
+        }
+    })
 
     // detailNomalPrice1の値をdetailNomalPrice0に合わせる
     $('#detailNomalPrice0').change(function () {
@@ -601,7 +742,7 @@ $(function () {
             <td class="detailAccountCredit" id="detailAccountCredit${countCreditItem}">
 
             <input type="hidden" name="id[]" value="${v.id}" id="detailAccountCreditId${countCreditItem}">
-            <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc${countDebit}" value="${v.debit_credit}">
+            <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc${countDebitItem}" value="${v.debit_credit}">
 
             <div class="detailAccountCreditCategory">
                 <label for="detailAccountCreditCategory${countCreditItem}">大区分：</label>
@@ -625,7 +766,7 @@ $(function () {
                 <label for="detailAccountCreditPrice${countCreditItem}">金額：</label>
 
                 <div class="detailAccountCreditPriceinput">
-                    <input type="text" name="price[]" id="detailAccountCreditPriceinput${countCreditItem}" class="form-control" value="${v.price}" required disabled>
+                    <input type="text" name="price[]" id="detailAccountCreditPrice${countCreditItem}" class="form-control" value="${v.price}" required disabled>
                 </div>
             </div>
         </tr>
@@ -633,5 +774,52 @@ $(function () {
         return ret;
     }
 
+    /**
+       * 日付のバリデーション
+       * @param {string} element
+       * @return {number} 0：否、1：正
+       */
+    function validateDate(element) {
+        var val = element.val();
+        console.log(val);
+        if (!val.match(/^\d{4}\-\d{2}\-\d{2}$/)) {
+            $(element).addClass('is-invalid');
+            alert('正しい日付を入力してください');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
+
+        var y = val.split("-")[0];
+        var m = val.split("-")[1] - 1;
+        var d = val.split("-")[2];
+        if (y < 2010) {
+            $(element).addClass('is-invalid');
+            alert('2010年以降で入力してください');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
+
+        return 1;
+    }
+
+    /**
+     * 金額のバリデーション
+     * @param {number} element
+     * @return {number} 0：否、1：正
+     */
+    function validatePrice(element) {
+        var val = element.val();
+        if (!val) {
+            element.addClass('is-invalid');
+        } else if (!val.match(/^[0-9]+$/)) {
+            element.addClass('is-invalid');
+            return 0;
+        } else {
+            element.removeClass('is-invalid');
+        }
+        return 1;
+    }
 });
 

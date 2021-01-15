@@ -39,7 +39,7 @@
                     <td class="inputAccountDebit" id="inputAccountDebit0">
                         <input type="hidden" name="debit_credit[]" id="" value="1">
                         <div class="inputAccountDebitCategory">
-                            <label for="inputAccountDebitCategory0">大区分：</label>
+                            <label for="inputAccountDebitCategory0">区分：</label>
                             <select name="category_id[]" id="inputAccountDebitCategory0" class="form-control" required>
                                 <option value="" class="selectFormatDebit" id="selectFormatDebit0">選択してください</option>
                                 @foreach ($categoryAll as $k)
@@ -60,6 +60,7 @@
                                 <input type="text" name="price[]" id="inputAccountDebitPrice0" class="form-control"
                                     value="" required>
                             </div>
+                        </div>
                         </div>
                     </td>
 
@@ -112,6 +113,7 @@
 
         </table>
         <div class="inputAccountSubmit" id="">
+            <input type="hidden" name="submit" value="inputAccount">
             <input type="submit" name="inputAccount" id="inputAccountNew" value="new" class="btn btn-info">
         </div>
     </form>
