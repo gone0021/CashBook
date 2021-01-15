@@ -28,7 +28,6 @@ class AjaxController extends Controller
         return $kubun;
     }
 
-
     public function getCategoryIncome(Request $req)
     {
         $kubun = Category::where('account_type', 2)->get();
