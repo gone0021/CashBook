@@ -1,5 +1,5 @@
 /* ------------------------ */
-/* layer */
+/* modal back */
 /* ------------------------ */
 .glayLayer {
     display: none;
@@ -14,12 +14,32 @@
 }
 
 /* ------------------------ */
-/* input expense/income */
+/* input Nomal/income */
 /* ------------------------ */
-#inputExpense,
-#inputIncome {
+#inputMsg {
     display: none;
     position: fixed;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -70px;
+    margin-left: -180px;
+    background-color: #e6ecf0;
+    height: 140px;
+    width: 360px;
+    padding: 40px 0px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* ------------------------ */
+/* input Nomal/income */
+/* ------------------------ */
+#inputNomal {
+    display: none;
+    position: fixed;
+    overflow: scroll;
+
     top: 50%;
     left: 50%;
     margin-top: -240px;
@@ -32,113 +52,99 @@
     text-align: center;
 }
 
-#inputExpense select,
-#inputIncome select {
+#inputNomal select {
     width: 180px;
 }
 
-div.inputExpenseAsset,
-div.inputExpenseCost,
-div.inputIncomeAsset,
-div.inputIncomeCost {
+div.inputNomalAsset,
+div.inputNomalPl {
     text-align: center;
     margin-bottom: 20px;
 }
 
 /* 日付 */
-div.inputExpenseDate,
-div.inputIncomeDate {
+div.inputNomalDate {
     margin-top: 10px;
 }
 
-div.inputExpenseinputDate,
-div.inputIncomeinputDate {
+div.inputNomalinputDate {
     display: inline-block;
     text-align: center;
     margin-bottom: 20px;
 }
 
 /* 資産選択 */
-div.inputExpenseAssetCategory,
-div.inputIncomeAssetCategory {
+div.inputNomalAssetCategory {
     display: inline-block;
     margin-right: 20px;
     font-weight: bold;
     font-size: medium;
 }
-div.inputExpenseAssetKubun,
-div.inputIncomeAssetKubun {
+div.inputNomalAssetKubun {
     display: inline-block;
 }
 
-div.inputExpenseAssetCategory select,
-div.inputExpenseAssetKubun select,
-div.inputIncomeAssetCategory select,
-div.inputIncomeAssetKubun select {
+div.inputNomalAssetCategory select,
+div.inputNomalAssetKubun select {
     display: inline-block;
 }
 
 /* 費用選択 */
-div.inputExpenseCostCategory,
-div.inputIncomeCostCategory {
+div.inputNomalPlCategory {
     display: inline-block;
-    margin-right: 20px;
+    margin-bottom: 20px;
 }
-div.inputExpenseCostKubun,
-div.inputIncomeCostKubun {
+
+div.inputNomalPlCategory select {
     display: inline-block;
 }
 
-div.inputExpenseCostCategory select,
-div.inputExpenseCostKubun select,
-div.inputIncomeCostCategory select,
-div.inputIncomeCostKubun select {
+div.inputNomalExpenseCategory,
+div.inputNomalIncomeCategory {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+div.inputNomalPlKubun {
     display: inline-block;
 }
 
 /* 金額入力欄 */
-div.inputExpensePrice,
-div.inputIncomePrice {
+div.inputNomalPrice {
     margin-bottom: 20px;
 }
 
-div.inputExpenseinputPrice,
-div.inputIncomeinputPrice {
+div.inputNomalinputPrice {
     display: inline-block;
     text-align: center;
 }
 
 /* コメント＋submitボタン 外枠 */
-div.inputExpenseLast,
-div.inputIncomeLast {
+div.inputNomalLast {
     display: inline-block;
     text-align: center;
 }
 
 /* コメント＋submitボタン 内枠 */
-div.inputExpenseCommentSubmit,
-div.inputIncomeCommentSubmit {
+div.inputNomalCommentSubmit {
     display: flex;
     text-align: center;
 }
 
 /* コメントラベル */
-label.inputExpenseCommentLabel,
-label.inputIncomeCommentLabel {
+label.inputNomalCommentLabel {
     display: flex;
     align-items : flex-start;
     margin: 24px 5px 0 0;
 }
 
 /* コメント */
-div.inputExpenseinputComment,
-div.inputIncomeinputComment {
+div.inputNomalinputComment {
     display: inline-block;
 }
 
 /* submitボタン */
-div.inputExpenseSubmit,
-div.inputIncomeSubmit {
+div.inputNomalSubmit {
     display: flex;
     align-items: flex-end;
     margin: 0 0 10px 10px;
@@ -164,22 +170,27 @@ div.inputIncomeSubmit {
     text-align: center;
 }
 
+/* 日付 */
+div.inputAccountinputTop {
+    display: inline-block;
+    text-align: center;
+}
+
 /* selcetのサイズ */
 #inputAccount select {
     width: 180px;
 }
 
 /* 日付・ボタンの枠 */
-div.inputAccountDate {
+/* div.inputAccountDate {
     display: inline-block;
     text-align: center;
     margin: 10px 0;
-}
+} */
 
 /* 日付 */
 .inputAccountinputDate {
     display: inline-block;
-    margin-right: 10px;
 }
 
 /* 追加・削除ボタン */

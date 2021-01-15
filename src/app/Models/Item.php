@@ -80,11 +80,11 @@ class Item extends Model
         $sql = "SELECT * FROM items WHERE user_id = $user_id AND deleted_at is null";
 
         $sql = Item::where('user_id', Auth::id());
-        if (isset(val['day'])) {
-            $val = val['date'] . '-' . val['day'];
+        if (isset($val['day'])) {
+            $val = $val['date'] . '-' . $val['day'];
             $sql .= " AND date = val ";
-        } elseif (isset(val['date'])) {
-            $val = val['date'];
+        } elseif (isset($val['date'])) {
+            $val = $val['date'];
             $sql .= " AND date LIKE val% ";
         }
 
@@ -175,7 +175,7 @@ class Item extends Model
         'category_id.*' => 'required|integer',
         'kubun_id.*' => 'required|integer',
         'price.*' => 'required|integer',
-        'comment' => 'nullable|max:20',
+        'comment' => 'nullable|max:100',
     ];
 
     /** バリデーションエラーメッセージ */
@@ -183,10 +183,10 @@ class Item extends Model
         'date.required' => '日付を入力してください',
         'date.date' => '日付が不正です',
         'date.after' => '2020年以降で入力してください',
-        'category_id.*.required' => '大区分を選択してください',
-        'category_id.*.integer' => '大区分が不正です',
-        'kubun_id.*.required' => '小区分を選択してください',
-        'kubun_id.*.integer' => '小区分が不正です',
+        'category_id.*.required' => '科目を選択してください',
+        'category_id.*.integer' => '科目が不正です',
+        'kubun_id.*.required' => '小科目を選択してください',
+        'kubun_id.*.integer' => '小科目が不正です',
         'price.*.required' => '金額をを入力してください',
         'price.*.integer' => '半角整数で入力してください',
         'comment.max'=> '100文字内で入力してください',
@@ -206,10 +206,10 @@ class Item extends Model
         'date.required' => '日付を入力してください',
         'date.date' => '日付が不正です',
         'date.after' => '2020年以降で入力してください',
-        'category_id.*.required' => '大区分を選択してください',
-        'category_id.*.integer' => '大区分が不正です',
-        'kubun_id.*.required' => '小区分を選択してください',
-        'kubun_id.*.integer' => '小区分が不正です',
+        'category_id.*.required' => '科目を選択してください',
+        'category_id.*.integer' => '科目が不正です',
+        'kubun_id.*.required' => '小科目を選択してください',
+        'kubun_id.*.integer' => '小科目が不正です',
         'price.required' => '金額をを入力してください',
         'price.integer' => '半角整数で入力してください',
         'comment.max'=> '100文字内で入力してください',

@@ -11,6 +11,15 @@ let validateFlgDebit;
 let validateFlgCredit;
 
 $(function () {
+    // ------------------------\
+    // バリデーションメッセージ
+    // ------------------------
+    let inputValidate = $('#inputMsg').hasClass('inputValidateMsg');
+    if (inputValidate) {
+        $(".glayLayer").fadeIn();
+        $('#inputMsg').fadeIn();
+    }
+
     // ------------------------
     // 簿記風の家計簿
     // ------------------------
@@ -21,7 +30,7 @@ $(function () {
     });
 
     // --- 日付入力時のバリデーション ---
-    $('#inputAccountDate, #inputAccountNew').blur(function () {
+    $('#inputAccountDate').blur(function () {
         var element = $(`#inputAccountDate`);
         validateDate(element)
     })
@@ -40,6 +49,7 @@ $(function () {
             alert('貸借が一致しません');
             ret = 0;
         }
+        alert(ret);
         if (ret == 0) {
             return false;
         }
@@ -94,13 +104,13 @@ $(function () {
             <tr id="addDebitTr${countDebitHome}"> <td class="inputAccountDebit">
             <input type="hidden" name="debit_credit[]" id="" value="1">
             <div class="inputAccountDebitCategory">
-                <label for="inputAccountDebitCategory${countDebitHome}">大区分：</label>
+                <label for="inputAccountDebitCategory${countDebitHome}">科目：</label>
                 <select name="category_id[]" id="inputAccountDebitCategory${countDebitHome}" class="form-control">
                     <option value="" class="selectFormatDebit" id="selectFormatDebit${countDebitHome}">選択してください</option>
                 </select>
             </div>
             <div class="inputAccountDebitKubun">
-                <label for="inputAccountDebitKubun${countDebitHome}">小区分：</label>
+                <label for="inputAccountDebitKubun${countDebitHome}">小科目：</label>
                 <select name="kubun_id[]" id="inputAccountDebitKubun${countDebitHome}" class="form-control"></select>
             </div>
             <div class="inputAccountDebitPrice">
@@ -119,7 +129,7 @@ $(function () {
             // category
             if (countDebitHome > 1) {
                 var element = `#inputAccountDebitCategory${i}`;
-                getCategoryAll(element);
+                getCategohryAll(element);
             }
 
             (function (i) {
@@ -195,7 +205,7 @@ $(function () {
     })
 
     // 0番目の金額のバリデーション
-    $(document).on("blur", `#inputAccountCreditPrice0`, function () {
+    $(document).on("blur",  `#inputAccountCreditPrice0`, function () {
         var element = $(this);
         if (validatePrice(element) == 0) {
             validateFlgCredit = 1;
@@ -214,14 +224,14 @@ $(function () {
             <input type="hidden" name="debit_credit[]" id="" value="2">
             <td class="inputAccountCredit" id="inputAccountCredit${countCreditHome}">
             <div class="inputAccountCreditCategory">
-                <label for="inputAccountCreditCategory${countCreditHome}">大区分：</label>
+                <label for="inputAccountCreditCategory${countCreditHome}">科目：</label>
                 <select name="category_id[]" id="inputAccountCreditCategory${countCreditHome}" class="form-control">
                     <option value="" class="selectFormatCredit" id="selectFormatCredit${countCreditHome}">選択してください</option>
                 </select>
             </div>
 
             <div class="inputAccountCreditKubun" >
-                <label for="inputAccountCreditKubun${countCreditHome}">小区分：</label>
+                <label for="inputAccountCreditKubun${countCreditHome}">小科目：</label>
                 <select name="kubun_id[]" id="inputAccountCreditKubun${countCreditHome}" class="form-control">
                 </select>
             </div>
@@ -260,7 +270,6 @@ $(function () {
 
                 // 金額のバリデーション
                 $(document).on("blur", `#inputAccountCreditPrice${i}`, function () {
-                    console.log('i : ' + i);
                     console.log('count : ' + countCreditHome);
                     // バリデーション
                     var element = $(this);
@@ -292,72 +301,53 @@ $(function () {
     // ------------------------
     // 1対1の家計簿
     // ------------------------
-    // --- 支出 ---
+    // --- 支出ボタン ---
     $("#newExpense").click(function () {
         $(".glayLayer").fadeIn();
-        $("#inputExpense").fadeIn();
+        $("#inputNomal").fadeIn();
+        $('#inputNomalDc0').val(2);
+        $('#inputNomalDc1').val(1);
+        $('.inputNomalAssetCategory label').text('支出：');
+        $('.inputNomalExpenseCategory').show();
+        $('.inputNomalIncomeCategory').hide();
+        $('#inputNomalCategoryExpnese').prop('disabled', false);
+        $('#inputNomalCategoryExpnese').prop('requiresd', true);
+        // 値のリセット
+        $('#selectFormatNomalAccet').show();
+        $('#inputNomalAssetCategory option:first').prop("selected", true);
+        $('#selectNomalExpense').show();
+        $('#inputNomalCategoryExpnese option:first').prop("selected", true);
+        $('#inputNomalAssetKubun').children().remove();
+        $('#inputNomalPlKubun').children().remove();
     });
 
-    // 日付のバリデーション
-    $('#inputExpenseDate').blur(function () {
-        var element = $(this);
-        if (validateDate(element) == 0) {
-            return false;
-        }
-    })
-
-    // 金額のバリデーション
-    $("#inputExpensePrice").blur(function () {
-        var element = $(this);
-        if (validatePrice(element) == 0) {
-            alert('半角数字のみ');
-            return false;
-        }
-    });
-
-    // newボタン時のバリデーション
-    $('#inputExpenseNew').click(function () {
-        var ret = 1;
-        var date = $('inputExpenseDate');
-        if (validatePrice(date) == 0) {
-            ret = 0;
-        }
-        var price = $('#inputExpensePrice');
-        if (validatePrice(price) == 0) {
-            ret = 0;
-        }
-        if (ret == 0) {
-            alert('半角数字のみ');
-            return false;
-        }
-    })
-
-    $(document).on("change", '#inputExpenseAssetCategory', function () {
-        $('.selectFormatExpenseAccet').remove();
-        $('#inputExpenseAssetKubun').children().remove();
-
-        var data = $(this).val();
-        var element = `#inputExpenseAssetKubun`;
-        getKubunList(element, data);
-    });
-
-    $(document).on("change", '#inputExpenseCostCategory', function () {
-        $('.selectFormatExpenseCost').remove();
-        $('#inputExpenseCostKubun').children().remove();
-
-        var data = $(this).val();
-        var element = `#inputExpenseCostKubun`;
-        getKubunList(element, data);
-    });
-
-    // --- 収入 ---
+    // --- 収入ボタン ---
     $("#newIncome").click(function () {
         $(".glayLayer").fadeIn();
-        $("#inputIncome").fadeIn();
+        $("#inputNomal").fadeIn();
+        $('#inputNomalDc0').val(1);
+        $('#inputNomalDc1').val(2);
+        $('.inputNomalAssetCategory label').text('収入：');
+        $('.inputNomalExpenseCategory').hide();
+        $('.inputNomalIncomeCategory').show();
+        $('#inputNomalCategoryIncome').prop('disabled', false);
+        $('#inputNomalCategoryIncome').prop('requiresd', true);
+        // 値のリセット
+        $('#selectFormatNomalAccet').show();
+        $('#inputNomalAssetCategory option:first').prop("selected", true);
+        $('#selectNomalIncome').show();
+        $('#inputNomalCategoryIncome option:first').prop("selected", true);
+        $('#inputNomalAssetKubun').children().remove();
+        $('#inputNomalPlKubun').children().remove();
     });
+        // --- 支出ボタン ---
+        $("#newTest").click(function () {
+            $(".glayLayer").fadeIn();
+            $("#inputIncome").fadeIn();
+        })
 
     // 日付のバリデーション
-    $('#inputIncomeDate').blur(function () {
+    $('#inputNomalDate').blur(function () {
         var element = $(this);
         if (validateDate(element) == 0) {
             return false;
@@ -365,7 +355,7 @@ $(function () {
     })
 
     // 金額のバリデーション
-    $("#inputIncomePrice").blur(function () {
+    $("#inputNomalPrice").blur(function () {
         var element = $(this);
         if (validatePrice(element) == 0) {
             alert('半角数字のみ');
@@ -374,39 +364,50 @@ $(function () {
     });
 
     // newボタン時のバリデーション
-    $('#inputIncomeNew').click(function () {
+    $('#inputNomalNew').click(function () {
         var ret = 1;
-        var date = $('#inputIncomeDate');
-        if (validatePrice(date) == 0) {
-            ret = 0;
+        var date = $('#inputNomalDate');
+        if (validateDate(date) == 0) {
+            ret = 0
         }
-        var price = $('#inputIncomePrice');
+        var price = $('#inputNomalPrice');
         if (validatePrice(price) == 0) {
+            alert('半角数字のみ');
             ret = 0;
         }
+        alert(ret);
         if (ret == 0) {
-            alert('半角数字のみ');
             return false;
         }
     })
 
-    // asset
-    $(document).on("change", '#inputIncomeAssetCategory', function () {
-        $('.selectFormatIncomeAccet').remove();
-        $('#inputIncomeAssetKubun').children().remove();
+    // 資産科目の取得
+    $(document).on("change", '#inputNomalAssetCategory', function () {
+        $('#selectFormatNomalAccet').hide();
+        $('#inputNomalAssetKubun').children().remove();
 
         var data = $(this).val();
-        var element = `#inputIncomeAssetKubun`;
+        var element = `#inputNomalAssetKubun`;
         getKubunList(element, data);
     });
 
-    // cost
-    $(document).on("change", '#inputIncomeCostCategory', function () {
-        $('.selectFormatIncomeCost').remove();
-        $('#inputIncomeCostKubun').children().remove();
+    // 費用科目の取得
+    $(document).on("change", '#inputNomalCategoryExpnese', function () {
+        $('#selectNomalExpense').hide();
+        $('#inputNomalPlKubun').children().remove();
 
         var data = $(this).val();
-        var element = `#inputIncomeCostKubun`;
+        var element = `#inputNomalPlKubun`;
+        getKubunList(element, data);
+    });
+
+    // 収益科目の取得
+    $(document).on("change", '#inputNomalCategoryIncome', function () {
+        $('#selectNomalIncome').hide();
+        $('#inputNomalPlKubun').children().remove();
+
+        var data = $(this).val();
+        var element = `#inputNomalPlKubun`;
         getKubunList(element, data);
     });
 
@@ -421,9 +422,10 @@ $(function () {
     // グレー背景
     $(".glayLayer").click(function () {
         $(this).fadeOut()
-        $("#inputExpense").fadeOut();
+        $("#inputNomal").fadeOut();
         $("#inputIncome").fadeOut();
         $("#inputAccount").fadeOut();
+        $("#inputMsg").fadeOut();
         validateFlgDebit = 0;
         validateFlgCredit = 0;
     });
@@ -461,7 +463,7 @@ $(function () {
         }).done(function (ret) {
             if (ret.length == 0) {
                 console.log('if');
-                $(element).append($('<option>').text("小区分なし").attr('value', 0));
+                $(element).append($('<option>').text("小科目なし").attr('value', 0));
             } else {
                 console.log('else');
                 $.each(ret, function (k, v) {
@@ -504,7 +506,7 @@ $(function () {
     }
 
     /**
-     * 日付のバリデーション
+     * 金額のバリデーション
      * @param {number} element
      * @return {number} 0：否、1：正
      */

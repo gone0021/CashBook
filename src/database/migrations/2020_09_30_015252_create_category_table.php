@@ -16,7 +16,7 @@ class CreateCategoryTable extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('');
             // $table->tinyInteger('account_type')->comment('科目区分');
-            $table->string('category_name',50)->comment('大科目名');
+            $table->string('category_name',50)->comment('科目名');
             $table->softDeletes();
             $table->timestamps();
         });

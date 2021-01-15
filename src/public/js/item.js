@@ -478,7 +478,7 @@ $(function () {
                 $(kubun).children().remove();
                 $(kubun).prop('disabled', false);
                 if (!val.kubun_id) {
-                    $(kubun).append($('<option>').text("小区分なし").attr('value', 0));
+                    $(kubun).append($('<option>').text("小科目なし").attr('value', 0));
                 } else {
                     $.each(ret, function (k, v) {
                         var selected = false;
@@ -606,7 +606,7 @@ $(function () {
             // 値の追加
             if (global_var.debit_credit == debit_credit) {
                 if (!global_var.kubun_id) {
-                    $(element).append($('<option>').text("小区分なし").attr('value', 0));
+                    $(element).append($('<option>').text("小科目なし").attr('value', 0));
                 } else {
                     $.each(ret, function (k, v) {
                         var selected = false;
@@ -635,7 +635,7 @@ $(function () {
         }).done(function (ret) {
             $(element).children().remove();
             if (ret.length == 0) {
-                $(element).append($('<option>').text("小区分なし").attr('value', 0));
+                $(element).append($('<option>').text("小科目なし").attr('value', 0));
             } else {
                 $.each(ret, function (k, v) {
                     $(element).append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -674,7 +674,7 @@ $(function () {
     function detailKubun(element, k, v) {
         var ret = '';
         if (!v.kubun_id) {
-            ret = $(`#detail${element}Kubun${k}`).append($('<option>').text("小区分なし").attr('value', 0));
+            ret = $(`#detail${element}Kubun${k}`).append($('<option>').text("小科目なし").attr('value', 0));
         } else {
             ret = $(`#detail${element}Kubun${k}`).append($('<option>').text(v.kubun_name).attr('value', v.kubun_id))
         }
@@ -700,7 +700,7 @@ $(function () {
         <input type="hidden" name="debit_credit[]" id="detailAccountDecitDc${countDebitItem}" value="${v.debit_credit}">
 
         <div class="detailAccountDebitCategory">
-            <label for="detailAccountDebitCategory${countDebitItem}">大区分：</label>
+            <label for="detailAccountDebitCategory${countDebitItem}">大科目：</label>
 
             <select name="category_id[]" id="detailAccountDebitCategory${countDebitItem}" class="form-control" disabled>
 
@@ -709,7 +709,7 @@ $(function () {
         </div>
 
         <div class="detailAccountDebitKubun">
-            <label for="detailAccountDebitKubun${countDebitItem}">小区分：</label>
+            <label for="detailAccountDebitKubun${countDebitItem}">小科目：</label>
 
             <select name="kubun_id[]" id="detailAccountDebitKubun${countDebitItem}" class="form-control" disabled>
 
@@ -745,7 +745,7 @@ $(function () {
             <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc${countDebitItem}" value="${v.debit_credit}">
 
             <div class="detailAccountCreditCategory">
-                <label for="detailAccountCreditCategory${countCreditItem}">大区分：</label>
+                <label for="detailAccountCreditCategory${countCreditItem}">大科目：</label>
 
                 <select name="category_id[]" id="detailAccountCreditCategory${countCreditItem}" class="form-control" disabled>
 
@@ -754,7 +754,7 @@ $(function () {
             </div>
 
             <div class="detailAccountCreditKubun">
-                <label for="detailAccountCreditKubun${countCreditItem}">小区分：</label>
+                <label for="detailAccountCreditKubun${countCreditItem}">小科目：</label>
 
                 <select name="kubun_id[]" id="detailAccountCreditKubun${countCreditItem}" class="form-control" disabled>
 

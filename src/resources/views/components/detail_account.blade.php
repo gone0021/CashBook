@@ -46,13 +46,13 @@
                         <input type="hidden" name="debit_credit[]" id="detailAccountDebitDc0" value="1">
 
                         <div class="detailAccountDebitCategory">
-                            <label for="detailAccountDebitCategory0">大区分：</label>
+                            <label for="detailAccountDebitCategory0">科目：</label>
                             <select name="category_id[]" id="detailAccountDebitCategory0" class="form-control" disabled>
                             </select>
                         </div>
 
                         <div class="detailAccountDebitKubun">
-                            <label for="detailAccountDebitKubun0">小区分：</label>
+                            <label for="detailAccountDebitKubun0">小科目：</label>
                             <select name="kubun_id[]" id="detailAccountDebitKubun0" class="form-control" disabled>
                             </select>
                         </div>
@@ -72,14 +72,14 @@
                         <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc0" value="2">
 
                         <div class="detailAccountCreditCategory" id="detailAccountCreditCategory">
-                            <label for="detailAccountCreditCategory0">大区分：</label>
+                            <label for="detailAccountCreditCategory0">科目：</label>
                             <select name="category_id[]" id="detailAccountCreditCategory0" class="form-control"
                                 disabled>
                             </select>
                         </div>
 
                         <div class="detailAccountCreditKubun">
-                            <label for="detailAccountCreditKubun0">小区分：</label>
+                            <label for="detailAccountCreditKubun0">小科目：</label>
                             <select name="kubun_id[]" id="detailAccountCreditKubun0" class="form-control" disabled>
                             </select>
                         </div>

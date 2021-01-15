@@ -22,7 +22,7 @@
             </div>
 
             <div class="inputIncomeAssetKubun">
-                <label for="inputIncomeAssetKubun">小区分：</label>
+                <label for="inputIncomeAssetKubun">小科目：</label>
                 <select name="kubun_id[]" id="inputIncomeAssetKubun" class="form-control" required>
                 </select>
             </div>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="inputIncomePlKubun">
-                <label for="inputIncomePlKubun">小区分：</label>
+                <label for="inputIncomePlKubun">小科目：</label>
                 <select name="kubun_id[]" id="inputIncomePlKubun" class="form-control" required>
                 </select>
             </div>

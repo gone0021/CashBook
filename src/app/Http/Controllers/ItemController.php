@@ -87,7 +87,6 @@ class ItemController extends Controller
 
     public function store(Request $req)
     {
-        // dd($req->all());
         if ($req->submit == 'inputAccount') {
             $validator = Validator::make($req->all(), Item::$ruleAccount, Item::$msgAccount);
             if ($validator->fails()) {
@@ -156,9 +155,6 @@ class ItemController extends Controller
 
     public function update(Request $req)
     {
-        // dd($req->all());
-        echo 'update';
-
         if ($req->submit == 'Update') {
             $validator = Validator::make($req->all(), Item::$ruleAccount, Item::$msgAccount);
             if ($validator->fails()) {
@@ -168,7 +164,6 @@ class ItemController extends Controller
 
             $val = $req->all();
             unset($val['_token']);
-            echo 'update';
 
             foreach ($req->id as $k => $v) {
                 // $dbItem = new Item();
@@ -187,8 +182,7 @@ class ItemController extends Controller
                 $dbItem->comment = $val['comment'];
 
                 $dbItem->update();
-        // dd($req->all());
-    }
+            }
             return back();
         } elseif ($req->submit == 'Delete') {
             foreach ($req->id as $v) {

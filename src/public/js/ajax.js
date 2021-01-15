@@ -1,7 +1,7 @@
 /**
  * 支出modal
  */
-// 資産区分
+// 資産科目
 $(function () {
     $("#expenseModalAssetCategory").change(function () {
         // alert('ajax');
@@ -19,7 +19,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#expenseModalAssetKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#expenseModalAssetKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#expenseModalAssetKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -30,7 +30,7 @@ $(function () {
         });
     });
 
-    // 費用区分
+    // 費用科目
     $("#expenseModalCostCategory").change(function () {
         // alert('ajax');
         $('#expenseModalCostKubun option').remove();
@@ -47,7 +47,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#expenseModalCosttKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#expenseModalCosttKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#expenseModalCostKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -63,7 +63,7 @@ $(function () {
 /**
  * 収入modal
  */
-// 資産区分
+// 資産科目
 $(function () {
     $("#incomeModalAssetCategory").change(function () {
         // alert('ajax');
@@ -81,7 +81,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#incomeModalAssetKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#incomeModalAssetKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#incomeModalAssetKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -92,7 +92,7 @@ $(function () {
         });
     });
 
-    // 費用区分
+    // 費用科目
     $("#incomeModalCostCategory").change(function () {
         // alert('ajax');
         $('#incomeModalCostKubun option').remove();
@@ -109,7 +109,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#incomeModalCosttKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#incomeModalCosttKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#incomeModalCostKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -142,7 +142,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#accountModalDebitKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#accountModalDebitKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#accountModalDebitKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -170,7 +170,7 @@ $(function () {
             }
         }).done(function (data) {
             if (data.length == 0) {
-                $('#accountModalCreditKubun').append($('<option>').text("小区分なし").attr('value', 'null'));
+                $('#accountModalCreditKubun').append($('<option>').text("小科目なし").attr('value', 'null'));
             } else {
                 $.each(data, function (k, v) {
                     $('#accountModalCreditKubun').append($('<option>').text(v.kubun_name).attr('value', v.id));
@@ -210,7 +210,7 @@ $(function () {
                 if (v.kubun_name) {
                     kubun_name = '<p>' + v.kubun_name + '</p>';
                 } else {
-                    kubun_name = '<p>' + '小区分なし' + '</p>';
+                    kubun_name = '<p>' + '小科目なし' + '</p>';
                 }
 
                 if (v.debit_credit == 1) {

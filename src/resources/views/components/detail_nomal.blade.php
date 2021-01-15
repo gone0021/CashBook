@@ -23,7 +23,7 @@
             </div>
 
             <div class="detailNomalKubun0">
-                <label for="detailNomalKubun0">小区分：</label>
+                <label for="detailNomalKubun0">小科目：</label>
                 <select name="kubun_id[]" id="detailNomalKubun0" class="form-control" disabled required>
                 </select>
             </div>
@@ -40,7 +40,7 @@
             </div>
 
             <div class="detailNomalKubun1">
-                <label for="detailNomalKubun1">小区分：</label>
+                <label for="detailNomalKubun1">小科目：</label>
                 <select name="kubun_id[]" id="detailNomalKubun1" class="form-control" disabled required>
                 </select>
             </div>
