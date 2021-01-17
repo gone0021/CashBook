@@ -173,7 +173,7 @@ class Item extends Model
     public static $ruleAccount = [
         'date' => 'required|date|after:2020-01-01',
         'category_id.*' => 'required|integer',
-        'kubun_id.*' => 'required|integer',
+        'kubun_id.*' => 'nullable|integer',
         'price.*' => 'required|integer',
         'comment' => 'nullable|max:100',
     ];
@@ -185,7 +185,6 @@ class Item extends Model
         'date.after' => '2020年以降で入力してください',
         'category_id.*.required' => '科目を選択してください',
         'category_id.*.integer' => '科目が不正です',
-        'kubun_id.*.required' => '小科目を選択してください',
         'kubun_id.*.integer' => '小科目が不正です',
         'price.*.required' => '金額をを入力してください',
         'price.*.integer' => '半角整数で入力してください',
@@ -196,7 +195,7 @@ class Item extends Model
     public static $ruleNomal = [
         'date' => 'required|date|after:2020-01-01',
         'category_id.*' => 'required|integer',
-        'kubun_id.*' => 'required|integer',
+        'kubun_id.*' => 'nullable|integer',
         'price' => 'required|integer',
         'comment' => 'nullable|max:20',
     ];
@@ -208,7 +207,6 @@ class Item extends Model
         'date.after' => '2020年以降で入力してください',
         'category_id.*.required' => '科目を選択してください',
         'category_id.*.integer' => '科目が不正です',
-        'kubun_id.*.required' => '小科目を選択してください',
         'kubun_id.*.integer' => '小科目が不正です',
         'price.required' => '金額をを入力してください',
         'price.integer' => '半角整数で入力してください',
