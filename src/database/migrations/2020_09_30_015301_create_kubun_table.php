@@ -15,8 +15,8 @@ class CreateKubunTable extends Migration
     {
         Schema::create('kubun', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('');
-            $table->integer('category_id')->comment('大科目id');
-            $table->string('kubun_name',50)->comment('小科目名');
+            $table->integer('category_id')->comment('科目id');
+            $table->string('kubun_name',20)->comment('小科目名');
             $table->softDeletes();
             $table->timestamps();
         });
