@@ -67,7 +67,7 @@
                     {{-- 貸方 --}}
                     <td class="inputAccountCredit">
                         <input type="hidden" name="debit_credit[]" id="" value="2">
-                        <div class="inputAccountCreditCategory" id="inputAccountCreditCategory0">
+                        <div class="inputAccountCreditCategory">
                             <label for="inputAccountCreditCategory0">科目：</label>
                             <select name="category_id[]" id="inputAccountCreditCategory0" class="form-control" required>
                                 <option value="" class="selectFormatCredit" id="selectFormatCredit0">選択してください</option>

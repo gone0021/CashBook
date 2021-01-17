@@ -165,14 +165,14 @@ $(function () {
                         debitSumItem = parseInt(v.price);
                         // 値の取得
                         element = 'AccountDebit';
-                        detailHtmlSet(element, 0, v);
+                        setHtml(element, 0, v);
                         // 貸方
                     } else if (v.debit_credit == 2) {
                         // 合計金額の計算：出力はforを抜けてから
                         creditSumItem = parseInt(v.price);
                         // 値の取得
                         element = 'AccountCredit';
-                        detailHtmlSet(element, 0, v);
+                        setHtml(element, 0, v);
 
                     }
                     // 貸借のどちらかが複数ある場合：thmlごと追記
@@ -420,7 +420,7 @@ $(function () {
 
             $.each(ret, function (k, v) {
                 element = 'Nomal';
-                detailHtmlSet(element, k, v);
+                setHtml(element, k, v);
             })
 
         }).fail(function () {
@@ -649,29 +649,54 @@ $(function () {
     /**
      * 複数のメソッドを集めて呼び出す
      * @param {String} element
+     * @param {Number} k
      * @param {any} v
      */
-    function detailHtmlSet(element, k, v) {
-        detailId(element, k, v);
-        detailDebitCredit(element, k, v);
-        detailCategory(element, k, v);
-        detailKubun(element, k, v);
-        detailPrice(element, k, v);
+    function setHtml(element, k, v) {
+        setId(element, k, v);
+        setDebitCredit(element, k, v);
+        setCategory(element, k, v);
+        setKubun(element, k, v);
+        setPrice(element, k, v);
     }
 
-    function detailId(element, k, v) {
+    /**
+     * idのHTML
+     * @param {Storing} element
+     * @param {Number} k
+     * @param {any} v
+     */
+    function setId(element, k, v) {
         return $(`#detail${element}Id${k}`).val(v.id);
     }
 
-    function detailDebitCredit(element, k, v) {
+    /**
+     * debit_crediのHTML
+     * @param {Storing} element
+     * @param {Number} k
+     * @param {any} v
+     */
+    function setDebitCredit(element, k, v) {
         return $(`#detail${element}Dc${k}`).val(v.debit_credit);
     }
 
-    function detailCategory(element, k, v) {
+    /**
+     * categoryのHTML
+     * @param {Storing} element
+     * @param {Number} k
+     * @param {any} v
+     */
+    function setCategory(element, k, v) {
         return $(`#detail${element}Category${k}`).append($('<option>').text(v.category_name).attr('value', v.category_id));
     }
 
-    function detailKubun(element, k, v) {
+    /**
+     * kubunのHTML
+     * @param {Storing} element
+     * @param {Number} k
+     * @param {any} v
+     */
+    function setKubun(element, k, v) {
         var ret = '';
         if (!v.kubun_id) {
             ret = $(`#detail${element}Kubun${k}`).append($('<option>').text("小科目なし").attr('value', 0));
@@ -681,7 +706,13 @@ $(function () {
         return ret;
     }
 
-    function detailPrice(element, k, v) {
+    /**
+     * priceのHTML
+     * @param {Storing} element
+     * @param {Number} k
+     * @param {any} v
+     */
+    function setPrice(element, k, v) {
         return $(`#detail${element}Price${k}`).val(v.price);
     }
 

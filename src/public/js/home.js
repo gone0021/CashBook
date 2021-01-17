@@ -11,7 +11,7 @@ let validateFlgDebit;
 let validateFlgCredit;
 
 $(function () {
-    // ------------------------\
+    // ------------------------
     // バリデーションメッセージ
     // ------------------------
     let inputValidate = $('#inputMsg').hasClass('inputValidateMsg');
@@ -49,18 +49,16 @@ $(function () {
             alert('貸借が一致しません');
             ret = 0;
         }
-        alert(ret);
         if (ret == 0) {
             return false;
         }
     })
 
-    // ------------------------
-    // 簿記風の家計簿：借方
-    // ------------------------
+    /**
+     * 借方
+     */
     $(document).on("change", '#inputAccountDebitCategory0', function () {
-        $('#selectFormatDebit0').remove();
-
+        $('#selectFormatDebit0').hide();
         var data = $(this).val();
         var element = `#inputAccountDebitKubun0`;
         $(element).children().remove();
@@ -129,7 +127,7 @@ $(function () {
             // category
             if (countDebitHome > 1) {
                 var element = `#inputAccountDebitCategory${i}`;
-                getCategohryAll(element);
+                getCategoryAll(element);
             }
 
             (function (i) {
@@ -175,12 +173,11 @@ $(function () {
         $(`#addDebitTr${countDebitHome}`).remove();
     });
 
-    // ------------------------
-    // 簿記風の家計簿：貸方
-    // ------------------------
+    /**
+     * 貸方
+     */
     $(document).on("change", '#inputAccountCreditCategory0', function () {
-        $('#selectFormatCredit0').remove();
-
+        $('#selectFormatCredit0').hide();
         var data = $(this).val();
         var element = `#inputAccountCreditKubun0`;
         $(element).children().remove();
@@ -375,7 +372,6 @@ $(function () {
             alert('半角数字のみ');
             ret = 0;
         }
-        alert(ret);
         if (ret == 0) {
             return false;
         }
