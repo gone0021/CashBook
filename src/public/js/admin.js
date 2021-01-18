@@ -100,7 +100,7 @@ $(function () {
      */
     $(document).on('change', `#createAccountType`, function () {
         if (ajax_flg) {
-            console.log('--- ajax category ---');
+            // console.log('--- ajax category ---');
             var element = '#createSelectCategory';
             var val = $(this).val();
             $(element).children().remove();
@@ -387,7 +387,7 @@ $(function () {
      * account_typeからcategoryを取得
      */
     $('#editAccountType').change(function () {
-        console.log('--- ajax category ---');
+        // console.log('--- ajax category ---');
         var element = '#editSelectCategory';
         var val = $(this).val();
         $(element).children().remove();
@@ -400,12 +400,11 @@ $(function () {
      * categoryからkubunを取得
      */
     $('#editSelectCategory').change(function () {
-        console.log('--- ajax kubun ---');
+        // console.log('--- ajax kubun ---');
         var element = '#editSelectKubun';
         var val = $(this).val();
 
         $(element).children().remove();
-
         getKubun(element, val);
     });
 
@@ -440,7 +439,7 @@ $(function () {
             data: { account_type: val, },
             dataType: 'json',
         }).done(function (ret) {
-            console.log(ret);
+            // console.log(ret);
             $.each(ret, function (k, v) {
                 $(element).append($('<option>').text(v.category_name).attr('value', v.id));
             })
@@ -464,7 +463,7 @@ $(function () {
             data: { category_id: val, },
             dataType: 'json',
         }).done(function (ret) {
-            console.log(ret);
+            // console.log(ret);
             if (ret.length == 0) {
                 $(element).append($('<option>').text("小科目なし").attr('value', 0));
                 $(element).prop('required', false);

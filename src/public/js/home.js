@@ -75,7 +75,6 @@ $(function () {
             // 金額の計算
             debitSumHome += parseInt($(`#inputAccountDebitPrice${i}`).val());
         }
-        console.log(debitSumHome);
         if (debitSumHome > 0) {
             $(`#inputDebitTotalPrice`).text(debitSumHome);
         } else {
@@ -166,10 +165,10 @@ $(function () {
 
     // 削除
     $(document).on("click", ".delDebit", function () {
+        // console.log('countDebit' + countDebitHome);
         if (countDebitHome > 1) {
             countDebitHome--;
         }
-        console.log('countDebit' + countDebitHome);
         $(`#addDebitTr${countDebitHome}`).remove();
     });
 
@@ -215,7 +214,7 @@ $(function () {
 
     // 入力の追加・削除
     $(document).on("click", ".addCredit", function () {
-        console.log('countCredit' + countCreditHome);
+        // console.log('countCredit' + countCreditHome);
         let inputAccountCredit = `
             <tr id="addCreditTr${countCreditHome}"><td></td>
             <input type="hidden" name="debit_credit[]" id="" value="2">
@@ -255,7 +254,7 @@ $(function () {
             (function (i) {
                 // kubun
                 $(document).on("change", `#inputAccountCreditCategory${i}`, function () {
-                    console.log('--- countCredit:' + countCreditHome + ' ---');
+                    // console.log('--- countCredit:' + countCreditHome + ' ---');
 
                     $(`#selectFormatCredit${i}`).remove();
 
@@ -267,11 +266,8 @@ $(function () {
 
                 // 金額のバリデーション
                 $(document).on("blur", `#inputAccountCreditPrice${i}`, function () {
-                    console.log('count : ' + countCreditHome);
                     // バリデーション
-                    var element = $(this);
                     if (validatePrice(element) == 0) {
-                        console.log('vf : ' + validateFlgCredit);
                         if (validateFlgCredit == 0) {
                             validateFlgCredit = 1;
                             alert('半角数字のみ');
@@ -287,10 +283,10 @@ $(function () {
 
     // 削除
     $(document).on("click", ".delCredit", function () {
+        // console.log('countCredit' + countCreditHome);
         if (countCreditHome > 1) {
             countCreditHome--;
         }
-        console.log('countCredit' + countCreditHome);
         $(`#addCreditTr${countCreditHome}`).remove();
     });
 
@@ -458,10 +454,8 @@ $(function () {
             }
         }).done(function (ret) {
             if (ret.length == 0) {
-                console.log('if');
                 $(element).append($('<option>').text("小科目なし").attr('value', 0));
             } else {
-                console.log('else');
                 $.each(ret, function (k, v) {
                     $(element).append($('<option>').text(v.kubun_name).attr('value', v.id));
                 })
@@ -478,7 +472,7 @@ $(function () {
      */
     function validateDate(element) {
         var val = element.val();
-        console.log(val);
+        // console.log(val);
         if (!val.match(/^\d{4}\-\d{2}\-\d{2}$/)) {
             $(element).addClass('is-invalid');
             alert('正しい日付を入力してください');
@@ -518,5 +512,4 @@ $(function () {
         }
         return 1;
     }
-
 });

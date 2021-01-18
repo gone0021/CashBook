@@ -76,12 +76,10 @@ $(function () {
     })
 
     $(".itemDetailAccount").click(function () {
-        console.log('--- detail show : account ---');
+        // console.log('--- detail show : account ---');
         // 変数
         countDebitTr = $('.detailAccountDebitTr').length;
         countCreditTr = $('.detailAccountCreditTr').length;
-        console.log(countDebitTr);
-        console.log(countCreditTr);
 
         // disableを設定
         $("#detailAccountDate").prop('disabled', true);
@@ -134,8 +132,7 @@ $(function () {
                 book_no: $(this).val(),
             }
         }).done(function (ret) {
-            console.log(ret);
-
+            // console.log(ret);
             ajaxAccountDebit = [];
             ajaxAccountCredit = [];
             let d = 0, c = 0;
@@ -206,11 +203,10 @@ $(function () {
     // detail account ： 編集
     // ------------------------
     $("#detailAccountEdit").click(function () {
+        // console.log('--- detail account edit ---');
         // 変数の宣言
         countDebitItem = $('.detailAccountDebit').length;
-        console.log(countDebitItem);
         countCreditItem = $('.detailAccountCredit').length;
-        console.log(countCreditItem);
         var element = '';
 
         // ボタンの変更
@@ -223,34 +219,27 @@ $(function () {
         $(".detailAccountCreditPrice input").prop('disabled', false)
         $(".detailAccountComment textarea").prop('disabled', false)
 
-        console.log('--- detail account edit ---');
         // debit
         $.each(ajaxAccountDebit, function (i, val) {
-            console.log('debit :: ' + i);
+            // console.log('debit :: ' + i);
             // category
             element = `#detailAccountDebitCategory${i}`;
             // 値を取得
             getCategoryByEdit(element, ajaxAccountDebit[i], 1);
-
             // kubun
             element = `#detailAccountDebitKubun${i}`;
             // 値を取得
             getKubunByEdit(element, ajaxAccountDebit[i], 1);
-
             // change
             $(document).on("change", `#detailAccountDebitCategory${i}`, function () {
                 var data = $(this).val();
                 element = `#detailAccountDebitKubun${i}`;
                 getKubunListByChange(element, data);
             })
-
             // 金額のバリデーション
             $(document).on("blur", `#detailAccountDebitPrice${i}`, function () {
-                // バリデーション
-                console.log('valid credit');
                 var element = $(this);
                 if (validatePrice(element) == 0) {
-                    console.log('vf : ' + validateFlgDebitItem);
                     if (validateFlgDebitItem == 0) {
                         validateFlgDebitItem = 1;
                         alert('半角数字のみ');
@@ -264,17 +253,15 @@ $(function () {
 
         // credit
         $.each(ajaxAccountCredit, function (i, val) {
-            console.log('credit :: ' + i);
+            // console.log('credit :: ' + i);
             // category
             element = `#detailAccountCreditCategory${i}`;
             // 値を取得
             getCategoryByEdit(element, ajaxAccountCredit[i], 2);
-
             // kubun
             element = `#detailAccountCreditKubun${i}`;
             // 値を取得
             getKubunByEdit(element, ajaxAccountCredit[i], 2);
-
             // change
             $(document).on("change", `#detailAccountCreditCategory${i}`, function () {
                 var element = `#detailAccountCreditKubun${i}`;
@@ -282,14 +269,10 @@ $(function () {
                 // $(element).children().remove();
                 getKubunListByChange(element, data);
             });
-
             // 金額のバリデーション
             $(document).on("blur", `#detailAccountCreditPrice${i}`, function () {
-                // バリデーション
-                console.log('valid credit');
                 var element = $(this);
                 if (validatePrice(element) == 0) {
-                    console.log('vf : ' + validateFlgCreditItem);
                     if (validateFlgCreditItem == 0) {
                         validateFlgCreditItem = 1;
                         alert('半角数字のみ');
@@ -308,12 +291,9 @@ $(function () {
     // 借方金額の取得
     $(document).on("blur", '.detailAccountDebitPrice', function () {
         debitSumItem = 0;
-        console.log(countDebitItem);
-
         for (var i = 0; i < countDebitItem; i++) {
             debitSumItem += parseInt($(`#detailAccountDebitPrice${i}`).val());
         }
-        console.log(debitSumItem);
         if (debitSumItem > 0) {
             $(`#detailDebitTotalPrice`).text(debitSumItem);
         } else {
@@ -324,12 +304,9 @@ $(function () {
     // 貸方金額の取得
     $(document).on("blur", '.detailAccountCreditPrice', function () {
         creditSumItem = 0;
-        console.log(countCreditItem);
-
         for (var i = 0; i < countCreditItem; i++) {
             creditSumItem += parseInt($(`#detailAccountCreditPrice${i}`).val());
         }
-        console.log(creditSumItem);
         if (creditSumItem > 0) {
             $(`#detailCreditTotalPrice`).text(creditSumItem);
         } else {
@@ -366,7 +343,7 @@ $(function () {
     // detail nomal ： Detailボタン
     // ------------------------
     $(".itemDetailNomal").click(function () {
-        console.log('--- detail show : nomal ---');
+        // console.log('--- detail show : nomal ---');
         $(".glayLayer").fadeIn();
         $("#detailNomal").fadeIn();
 
@@ -401,7 +378,7 @@ $(function () {
                 book_no: $(this).val()
             }
         }).done(function (ret) {
-            console.log(ret);
+            // console.log(ret);
             element = 'Nomal';
             // 値をグローバル編集へ保存
             ajaxNomal = ret;
@@ -432,6 +409,7 @@ $(function () {
     // detail nomal ： 編集
     // ------------------------
     $("#detaliNomalEdit").click(function () {
+        console.log('--- detail Nomal edit ---');
         var element = '';
 
         // ボタンの変更
@@ -444,7 +422,6 @@ $(function () {
         $("#detailNomalComment").prop('disabled', false)
         $("#selectNomalDc").prop('disabled', false)
 
-        console.log('--- detail Nomal edit ---');
         // 値の取得
         $.each(ajaxNomal, function (i, val) {
             // category
@@ -812,7 +789,7 @@ $(function () {
        */
     function validateDate(element) {
         var val = element.val();
-        console.log(val);
+        // console.log(val);
         if (!val.match(/^\d{4}\-\d{2}\-\d{2}$/)) {
             $(element).addClass('is-invalid');
             alert('正しい日付を入力してください');
