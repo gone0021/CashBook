@@ -48,7 +48,7 @@
                             <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('Birthday') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birthday" type="date" class="form-control @error('email') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" required autocomplete="birthday">
+                                <input id="birthday" type="date" class="form-control @error('birthday') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" required autocomplete="birthday">
 
                                 @error('birthday')
                                 <span class="invalid-feedback" role="alert">
