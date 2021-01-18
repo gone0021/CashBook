@@ -181,13 +181,6 @@ div.inputAccountinputTop {
     width: 180px;
 }
 
-/* 日付・ボタンの枠 */
-/* div.inputAccountDate {
-    display: inline-block;
-    text-align: center;
-    margin: 10px 0;
-} */
-
 /* 日付 */
 .inputAccountinputDate {
     display: inline-block;
