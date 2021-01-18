@@ -53,16 +53,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $name = '/^[a-zA-Z0-9]+$/u';
-
-        return Validator::make($data, [
-            'user_name' => ['max:255', "regex:$name", 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'birthday' => ['date'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
-            // 仮でパスワードを2桁でOKにしてる
-            'password' => ['required', 'string', 'min:2', 'confirmed'],
-        ]);
+        // フォームリクエストでバリデーションを記述
     }
 
     /**
