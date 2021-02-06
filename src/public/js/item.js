@@ -196,7 +196,7 @@ $(function () {
                 $('#detailCreditTotalPrice').text(creditSumItem);
             })
         }).fail(function () {
-            alert('error edit account');
+            alert('error detail account');
         });
     });
 
