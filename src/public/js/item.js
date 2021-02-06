@@ -6,11 +6,12 @@ let ajaxNomal = [];
 let countDebitItem;
 let countCreditItem;
 
-// let debitSumItem;
-// let creditSumItem;
-
 let validateFlgDebitItem;
 let validateFlgCreditItem;
+
+let urlItem = location.href;
+let indexItem = urlItem.indexOf('/item');
+let rootItem = urlItem.substr(0, indexItem)
 
 $(function () {
     // モーダル背景
@@ -127,7 +128,7 @@ $(function () {
         // 値の取得
         $.ajax({
             type: "get",
-            url: "/items/show/a",
+            url: `${rootItem}/items/show/a`,
             data: {
                 book_no: $(this).val(),
             }
@@ -195,7 +196,7 @@ $(function () {
                 $('#detailCreditTotalPrice').text(creditSumItem);
             })
         }).fail(function () {
-            alert('error...');
+            alert('error edit account');
         });
     });
 
@@ -373,7 +374,7 @@ $(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "get",
-            url: "/items/show/a",
+            url: `${rootItem}/items/show/a`,
             data: {
                 book_no: $(this).val()
             }
@@ -428,7 +429,7 @@ $(function () {
             var category = `#detailNomalCategory${i}`;
             $.ajax({
                 type: "get",
-                url: "/ajax/category_by_account",
+                url: `${rootItem}/ajax/category_by_account`,
                 data: { account_type: val.account_type }
             }).done(function (ret) {
                 console.log(ret);
@@ -448,7 +449,7 @@ $(function () {
             var kubun = `#detailNomalKubun${i}`;
             $.ajax({
                 type: "get",
-                url: `/ajax/kubun_by_category`,
+                url: `${rootItem}/ajax/kubun_by_category`,
                 data: { category_id: val.category_id }
             }).done(function (ret) {
                 // console.log(ret);
@@ -572,8 +573,7 @@ $(function () {
     function getKubunByEdit(element, global_var, debit_credit, error = null) {
         $.ajax({
             type: "get",
-            url: `/ajax/kubun_by_category`,
-            // async: true,
+            url: `${rootItem}/ajax/kubun_by_category`,
             data: { category_id: global_var.category_id }
         }).done(function (ret) {
             // 元の値を削除
@@ -607,7 +607,7 @@ $(function () {
     function getKubunListByChange(element, data, error = null) {
         $.ajax({
             type: "get",
-            url: "/ajax/kubun_by_category",
+            url: `${rootItem}/ajax/kubun_by_category`,
             data: { category_id: data }
         }).done(function (ret) {
             $(element).children().remove();

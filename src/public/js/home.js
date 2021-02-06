@@ -1,6 +1,3 @@
-let w = $(window).width();
-let h = $(window).height();
-
 let countDebitHome;
 let countCreditHome;
 
@@ -9,6 +6,8 @@ let creditSumHome;
 
 let validateFlgDebit;
 let validateFlgCredit;
+
+let rootHome = location.href.replace('home','');
 
 $(function () {
     // ------------------------
@@ -422,7 +421,6 @@ $(function () {
         validateFlgCredit = 0;
     });
 
-
     // ------------------------
     // method
     // ------------------------
@@ -448,7 +446,7 @@ $(function () {
     function getKubunList(element, data, error = null) {
         $.ajax({
             type: "get",
-            url: "/ajax/kubun_by_category",
+            url: `${ rootHome }ajax/kubun_by_category`,
             data: {
                 category_id: data,
             }
@@ -461,7 +459,7 @@ $(function () {
                 })
             }
         }).fail(function () {
-            alert('error!! get kubun' + error);
+            alert('error!! get kubun : ' + error);
         });
     }
 

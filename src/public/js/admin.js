@@ -1,4 +1,7 @@
-//  checkboxの選択
+let urlAdmin = location.href;
+let indexAdmin = urlAdmin.indexOf( '/admin');
+let rootAdmin = urlAdmin.substr(0,rootIndex)
+
 $(function () {
     let ajax_flg = false;
     // ------------------------
@@ -435,7 +438,7 @@ $(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "get",
-            url: "/ajax/category_by_account",
+            url: `${ rootAdmin }/ajax/category_by_account`,
             data: { account_type: val, },
             dataType: 'json',
         }).done(function (ret) {
@@ -444,7 +447,7 @@ $(function () {
                 $(element).append($('<option>').text(v.category_name).attr('value', v.id));
             })
         }).fail(function () {
-            alert('error!! get category' + error);
+            alert('error!! get category : ' + error);
         });
     }
 
@@ -459,7 +462,7 @@ $(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "get",
-            url: `/ajax/kubun_by_category`,
+            url: `${ rootAdmin }/ajax/kubun_by_category`,
             data: { category_id: val, },
             dataType: 'json',
         }).done(function (ret) {
@@ -475,7 +478,7 @@ $(function () {
                 })
             }
         }).fail(function () {
-            alert('error!! get kubun' + error);
+            alert('error!! get kubun : ' + error);
         });
     }
 
