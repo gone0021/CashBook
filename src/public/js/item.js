@@ -544,7 +544,7 @@ $(function () {
      */
     function getCategoryByEdit(element, global_var, debit_credit, error = null) {
         // --- category ---
-        $.get("/ajax/category").done(function (ret) {
+        $.get(`${rootItem}/ajax/category`).done(function (ret) {
             // 元の値を削除
             $(element).children().remove();
             // 値の追加
@@ -560,7 +560,7 @@ $(function () {
                 $(element).prop('disabled', false)
             })
         }).fail(function () {
-            alert('error!! get category' + error);
+            alert('error!! get category : ' + error);
         });
     }
 
