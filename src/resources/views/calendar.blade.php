@@ -2,7 +2,7 @@
 @section('card')
 
     <div class="card-header">
-        <form action="{{ url('calendar') }}" method="get" class="float-left ml-3 yearMonth">
+        <form action="{{ route('calendar/index') }}" method="get" class="float-left ml-3 yearMonth">
             <div class="top">
                 {{-- 年月の選択 --}}
                 <select name="year" id="year" class="form-control">
@@ -20,7 +20,7 @@
                 <select name="month" id="month" class="form-control">
                     @for ($i=1; $i<=12; $i++)
                         @if ($getMonth==$i)
-                            <option value="{{ $getMonth }}" selected>{{ $getMonth }}</option>
+                            <option value="{{ $getMonth }}" selected>{{ $i }}</option>
                         @else
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endif

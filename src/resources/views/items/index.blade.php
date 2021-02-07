@@ -41,7 +41,7 @@
             <select name="month" id="month" class="form-control">
                 @for ($i=1; $i<=12; $i++)
                     @if ($getMonth == $i)
-                    <option value="{{ $getMonth }}" selected>{{ $getMonth }}</option>
+                    <option value="{{ $getMonth }}" selected>{{ $i }}</option>
                     @else
                     <option value="{{ $i }}">{{ $i }}</option>
                     @endif
