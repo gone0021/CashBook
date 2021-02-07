@@ -2,7 +2,7 @@
 
 @section('card')
 
-<div class="card-header">{{ __('My Data') }}</div>
+<div class="card-header">{{ __('User Data') }}</div>
 
 <div class="card-body">
     <table class="table table-hover col-md-10 offset-md-1">

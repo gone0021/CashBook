@@ -1,6 +1,6 @@
 @extends('layouts.cardapp')
 @section('card')
-<div class="card-header">{{ __(' Admin Page')}}</div>
+<div class="card-header">{{ '科目の編集・削除'}}</div>
 
 <div class="card-body">
     <div class="edit">

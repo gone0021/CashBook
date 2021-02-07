@@ -1,7 +1,7 @@
 @extends('layouts.cardapp')
 @section('card')
 <div class="card-header">
-    <span class="mr-5">{{ __(' Cash Book')}}</span>
+    <span class="mr-5">{{ '家計簿' }}</span>
     <span class="totalPrice font-weight-bold">支出合計：{{ number_format($totalPrice) }}</span>
 
 </div>

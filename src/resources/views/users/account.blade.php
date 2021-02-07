@@ -1,7 +1,7 @@
 @extends('layouts.cardapp')
 @section('card')
 
-<div class="card-header">{{ __('Edit Page') }}</div>
+<div class="card-header">{{ __('User Account') }}</div>
 
 <div class="card-body">
     <p>

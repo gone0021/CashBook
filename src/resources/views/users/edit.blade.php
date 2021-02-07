@@ -1,7 +1,7 @@
 @extends('layouts.cardapp')
 @section('card')
 
-<div class="card-header">{{ __('Edit My Data') }}</div>
+<div class="card-header">{{ __('Edit User Data') }}</div>
 
 <div class="card-body">
     @if (session('status'))
