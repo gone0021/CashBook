@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use DateTime;
 use Yasumi\Yasumi;
 
-use App\Models\Item;
-
 class CalendarUtil
 {
     /**
@@ -48,6 +46,7 @@ class CalendarUtil
         // 日付の取得
         $year = self::getYear();
         $month = sprintf('%02d', self::getMonth());
+        // $month = self::getMonth();
 
         // ------------------------
         // 日～土のループ

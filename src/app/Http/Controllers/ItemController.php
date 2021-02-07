@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use App\Facades\Calendar;
 use App\Models\Item;
 use Carbon\Carbon;
 use App\Util\ItemUtil;
+use App\Util\CalendarUtil;
 use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
@@ -29,7 +29,7 @@ class ItemController extends Controller
         // 貸借共通
         // ------------------------
         // 日付
-        $val['date'] = Calendar::getYm();
+        $val['date'] = CalendarUtil::getYm();
         if (isset($_GET['day'])) {
             $day = sprintf('%02d', $_GET['day']);
             $val['day'] = $day;
@@ -69,8 +69,8 @@ class ItemController extends Controller
             'countDebit' => $countDebit,
             'countCredit' => $countCredit,
             'groupByItems' => $groupByItems,
-            'getMonth' => Calendar::getMonth(),
-            'getYear' => Calendar::getYear(),
+            'getMonth' => CalendarUtil::getMonth(),
+            'getYear' => CalendarUtil::getYear(),
             'thisYear' => $carbon->format('Y'),
             'items' => $items,
             'expense_sum' => $expense_sum,

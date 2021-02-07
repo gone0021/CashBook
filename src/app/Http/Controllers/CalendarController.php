@@ -48,11 +48,10 @@ class CalendarController extends Controller
         // ------------------------
         // その他
         // ------------------------
-
         $param = [
-            'displayYm' => Calendar::getDisplayYm(),
-            'getMonth' => Calendar::getMonth(),
-            'getYear' => Calendar::getYear(),
+            'displayYm' => CalendarUtil::getDisplayYm(),
+            'getMonth' => CalendarUtil::getMonth(),
+            'getYear' => CalendarUtil::getYear(),
             'nextMonth' => Calendar::getNext()->format('m'),
             'nextYear' => Calendar::getNext()->format('Y'),
             'prevMonth' => Calendar::getPrev()->format('m'),
