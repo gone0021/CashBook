@@ -429,7 +429,7 @@ $(function () {
      * @param {string} element
      */
     function getCategoryAll(element, error = null) {
-        $.get(`${rootAdmin}/ajax/category`).done(function (ret) {
+        $.get(`${rootHome}/ajax/category`).done(function (ret) {
             $.each(ret, function (k, v) {
                 $(element).append($('<option>').text(v.category_name).attr('value', v.id));
             })

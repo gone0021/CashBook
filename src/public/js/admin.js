@@ -1,6 +1,6 @@
 let urlAdmin = location.href;
 let indexAdmin = urlAdmin.indexOf( '/admin');
-let rootAdmin = urlAdmin.substr(0,rootIndex)
+let rootAdmin = urlAdmin.substr(0,indexAdmin)
 
 $(function () {
     let ajax_flg = false;
