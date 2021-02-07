@@ -42,7 +42,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 {{-- <a class="navbar-brand" href="{{ url('/users') }}"> --}}
-                {{ config('app.name', 'Cash Book') }}
+                {{ config('app.name', 'CashBook') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
