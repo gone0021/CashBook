@@ -34,8 +34,9 @@ class UserRequest extends FormRequest
 
         return [
             'user_name' => [
-                "regex:$name",
-                'max:255',
+                // "regex:$name",
+                'required',
+                'max:100',
                 Rule::unique('users')->ignore(Auth::id()),
                 // Rule::unique('user')->ignore(Auth::deleted_at()),
             ],
@@ -56,8 +57,8 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_name.regex' => '半角英数字のみ',
-            'user_name.max' => '255文字まで',
+            // 'user_name.regex' => '半角英数字のみ',
+            'user_name.max' => '100文字まで',
             'user_name.unique' => '登録があります',
             'email.email' => 'メールアドレスを入力してください',
             'email.max' => '255文字まで',
