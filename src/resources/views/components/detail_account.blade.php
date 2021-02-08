@@ -1,4 +1,4 @@
-<div id="detailAccount">
+<div id="detailAccount" class="ui-widget-content">
     <form action="{{ route('items/update') }}" method="POST">
         @csrf
         <div class="mb-3">
@@ -114,7 +114,7 @@
             </tbody>
         </table>
 
-        <div class="detailAccountBtn col-md-10">
+        <div class="detailAccountBtn col-md-10 mb-3">
             <button id="detailAccountEdit" class="btn btn-info btnEdit mr-3">{{ __('Edit') }}</button>
             <input type="submit" name="submit" id="detailAccountUpdate" class="btn btn-info btnUpdate mr-3" value="{{ __('Update') }}" disabled>
             <input type="submit" name="submit" id="detailAcountDel" class="btn btn-outline-danger btnDel mr-3" value="{{ __('Delete') }}">

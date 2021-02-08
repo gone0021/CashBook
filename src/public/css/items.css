@@ -29,11 +29,13 @@
 #detailNomal {
     display: none;
     position: fixed;
+
     top: 50%;
     left: 50%;
     margin-top: -250px;
     margin-left: -300px;
     background-color: #e6ecf0;
+
     height: 500px;
     width: 600px;
     padding: 40px 0px;
@@ -147,13 +149,14 @@ div.detailNomalSubmit {
 
     top: 50%;
     left: 50%;
-    margin-top: -220px;
-    margin-top: -320px;
+    margin-top: -300px;
     margin-left: -360px;
     background-color: #e6ecf0;
-    height: 440px;
-    height: 640px;
-    width: 720px;
+
+    height: 480px;
+    min-height: 480px;
+    min-width: 720px;
+    max-width: 720px;
     padding: 30px 20px 0 20px;
     border-radius: 10px;
     text-align: center;

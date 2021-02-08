@@ -7,7 +7,11 @@ let creditSumHome;
 let validateFlgDebit;
 let validateFlgCredit;
 
-let rootHome = location.href.replace('home','');
+let rootHome = location.href.replace('home', '');
+
+jQuery(function () {
+    jQuery('#inputAccount').resizable();
+});
 
 $(function () {
     // ------------------------
@@ -200,7 +204,7 @@ $(function () {
     })
 
     // 0番目の金額のバリデーション
-    $(document).on("blur",  `#inputAccountCreditPrice0`, function () {
+    $(document).on("blur", `#inputAccountCreditPrice0`, function () {
         var element = $(this);
         if (validatePrice(element) == 0) {
             validateFlgCredit = 1;
@@ -332,11 +336,11 @@ $(function () {
         $('#inputNomalAssetKubun').children().remove();
         $('#inputNomalPlKubun').children().remove();
     });
-        // --- 支出ボタン ---
-        $("#newTest").click(function () {
-            $(".glayLayer").fadeIn();
-            $("#inputIncome").fadeIn();
-        })
+    // --- 支出ボタン ---
+    $("#newTest").click(function () {
+        $(".glayLayer").fadeIn();
+        $("#inputIncome").fadeIn();
+    })
 
     // 日付のバリデーション
     $('#inputNomalDate').blur(function () {
@@ -446,7 +450,7 @@ $(function () {
     function getKubunList(element, data, error = null) {
         $.ajax({
             type: "get",
-            url: `${ rootHome }ajax/kubun_by_category`,
+            url: `${rootHome}ajax/kubun_by_category`,
             data: {
                 category_id: data,
             }

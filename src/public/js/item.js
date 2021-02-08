@@ -13,6 +13,10 @@ let urlItem = location.href;
 let indexItem = urlItem.indexOf('/item');
 let rootItem = urlItem.substr(0, indexItem)
 
+jQuery( function() {
+    jQuery( '#detailAccount' ) . resizable();
+} );
+
 $(function () {
     // モーダル背景
     $('#detailAccount').click(function () {
@@ -708,7 +712,7 @@ $(function () {
         <input type="hidden" name="debit_credit[]" id="detailAccountDecitDc${countDebitItem}" value="${v.debit_credit}">
 
         <div class="detailAccountDebitCategory">
-            <label for="detailAccountDebitCategory${countDebitItem}">大科目：</label>
+            <label for="detailAccountDebitCategory${countDebitItem}">科目：</label>
 
             <select name="category_id[]" id="detailAccountDebitCategory${countDebitItem}" class="form-control" disabled>
 
@@ -753,7 +757,7 @@ $(function () {
             <input type="hidden" name="debit_credit[]" id="detailAccountCreditDc${countDebitItem}" value="${v.debit_credit}">
 
             <div class="detailAccountCreditCategory">
-                <label for="detailAccountCreditCategory${countCreditItem}">大科目：</label>
+                <label for="detailAccountCreditCategory${countCreditItem}">科目：</label>
 
                 <select name="category_id[]" id="detailAccountCreditCategory${countCreditItem}" class="form-control" disabled>
 

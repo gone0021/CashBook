@@ -38,7 +38,6 @@
 #inputNomal {
     display: none;
     position: fixed;
-    overflow: scroll;
 
     top: 50%;
     left: 50%;
@@ -160,11 +159,14 @@ div.inputNomalSubmit {
 
     top: 50%;
     left: 50%;
-    margin-top: -220px;
+    margin-top: -300px;
     margin-left: -360px;
     background-color: #e6ecf0;
+
     height: 480px;
-    width: 720px;
+    min-height: 480px;
+    min-width: 720px;
+    max-width: 720px;
     padding: 30px 20px 0 20px;
     border-radius: 10px;
     text-align: center;

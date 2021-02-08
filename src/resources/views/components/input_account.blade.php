@@ -1,4 +1,4 @@
-<div id="inputAccount">
+<div id="inputAccount" class="ui-widget-content">
     <form action="{{ route('items/store') }}" method="post">
         @csrf
         <div class="inputAccountDate">
@@ -112,7 +112,7 @@
             </tbody>
 
         </table>
-        <div class="inputAccountSubmit" id="">
+        <div class="inputAccountSubmit mb-3" id="">
             <input type="hidden" name="submit" value="inputAccount">
             <input type="submit" name="inputAccount" id="inputAccountNew" value="new" class="btn btn-info">
         </div>
