@@ -25,7 +25,7 @@
         <div class="mb-2">● 収支一覧</div>
         <div class="mb-2 ml-2">
             <a href="{{ route('items/index') }}" class="btn btn-sticky mb-2" id="btNewAccounting">
-                家計簿一覧
+                家計簿
             </a>
         </div>
         <div class="mb-2 ml-2">
@@ -38,7 +38,7 @@
     <div class="mb-3">
         <div class="mb-1">● 設定</div>
         <div class="mb-2">
-            <a href="{{ route('users/account') }}">
+            <a href="{{ route('users') }}">
                 アカウント設定
             </a>
         </div>

@@ -6,7 +6,7 @@
 
 <div class="card-body">
     <p class="text-md-center lead">
-        {{ __('Do you really want to delete it?') }}
+        {{ 'アカウントを削除してよろしいですか？' }}
     </p>
     <div class="text-md-center lead">
         <div class="col-md-10">
@@ -14,7 +14,7 @@
                 {{ __('Delete') }}
             </a>
 
-            <a href="{{ route('users/account') }}" class="btn btn-light">
+            <a href="{{ route('users') }}" class="btn btn-light">
                 {{ __('Return') }}
             </a>
         </div>

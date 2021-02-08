@@ -26,7 +26,7 @@
         <a href="{{ route('users/edit') }}" class="mr-3 btn btn-info">
             {{ __('Edit') }}
         </a>
-        <a href="{{ route('users/account') }}" class="btn btn-light">
+        <a href="{{ route('users') }}" class="btn btn-light">
             {{ __('Return') }}
         </a>
     </div>

@@ -35,7 +35,7 @@
         <div class="col-md-10 offset-md-2">
             <input type="submit" value="{{ __('Do') }}" class="mr-3 btn btn-light">
 
-            <a href="{{ route('users/account') }}" class="btn btn-light">
+            <a href="{{ route('users') }}" class="btn btn-light">
                 {{ __('Return') }}
             </a>
         </div>

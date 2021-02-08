@@ -48,7 +48,7 @@ Route::middleware('auth')->prefix('ajax')->name('ajax')->group(function () {
 // users
 Route::middleware('auth')->prefix('users')->name('users')->group(function () {
     // edit account
-    Route::get('account', 'UserController@account')->name('/account'); //
+    Route::get('index', 'UserController@account')->name(''); //
 
     // show
     Route::get('show', 'UserController@show')->name('/show');

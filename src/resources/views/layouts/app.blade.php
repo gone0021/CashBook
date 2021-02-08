@@ -80,9 +80,9 @@
                         <li class="nav-item dropdown mr-3">
                             <span class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">投稿一覧</span>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('calendar/index') }}">カレンダー</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('items/index') }}">家計簿</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('calendar/index') }}">カレンダー表示</a>
                             </div>
                         </li>
 
@@ -119,7 +119,7 @@
                                     @csrf
                                 </form>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item"  href="{{ route('users/account') }}">
+                                <a class="dropdown-item"  href="{{ route('users') }}">
                                     アカウント設定
                                 </a>
                             </div>
