@@ -37,7 +37,7 @@
     </div>
 
 <div class="card-body">
-    <div class="flexCenter positionRef">
+    <div class="flex-center position-ref">
         <div class="cldContent">
             <div class="cld mb-2">
                 <a href="?year={{ $prevYear }}&month={{ $prevMonth }}" class="cld mr-2 arrow">&lt;</a>
